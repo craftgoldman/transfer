@@ -1,0 +1,261 @@
+// Импорт в филиал
+PARAMETERS{
+date dat1(Дата с),date dat2(Дата по),integer ndep(Отделение),integer nref(Журнал)
+}
+CONNECT{
+Source(DSN=In;UID=;PWD=)
+Destination(DSN=OraSrv;UID=compas;PWD=base)
+}
+TRANSFER{
+Name(Отделения)
+Schema(COPY)
+Source(select * from depart order by ndprt)
+Destination(process=REPLACE table=depart)
+}
+TRANSFER{
+Name(Склады)
+Schema(COPY)
+Source(select * from sklad where sklad>0 order by sklad)
+Destination(process=REPLACE table=sklad)
+}
+TRANSFER{
+Name(Валюты)
+Schema(COPY)
+Source(select * from currlist order by code_currency)
+Destination(process=REPLACE table=currency)
+}
+TRANSFER{
+Name(Единицы измерения)
+Schema(COPY)
+Source(select * from unit order by code_unit)
+Destination(process=REPLACE table=unit)
+}
+TRANSFER{
+Name(Страны)
+Schema(COPY)
+Source(select * from country order by code_country)
+Destination(process=REPLACE table=country)
+}
+TRANSFER{
+Name(Производители)
+Schema(COPY)
+Source(select * from producer order by id_pro)
+Destination(process=REPLACE table=producer)
+}
+TRANSFER{
+Name(Сертификаты)
+Schema(COPY)
+Source(select * from sertificate order by id_ser)
+Destination(process=REPLACE table=sertificate)
+}
+TRANSFER{
+Name(Виды налогов)
+Schema(COPY)
+Source(select * from kindtax order by cod_tax)
+Destination(process=REPLACE table=kindtax)
+}
+TRANSFER{
+Name(Типы цены)
+Schema(COPY)
+Source(select * from tprice order by code_tprice)
+Destination(process=REPLACE table=tprice)
+}
+TRANSFER{
+Name(Типы упаковки)
+Schema(COPY)
+Source(select * from tpack order by code_tpack)
+Destination(process=REPLACE table=tpack)
+}
+TRANSFER{
+Name(Виды характеристик)
+Schema(COPY)
+Source(select * from tchar order by code_tchar)
+Destination(process=REPLACE table=tchar)
+}
+TRANSFER{
+Name(Товары)
+Schema(COPY)
+Source(select * from ware order by ndprt,id_ware)
+Destination(process=REPLACE table=ware)
+}
+TRANSFER{
+Name(Цены товаров)
+Schema(COPY)
+Source(select * from wprice order by code_currency,code_tprice,ndprt,id_ware)
+Destination(process=REPLACE table=wprice)
+}
+TRANSFER{
+Name(История цены товаров)
+Schema(COPY)
+Source(select * from whprice where data_price between :dat1(ts) and :dat2(ts))
+Destination(process=REPLACE table=whprice 
+condition(data_price between :dat1 and :dat2))
+}
+TRANSFER{
+Name(Остатки партий товаров)
+Schema(COPY)
+Source(select wprest.* from wprest, sklad where 
+wprest.nskl = sklad.sklad and sklad.ndprt = :ndep(i))
+Destination(process=FULL table=wprest)
+}
+TRANSFER{
+Name(Упаковки товаров)
+Schema(COPY)
+Source(select * from wpack order by code_tpack)
+Destination(process=REPLACE table=wpack)
+}
+TRANSFER{
+Name(Характеристики товаров)
+Schema(COPY)
+Source(select * from wchar order by ndprt,id_ware,code_tchar)
+Destination(process=REPLACE table=wchar)
+}
+TRANSFER{
+Name(Единицы измерений товаров)
+Schema(COPY)
+Source(select * from wunit order by ndprt,id_ware,code_unit)
+Destination(process=REPLACE table=wunit)
+}
+TRANSFER{
+Name(Отрасли)
+Schema(COPY)
+Source(select * from branch order by code_branch)
+Destination(process=REPLACE table=branch)
+}
+TRANSFER{
+Name(Типы клиентов)
+Schema(COPY)
+Source(select * from tclient order by t_client)
+Destination(process=REPLACE table=tclient)
+}
+TRANSFER{
+Name(Города)
+Schema(COPY)
+Source(select * from town order by code_town)
+Destination(process=REPLACE table=town)
+}
+TRANSFER{
+Name(Оргформы клиентов)
+Schema(COPY)
+Source(select * from tplant order by t_plant)
+Destination(process=REPLACE table=tplant)
+}
+TRANSFER{
+Name(Должности)
+Schema(COPY)
+Source(select * from pos order by code_position)
+Destination(process=REPLACE table=pos)
+}
+TRANSFER{
+Name(Клиенты)
+Schema(COPY)
+Source(select * from client order by ndprt,numb_client)
+Destination(process=REPLACE table=client)
+}
+TRANSFER{
+Name(Банки клиентов)
+Schema(COPY)
+Source(select * from clbank order by ndprt,numb_client,acnt)
+Destination(process=REPLACE table=clbank columns(note=<note0))
+}
+TRANSFER{
+Name(Персоналии клиентов)
+Schema(COPY)
+Source(select * from pclient order by ndprt,numb_client,numb_person)
+Destination(process=REPLACE table=pclient)
+}
+TRANSFER{
+Name(Межскладские накладные)
+Schema(COMPLEX)
+Source(select   sdoc.*
+from     sdoc, sklad 
+where    type_sd = 501 and numref = :nref(i) and 
+         date_sd between :dat1(ts) and :dat2(ts) and 
+         skl_sklad = sklad.sklad and sklad.ndprt = :ndep(i))
+order by date_sd,type_sd,ndprt,autokey_sd)
+SubSQL(select   *
+from     sdspc
+where    numref = $numref(i) and 
+         year = $year(i) and 
+         type_sd = $type_sd(i) and 
+         ndprt = $ndprt(i) and 
+         autokey_sd = $autokey_sd(i) 
+order by npp_spc)
+Message($date_sd  Межскл. накладная::  $ndprt / $autokey_sd)
+Destination(process=REPLACE table=sdoc columns(T:sklad;T:skl_sklad;N:flag))
+Detail(process=FULL table=sdspc 
+condition(numref = $numref and year = $year and type_sd = $type_sd and 
+ndprt = $ndprt and autokey_sd = $autokey_sd) 
+columns(T:id_ware;proc_tax1=<prc_tax1;proc_tax2=<prc_tax2;proc_tax3=<prc_tax3))
+TabCommands(
+CallExec(update sdoc set flag=1 
+where  type_sd=$type_sd and numref=$numref and year=$year and 
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+CallBack(update sdoc set flag=0 
+where  type_sd=$type_sd and numref=$numref and year=$year and 
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+OnChange.date_sd(update card_spc set date_card=$date_sd 
+where  numref=$numref and year=$year and sklad=$sklad and 
+       sds_numref=$numref and sds_year=$year and 
+       type_sd=$type_sd and sds_ndprt=$ndprt and 
+       autokey_sd=$autokey_sd;
+update card_spc set date_card=$date_sd
+where  numref=$numref and year=$year and sklad=$skl_sklad and
+       sds_numref=$numref and sds_year=$year and 
+       type_sd=$type_sd and sds_ndprt=$ndprt and 
+       autokey_sd=$autokey_sd)
+ReChange.date_sd(update card_spc set date_card=#date_sd 
+where  numref=$numref and year=$year and sklad=$sklad and 
+       sds_numref=$numref and sds_year=$year and 
+       type_sd=$type_sd and sds_ndprt=$ndprt and 
+       autokey_sd=$autokey_sd;
+update card_spc set date_card=#date_sd
+where  numref=$numref and year=$year and sklad=$skl_sklad and
+       sds_numref=$numref and sds_year=$year and 
+       type_sd=$type_sd and sds_ndprt=$ndprt and 
+       autokey_sd=$autokey_sd)
+)
+SubCommands(
+OnInsert(call ware_move($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+$sklad,$skl_sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,
+^0,~q_spc,~code_unit,~pricef_spc,$code_currency,:ndep,^0,^1,#flag))
+OnUpdate(call ware_move($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+$sklad,$skl_sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,
+!q_spc,~q_spc,~code_unit,~pricef_spc,$code_currency,:ndep,^0,^2,#flag))
+OnDelete(call ware_move(#type_sd,#numref,#year,#ndprt,#autokey_sd,#date_sd,
+#sklad,#skl_sklad,!stel,!sot,!war_ndprt,!id_ware,!npp_spc,!ncw_spc,
+!q_spc,^0,!code_unit,!pricef_spc,#code_currency,:ndep,^0,^3,#flag))
+ReInsert(call ware_move($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+$sklad,$skl_sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,
+~q_spc,^0,~code_unit,~pricef_spc,$code_currency,:ndep,^0,^3,#flag))
+ReUpdate(call ware_move($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+$sklad,$skl_sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,
+~q_spc,!q_spc,~code_unit,~pricef_spc,$code_currency,:ndep,^0,^2,#flag))
+ReDelete(call ware_move(#type_sd,#numref,#year,#ndprt,#autokey_sd,#date_sd,
+#sklad,#skl_sklad,!stel,!sot,!war_ndprt,!id_ware,!npp_spc,!ncw_spc,
+^0,!q_spc,!code_unit,!pricef_spc,#code_currency,:ndep,^0,^1,#flag))
+)
+}
+TRANSFER{
+Name(Акты переоценки)
+Schema(COMPLEX)
+Source(select   *
+from     sdoc 
+where    type_sd = 509 and numref=:nref(i) and 
+         date_sd between :dat1(ts) and :dat2(ts) 
+order by date_sd,type_sd,ndprt,autokey_sd)
+SubSQL(select   *
+from     sdspc
+where    numref = $numref(i) and 
+         year = $year(i) and 
+         type_sd = $type_sd(i) and 
+         ndprt = $ndprt(i) and 
+         autokey_sd = $autokey_sd(i) 
+order by npp_spc)
+Message($date_sd  Акт переоценки::  $ndprt / $autokey_sd)
+Destination(process=REPLACE table=sdoc columns(N:flag))
+Detail(process=FULL table=sdspc 
+condition(numref = $numref and year = $year and type_sd = $type_sd and 
+ndprt = $ndprt and autokey_sd = $autokey_sd) 
+columns(T:id_ware;proc_tax1=<prc_tax1;proc_tax2=<prc_tax2;proc_tax3=<prc_tax3))
+}

@@ -1,0 +1,187 @@
+// Конвертация из RS-Balance v.2.5
+PARAMETERS{
+}
+CONNECT{
+Source(DSN=rsb25;UID=;PWD=)
+Destination(DSN=OraSrv;UID=compas;PWD=base)
+}
+TRANSFER{
+Name(Справочник отделений)
+Schema(COLUMNS)
+Source(select ndprt,neamdprt from deport_dbt)
+Message()
+Destination(process=ADD table=depart
+columns(ndprt(I)=$ndprt;neamdprt(A,40)=$neamdprt))
+TabCommands(
+OnEnd(insert into depart(ndprt,namedprt) values(0,'Основное отделение')))
+}
+TRANSFER{
+Name(Справочник складов)
+Schema(COLUMNS)
+Source(select num_warehouse,depart,memo from stwrhous_dbt)
+Message()
+Destination(process=ADD table=sklad
+columns(sklad(I)=$num_warehouse;ndprt(I)=$depart;name_skl(A,80)=$memo))
+TabCommands(
+OnStart(delete from sklad)
+OnEnd(insert into sklad(sklad,ndprt,name_skl) values(0,0,'Склад 0')))
+}
+TRANSFER{
+Name(Единицы измерения)
+Schema(COLUMNS)
+Source(select cod,name,compress_name from kodunit_dbt)
+Message()
+Destination(process=ADD table=unit
+columns(code_unit(I)=$cod;name_unit(A,80)=$name;unit(A,10)=$compress_name))
+TabCommands(OnStart(delete from unit))
+}
+TRANSFER{
+Name(Справочник каталогов товаров)
+Schema(COLUMNS)
+Source(select   Ware,Head,Name_Ware,cNonWare,cAsm,KodUnit,CodOKDP 
+from     ware_dbt 
+where    Ware in (select distinct Head from ware_dbt) 
+order by Head, Ware)
+Message()
+Destination(process=ADD table=ware
+columns(K:ndprt(I)=^0;K:id_ware(I)=%SQLSel(select nvl(max(id_ware),0)+1 from ware);
+id_parent(I)=%SQLSel(select id_ware from ware where code_ware=$head);
+last_ware(I)=^0;flag_ware(I)=$cNonWare;flag_made(I)=$cAsm;
+comp_ware(I);code_unit(I)=$KodUnit;code_country(I);id_pro(I);id_ser(I);
+name_ware(VA,80)=$name_ware;name_ware2(VA,80);code_ware(VA,30)=$ware;
+code_gr(VA,255);barcode(VA,30);marka_ware(VA,40);okdp_ware(VA,20)=$CodOKDP;
+post_ware(VA,30);gost_ware(VA,30);acnt_ware(VA,10);
+t_tax1(I);t_tax2(I);t_tax3(I);v_tax1(DB);v_tax2(DB);v_tax3(DB);
+weight(DB);pack(DB);t_info(LVA)))
+TabCommands(OnStart(delete from wprice;delete from ware))
+}
+TRANSFER{
+Name(Справочник товаров)
+Schema(COLUMNS)
+Source(select Ware,Head,Name_Ware,cNonWare,cAsm,KodUnit,CodOKDP from ware_dbt)
+Message()
+Destination(process=ADD table=ware
+columns(K:ndprt(I)=^0;K:id_ware(I)=%SQLSel(select nvl(max(id_ware),0)+1 from ware);
+id_parent(I)=%SQLSel(select id_ware from ware where code_ware=$head);
+last_ware(I)=^1;flag_ware(I)=$cNonWare;flag_made(I)=$cAsm;
+comp_ware(I);code_unit(I)=$KodUnit;code_country(I);id_pro(I);id_ser(I);
+name_ware(VA,80)=$name_ware;name_ware2(VA,80);code_ware(VA,30)=$ware;
+code_gr(VA,255);barcode(VA,30);marka_ware(VA,40);okdp_ware(VA,20)=$CodOKDP;
+post_ware(VA,30);gost_ware(VA,30);acnt_ware(VA,10);
+t_tax1(I);t_tax2(I);t_tax3(I);v_tax1(DB);v_tax2(DB);v_tax3(DB);
+weight(DB);pack(DB);t_info(LVA)))
+}
+TRANSFER{
+Name(Справочник типов клиентов)
+Schema(COLUMNS)
+Source(select codetypeclient,typeclient from tclient_dbt)
+Message()
+Destination(process=ADD table=tclient
+columns(t_client(I)=$codetypeclient;typeclient(A,20)=$typeclient))
+TabCommands(
+OnStart(delete from tclient)
+OnEnd(insert into tclient(t_client,typeclient) values(0,'')))
+}
+TRANSFER{
+Name(Справочник городов)
+Schema(COLUMNS)
+Source(select codetown,town from town_dbt)
+Message()
+Destination(process=ADD table=town
+columns(code_town(I)=$codetown;town(A,30)=$town))
+TabCommands(
+OnStart(delete from town)
+OnEnd(insert into town(code_town,town) values(0,'')))
+}
+TRANSFER{
+Name(Справочник стран)
+Schema(COLUMNS)
+Source(select codecountry,country from country_dbt)
+Message()
+Destination(process=ADD table=country
+columns(code_country(I)=$codecountry;country(A,50)=$country))
+TabCommands(
+OnStart(delete from country)
+OnEnd(insert into country(code_country,country) values(0,'')))
+}
+TRANSFER{
+Name(Должности)
+Schema(COLUMNS)
+Source(select codeposition,position from pos_dbt)
+Message()
+Destination(process=ADD table=pos
+columns(code_position(I)=$codeposition;position(A,40)=$position))
+TabCommands(
+OnStart(delete from pos)
+OnEnd(insert into pos(code_position,position) values(0,'')))
+}
+TRANSFER{
+Name(Справочник типов предприятий)
+Schema(COLUMNS)
+Source(select codetypeplant,typeplant from tplant_dbt)
+Message()
+Destination(process=ADD table=tplant
+columns(t_plant(I)=$codetypeplant;typeplant(A,20)=$typeplant))
+TabCommands(
+OnStart(delete from tplant)
+OnEnd(insert into tplant(t_plant,typeplant) values(0,'')))
+}
+TRANSFER{
+Name(Справочник клиентов)
+Schema(COLUMNS)
+Source(select numbdprt,numb_client,typeclient,codetown,codetypeplant,
+       name_client,addr_client,note1,note2,inn,codokonh,codokpo 
+from   client_dbt)
+Message()
+Destination(process=ADD table=client
+columns(ndprt(I)=$numbdprt;numb_client(I)=$numb_client;code_branch(I);
+code_town(I)=$codetown;t_plant(I)=$codetypeplant;t_client(I)=$typeclient;
+name_client(A,80)=$name_client;addr_client(A,80)=$addr_client;
+note1(A,80)=$note1;note2(A,80)=$note2;inn_client(A,15)=$inn;
+okpo_client(A,10)=$codokpo;okonh_client(A,10)=$codokonh;tel_client(A,20);
+fax_client(A,20);count_client(N,10,2);disc_client(N,10,2)))
+TabCommands(OnStart(delete from client))
+}
+TRANSFER{
+Name(Банки клиентов)
+Schema(COLUMNS)
+Source(select numbdprt,numb_client,account,mfo_bank,corr_account, 
+       name_bank,addr_bank,ku_bank,note2 
+from   clbank_dbt)
+Message()
+Destination(process=ADD table=clbank
+columns(ndprt(I)=$numbdprt;numb_client(I)=$numb_client;
+acnt(A,20)=$account;bik_bank(A,9)=$mfo_bank;corr_account(A,20)=$corr_account;
+ku_bank(A,5)=$ku_bank;name_bank(A,80)=$name_bank;note(A,80)=$note2;
+addr_bank(A,80)=$addr_bank))
+TabCommands(OnStart(delete from clbank))
+}
+TRANSFER{
+Name(Персоналии клиентов)
+Schema(COLUMNS)
+Source(select numbdprt,numbclient,numbperson,position,country,town,
+       fiof,phone1,phone2,phone3,phone4,note1,note2,fax1,fax2,
+       birthday,homeaddress 
+from   pclient_dbt)
+Message()
+Destination(process=ADD table=pclient
+columns(ndprt(I)=$numbdprt;numb_client(I)=$numbclient;
+numb_person(I)=$numbperson;code_country(I)=$country;code_town(I)=$town;
+code_position(I)=$position;fiof(A,40)=$fiof;phone1(A,20)=$phone1;
+phone2(A,20)=$phone2;phone3(A,20)=$phone3;phone4(A,20)=$phone4;
+pnote1(A,80)=$note1;pnote2(A,80)=$note2;fax1(A,20)=$fax1;fax2(A,20)=$fax2;
+birthday(TS)=$birthday;homeaddress(A,40)=$homeaddress))
+TabCommands(OnStart(delete from pclient))
+}
+TRANSFER{
+Name(Платежный баланс клиентов)
+Schema(COLUMNS)
+Source(select clientdprt,client,currency,saldo,limit,datelimit 
+from   balans_dbt)
+Message()
+Destination(process=ADD table=balance
+columns(ndprt(I)=$clientdprt;numb_client(I)=$client;
+code_currency(I)=$currency;balance(N,28,2)=$saldo;
+limit(N,28,2)=$limit;date_limit(TS)=$datelimit))
+TabCommands(OnStart(delete from balance))
+}

@@ -1,0 +1,18 @@
+// Музыка
+PARAMETERS{
+integer max_records(Max num of records)=26
+}
+CONNECT{
+Source(DSN=In;UID=;PWD=)
+Destination(DSN=Out;UID=;PWD=)
+}
+TRANSFER{
+Name(Музыка)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from music where id_record <= :max_records)
+Message($Artist_name :: $Album_name :: $Record_title)
+Destination(process=CREATE table=mp3list
+columns(artist=<artist_name;album=<album_name;title=<record_title;codec=<codec_name;
+length=<record_length))
+}

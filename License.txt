@@ -1,0 +1,37 @@
+Transfer Version 3.3 License Agreement
+=========================================
+
+Evaluation and Registration
+---------------------------------------------------------------------
+Transfer  is  not  free  software.  You  may use  this  software  for
+evaluation  purposes  without  charge for a period of 30 days. If you
+use  this software after the 30 day evaluation period, a registration
+fee  is  required.  See  ORDER.TXT  file or 'How to Register' section
+in  on-line  help  for detailed information about registration method
+and price list.
+
+Distribution
+---------------------------------------------------------------------
+You   may   copy   the   evaluation  version  of  this  software  and
+documentation  as  you  wish,  and  give exact copies of the original
+evaluation  version  to anyone, and distribute the evaluation version
+of  the  software  and  documentation  in  its  unmodified  form  via
+electronic  means.  But you should not charge or requesting donations
+for  any  such copies however made and from distributing the software
+and/or documentation with other products without the author's written
+permission.
+
+Registered version
+---------------------------------------------------------------------
+One  registered  copy  of  Transfer  may  either  be used by a single
+person  who  uses  the  software personally on one or more computers,
+or   installed   on  a  single  workstation  used  non-simultaneously
+by  multiple  people,  but  not  both.
+
+NO WARRANTY
+---------------------------------------------------------------------
+TRANSFER   IS   SOLD   "AS  IS"  AND  WITHOUT  ANY   WARRANTY  AS  TO
+MERCHANTABILITY  OR  FITNESS  FOR  A  PARTICULAR PURPOSE OR ANY OTHER
+WARRANTIES EITHER EXPRESSED OR IMPLIED. THE AUTHOR WILL NOT BE LIABLE
+FOR  DATA  LOSS,  DAMAGES,  LOSS OF PROFITS OR ANY OTHER KIND OF LOSS
+WHILE USING OR MISUSING THIS SOFTWARE.

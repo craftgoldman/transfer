@@ -1,0 +1,6 @@
+; Trn32enu.def : Declares the module parameters for the DLL.
+
+LIBRARY      "Trn32enu"
+DESCRIPTION  'Trn32enu Windows Dynamic Link Library'
+
+EXPORTS

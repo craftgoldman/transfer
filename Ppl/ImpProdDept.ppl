@@ -1,0 +1,991 @@
+// Импорт производство: отделение
+PARAMETERS{
+integer nref(Журнал)=0,integer ndep(Отделение)=0,integer nday(Дней)=30
+}
+CONNECT{
+Source(DSN=In;UID=;PWD=)
+Destination(DSN=DEMODATA52;UID=craft;PWD=master)
+}
+TRANSFER{
+Name(Отделения)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from depart order by ndprt)
+Message()
+Destination(process=REPLACE owner= table=depart)
+}
+TRANSFER{
+Name(Фирмы)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from firm order by id_frm)
+Message()
+Destination(process=REPLACE owner= table=firm)
+}
+TRANSFER{
+Name(Офисы)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from location order by code_loc)
+Message()
+Destination(process=REPLACE owner= table=location)
+}
+TRANSFER{
+Name(Подразделения)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from subdiv order by subdiv)
+Message()
+Destination(process=REPLACE owner= table=subdiv)
+}
+TRANSFER{
+Name(Склады)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from sklad order by sklad)
+Message()
+Destination(process=REPLACE owner= table=sklad)
+}
+TRANSFER{
+Name(Валюты)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from currlist order by code_currency)
+Message()
+Destination(process=REPLACE owner= table=currency)
+}
+TRANSFER{
+Name(Виды налогов)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from kindtax order by cod_tax)
+Message()
+Destination(process=REPLACE owner= table=kindtax)
+}
+TRANSFER{
+Name(Виды задач)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from taskvar order by code_tvar)
+Message()
+Destination(process=REPLACE owner= table=taskvar)
+}
+TRANSFER{
+Name(Разделы задач)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from taskdiv order by code_tdiv)
+Message()
+Destination(process=REPLACE owner= table=taskdiv)
+}
+TRANSFER{
+Name(Объекты учета)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from sobject order by type_sobj,code_sobj)
+Message()
+Destination(process=REPLACE owner= table=sobject)
+}
+TRANSFER{
+Name(Категории)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from category order by code_ctg)
+Message()
+Destination(process=REPLACE owner= table=category)
+}
+TRANSFER{
+Name(Профессии)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from prof order by code_prof)
+Message()
+Destination(process=REPLACE owner= table=prof)
+}
+TRANSFER{
+Name(Должности)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from pos order by code_position)
+Message()
+Destination(process=REPLACE owner= table=pos)
+}
+TRANSFER{
+Name(Виды оплат)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from paykind order by code_pkind)
+Message()
+Destination(process=REPLACE owner= table=paykind)
+}
+TRANSFER{
+Name(Графики работ)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from worktabl order by code_work)
+Message()
+Destination(process=REPLACE owner= table=worktabl)
+}
+TRANSFER{
+Name(Виды ставок)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from ratekind order by code_rate)
+Message()
+Destination(process=REPLACE owner= table=ratekind)
+}
+TRANSFER{
+Name(Персонал)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select * from personal order by ndprt,code_pers)
+Message()
+Destination(process=REPLACE owner= table=personal
+columns(K:ndprt(I)=$ndprt;K:code_pers(I)=$code_pers;id_frm(I)=$id_frm;
+code_loc(I)=$code_loc;subdiv(I)=$subdiv;code_position(I)=$code_position;
+code_prof(I)=$code_prof;code_ctg(I)=$code_ctg;code_pkind(I)=$code_pkind;
+code_work(I)=$code_work;code_rate(I)=$code_rate;dis_pers(I)=$dis_pers;
+fem_pers(I)=$fem_pers;code_boss(I)=$code_boss;tn_pers(VA,20)=$tn_pers;
+login_pers(VA,30)=$login_pers;fam_pers(VA,20)=$fam_pers;
+name_pers(VA,20)=$name_pers;sname_pers(VA,20)=$sname_pers;
+nationality(VA,20)=$nationality;place_pers(VA,255)=$place_pers;
+data_born(TS)=$data_born;data_post(TS)=$data_post;data_stage(TS)=$data_stage;
+data_dis(TS)=$data_dis;nstage(I)=$nstage;st_pers(DB)=$st_pers;oklad(DB)=$oklad;
+ndog_pers(VA,10)=$ndog_pers;wbook_ser(VA,10)=$wbook_ser;
+wbook_num(VA,10)=$wbook_num;bank_card(VA,20)=$bank_card;education(I)=$education;
+okpdtr(VA,10)=$okpdtr;spec_pers(VA,40)=$spec_pers;okso(VA,10)=$okso;
+qualification(VA,40)=$qualification;diploma(VA,10)=$diploma;
+datadip(TS)=$datadip;degree(VA,40)=$degree;isfamily(I)=$isfamily;
+inn_pers(VA,20)=$inn_pers;nstrah(VA,20)=$nstrah;nmedstr(VA,20)=$nmedstr;
+doc_pers(I)=$doc_pers;ser_pasp(VA,10)=$ser_pasp;nom_pasp(VA,10)=$nom_pasp;
+vip_pasp(VA,80)=$vip_pasp;data_pasp(TS)=$data_pasp;prop_addr(VA,255)=$prop_addr;
+home_addr(VA,255)=$home_addr;work_tel(VA,20)=$work_tel;
+home_tel(VA,20)=$home_tel;cell_tel(VA,20)=$cell_tel;
+email_pers(VA,80)=$email_pers;skype_pers(VA,30)=$skype_pers;
+icq_pers(VA,30)=$icq_pers;group_war(VA,30)=$group_war;
+kateg_war(VA,30)=$kateg_war;sost_war(VA,30)=$sost_war;
+range_war(VA,30)=$range_war;spec_war(VA,30)=$spec_war;appl_war(I)=$appl_war;
+doc_war(I)=$doc_war;docn_war(VA,10)=$docn_war;docs_war(VA,10)=$docs_war;
+place_war(VA,100)=$place_war;srok_war(D)=$srok_war;psd(DB)=$psd;psnn(DB)=$psnn;
+ppn(DB)=$ppn;prim_pers(VA,255)=$prim_pers;citizenship(I)=$citizenship;
+disability(I)=$disability;dadocs(VA,10)=$dadocs;dadocn(VA,10)=$dadocn;
+dadocd(TS)=$dadocd;num_flat(I)=$num_flat;s_total(DB)=$s_total;
+s_heat(DB)=$s_heat;n_svid(VA,20)=$n_svid;data_svid(TS)=$data_svid;
+privilege(DB)=$privilege;college(VA,80)=$college;
+nmedstr_old(VA,20)=$nmedstr_old;idc_doc(I)=$idc_doc;idr_doc(I)=$idr_doc;
+idd_doc(I)=$idd_doc;ids_doc(I)=$ids_doc;idl_doc(I)=$idl_doc;
+zip_doc(VA,10)=$zip_doc;hnum_doc(VA,10)=$hnum_doc;bnum_doc(VA,10)=$bnum_doc;
+fnum_doc(VA,10)=$fnum_doc;date_doc(D)=$date_doc;idc_fakt(I)=$idc_fakt;
+idr_fakt(I)=$idr_fakt;idd_fakt(I)=$idd_fakt;ids_fakt(I)=$ids_fakt;
+idl_fakt(I)=$idl_fakt;zip_fakt(VA,10)=$zip_fakt;hnum_fakt(VA,10)=$hnum_fakt;
+bnum_fakt(VA,10)=$bnum_fakt;fnum_fakt(VA,10)=$fnum_fakt;uname(VA,20)=$uname;
+umod(VA,20)=$umod;crdate(TS)=$crdate;modate(TS)=$modate;photo_pers(LVA)))
+}
+TRANSFER{
+Name(Единицы измерения)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from unit order by code_unit)
+Message()
+Destination(process=REPLACE owner= table=unit)
+}
+TRANSFER{
+Name(Страны)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from country order by code_country)
+Message()
+Destination(process=REPLACE owner= table=country)
+}
+TRANSFER{
+Name(Регионы)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from region order by code_country,code_region)
+Message()
+Destination(process=REPLACE owner= table=region)
+}
+TRANSFER{
+Name(Районы)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from district order by code_country,code_region,code_district)
+Message()
+Destination(process=REPLACE owner= table=district)
+}
+TRANSFER{
+Name(Типы цены)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from tprice order by code_tprice)
+Message()
+Destination(process=REPLACE owner= table=tprice)
+}
+TRANSFER{
+Name(Типы свойств товаров)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from tchar where typ_dwo=1 and num_dwo=510 order by typ_dwo,num_dwo,id_tchar)
+Message()
+Destination(process=REPLACE owner= table=tchar)
+}
+TRANSFER{
+Name(Свойства групп)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from tgroup order by typ_dwo,num_dwo,id_tchar,ndprt,id_twg)
+Message()
+Destination(process=REPLACE owner= table=tgroup)
+}
+TRANSFER{
+Name(Номенклатура товаров)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select ndprt,id_ware,id_parent,last_ware,flag_ware,flag_made,
+comp_ware,code_unit,code_country,id_pro,id_ser,type_ts,dep_ts,num_ts,code_ware,
+name_ware,name_ware2,code_gr,barcode,marka_ware,okdp_ware,post_ware,
+gost_ware,acnt_ware,min_rest,weight,pack,cost_ware,count_ware,validity,
+webexp,t_tax1,t_tax2,t_tax3,v_tax1,v_tax2,v_tax3,wdata,t_info, pict_ware 
+from ware where ndprt <> :ndep order by ndprt,id_ware)
+Message()
+Destination(process=REPLACE owner= table=ware
+columns(K:ndprt(I)=$ndprt;K:id_ware(I)=$id_ware;id_parent(I)=$id_parent;
+last_ware(I)=$last_ware;flag_ware(I)=$flag_ware;flag_made(I)=$flag_made;
+comp_ware(I)=$comp_ware;code_unit(I)=$code_unit;code_country(I)=$code_country;
+id_pro(I)=$id_pro;id_ser(I)=$id_ser;type_ts(I)=$type_ts;dep_ts(I)=$dep_ts;
+num_ts(I)=$num_ts;code_ware(VA,30)=$code_ware;name_ware(VA,255)=$name_ware;
+name_ware2(VA,255)=$name_ware2;code_gr(VA,255)=$code_gr;barcode(VA,30)=$barcode;
+marka_ware(VA,40)=$marka_ware;okdp_ware(VA,20)=$okdp_ware;
+post_ware(VA,30)=$post_ware;gost_ware(VA,40)=$gost_ware;
+acnt_ware(VA,10)=$acnt_ware;min_rest(DB)=$min_rest;weight(DB)=$weight;
+pack(DB)=$pack;cost_ware(DB)=$cost_ware;count_ware(DB)=$count_ware;
+validity(I)=$validity;webexp(I)=$webexp;t_tax1(I)=$t_tax1;t_tax2(I)=$t_tax2;
+t_tax3(I)=$t_tax3;v_tax1(DB)=$v_tax1;v_tax2(DB)=$v_tax2;v_tax3(DB)=$v_tax3;
+wdata(TS)=$wdata;t_info(LVA)=$t_info;pict_ware(LVB)=$pict_ware))
+}
+TRANSFER{
+Name(Доп.свойства номенклатуры)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from wdata where ndprt <> :ndep order by ndprt,id_ware,id_wdat)
+Message()
+Destination(process=REPLACE owner= table=wdata)
+}
+TRANSFER{
+Name(Единицы измерений товаров)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from wunit where ndprt <> :ndep order by ndprt,id_ware,code_unit)
+Message()
+Destination(process=REPLACE owner= table=wunit)
+}
+TRANSFER{
+Name(Цены товаров)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from wprice where ndprt <> :ndep 
+order by ndprt,id_ware,code_currency,code_tprice)
+Message()
+Destination(process=REPLACE owner= table=wprice)
+}
+TRANSFER{
+Name(История цены товаров)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from whprice where ndep <> :ndep 
+order by ndep,iware,code_tprice,code_currency,data_price)
+Message()
+Destination(process=REPLACE owner= table=whprice)
+}
+TRANSFER{
+Name(Отрасли)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from branch order by code_branch)
+Message()
+Destination(process=REPLACE owner= table=branch)
+}
+TRANSFER{
+Name(Оргформы)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from tplant order by t_plant)
+Message()
+Destination(process=REPLACE owner= table=tplant)
+}
+TRANSFER{
+Name(Типы контрагентов)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from tclient order by t_client)
+Message()
+Destination(process=REPLACE owner= table=tclient)
+}
+TRANSFER{
+Name(Контрагенты)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from client where ndprt <> :ndep order by ndprt,numb_client)
+Message()
+Destination(process=REPLACE owner= table=client)
+}
+TRANSFER{
+Name(Счета контрагентов)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from clbank where ndprt <> :ndep order by ndprt,numb_client,acnt)
+Message()
+Destination(process=REPLACE owner= table=clbank
+columns(note=<note0))
+}
+TRANSFER{
+Name(Персоналии контрагентов)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from pclient where ndprt <> :ndep order by ndprt,numb_client,numb_person)
+Message()
+Destination(process=REPLACE owner= table=pclient)
+}
+TRANSFER{
+Name(Рабочие места)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from workplace order by sklad,id_wrkp)
+Message()
+Destination(process=REPLACE owner= table=workplace)
+}
+TRANSFER{
+Name(Затраты на производство)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from prodexp order by id_pex)
+Message()
+Destination(process=REPLACE owner= table=prodexp)
+}
+TRANSFER{
+Name(Вид комплектующих)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from tcomp order by id_tcomp)
+Message()
+Destination(process=REPLACE owner= table=tcomp)
+}
+TRANSFER{
+Name(Технологические операции)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id_top, ndprt, numb_client, sklad, id_wrkp, war_ndprt, id_ware, prnt_top, last_top, kind_top, time_top, tcst_top, cost_top, code_top, name_top, desc_top, pict_top from toper order by id_top)
+Message()
+Destination(process=REPLACE owner= table=top
+columns(K:id_top(I)=$id_top;ndprt(I)=$ndprt;numb_client(I)=$numb_client;sklad(I)=$sklad;
+id_wrkp(I)=$id_wrkp;war_ndprt(I)=$war_ndprt;id_ware(I)=$id_ware;
+prnt_top(I)=$prnt_top;last_top(I)=$last_top;kind_top(I)=$kind_top;
+time_top(I)=$time_top;tcst_top(I)=$tcst_top;cost_top(DB)=$cost_top;
+code_top(VA,3)=$code_top;name_top(VA,100)=$name_top;desc_top(LVA)=$desc_top;
+pict_top(LVB)=$pict_top))
+}
+TRANSFER{
+Name(Шаги тех.операций)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select id_top, id_tstep, name_tstep, desc_tstep from topstep order by id_top,id_tstep)
+Message()
+Destination(process=REPLACE owner= table=topstep)
+}
+TRANSFER{
+Name(Файлы тех.операций)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id_top, inum_topfile, 
+code_topfile, name_topfile, fobj_topfile from topfile order by id_top,inum_topfile)
+Message()
+Destination(process=REPLACE owner= table=topfile
+columns(K:id_top(I)=$id_top;K:inum_topfile(I)=$inum_topfile;
+code_topfile(VA,100)=$code_topfile;name_topfile(LVA)=$name_topfile;
+fobj_topfile(LVB)=$fobj_topfile))
+}
+TRANSFER{
+Name(ТК - тех.операции)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from tcard order by id_tc)
+SubSQL(select * from tecop where id_tc = $id_tc(i) order by id_tc,id_teco)
+Message(ТК (тех.операции)::  $id_tc)
+Destination(process=REPLACE owner= table=tcard)
+Detail(process=FULL owner= table=tecop
+condition(id_tc = $id_tc))
+}
+TRANSFER{
+Name(ТК - материалы)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from tcard order by id_tc)
+SubSQL(select * from topmat where id_tc = $id_tc(i) order by id_tc,id_teco,id_tecm)
+Message(ТК (материалы)::  $id_tc)
+Destination(process=REPLACE owner= table=tcard)
+Detail(process=FULL owner= table=topmat
+condition(id_tc = $id_tc))
+}
+TRANSFER{
+Name(ТК - трудозатраты)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from tcard order by id_tc)
+SubSQL(select * from topwork where id_tc = $id_tc(i) order by id_tc,id_teco,id_topw)
+Message(ТК (трудозатраты)::  $id_tc)
+Destination(process=REPLACE owner= table=tcard)
+Detail(process=FULL owner= table=topwork
+condition(id_tc = $id_tc))
+}
+TRANSFER{
+Name(ТК - затраты)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from tcard order by id_tc)
+SubSQL(select * from tcexp where id_tc = $id_tc(i) order by id_tc,id_tce)
+Message(ТК (затраты)::  $id_tc)
+Destination(process=REPLACE owner= table=tcard)
+Detail(process=FULL owner= table=tcexp
+condition(id_tc = $id_tc))
+}
+TRANSFER{
+Name(Спецификации - состав)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from tspec order by type_tsp,ndprt,key_tsp)
+SubSQL(select * from wspec where type_tsp = $type_tsp(i) and ndprt = $ndprt(i) and key_tsp = $key_tsp(i) order by npp_wsp)
+Message(Спецификация (состав)::  $ndprt / $key_tsp)
+Destination(process=REPLACE owner= table=tspec)
+Detail(process=FULL owner= table=wspec
+condition(type_tsp = $type_tsp and ndprt = $ndprt and key_tsp = $key_tsp))
+}
+TRANSFER{
+Name(Спецификации - параметры состава)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from tspec order by type_tsp,ndprt,key_tsp)
+SubSQL(select * from wsparm where type_tsp = $type_tsp(i) and ndprt = $ndprt(i) and key_tsp = $key_tsp(i) order by npp_wsp,war_ndprt,id_ware,id_spar)
+Message(Спецификация (параметры состава)::  $ndprt / $key_tsp)
+Destination(process=REPLACE owner= table=tspec)
+Detail(process=FULL owner= table=wsparm
+condition(type_tsp = $type_tsp and ndprt = $ndprt and key_tsp = $key_tsp))
+}
+TRANSFER{
+Name(Спецификации - тех.операции)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from tspec order by type_tsp,ndprt,key_tsp)
+SubSQL(select * from opspec where type_tsp = $type_tsp(i) and ndprt = $ndprt(i) and key_tsp = $key_tsp(i) order by id_ops)
+Message(Спецификация (тех.операции)::  $ndprt / $key_tsp)
+Destination(process=REPLACE owner= table=tspec)
+Detail(process=FULL owner= table=opspec
+condition(type_tsp = $type_tsp and ndprt = $ndprt and key_tsp = $key_tsp))
+}
+TRANSFER{
+Name(Спецификации - материалы)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from tspec order by type_tsp,ndprt,key_tsp)
+SubSQL(select * from matspec where type_tsp = $type_tsp(i) and ndprt = $ndprt(i) and key_tsp = $key_tsp(i) order by id_ops,id_mats)
+Message(Спецификация (материалы)::  $ndprt / $key_tsp)
+Destination(process=REPLACE owner= table=tspec)
+Detail(process=FULL owner= table=matspec
+condition(type_tsp = $type_tsp and ndprt = $ndprt and key_tsp = $key_tsp))
+}
+TRANSFER{
+Name(Спецификации - трудозатраты)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from tspec order by type_tsp,ndprt,key_tsp)
+SubSQL(select * from wrkspec where type_tsp = $type_tsp(i) and ndprt = $ndprt(i) and key_tsp = $key_tsp(i) order by id_ops,id_wrks)
+Message(Спецификация (трудозатраты)::  $ndprt / $key_tsp)
+Destination(process=REPLACE owner= table=tspec)
+Detail(process=FULL owner= table=wrkspec
+condition(type_tsp = $type_tsp and ndprt = $ndprt and key_tsp = $key_tsp))
+}
+TRANSFER{
+Name(Спецификации - затраты)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from tspec order by type_tsp,ndprt,key_tsp)
+SubSQL(select * from tsexp where type_tsp = $type_tsp(i) and ndprt = $ndprt(i) and key_tsp = $key_tsp(i) order by id_tse)
+Message(Спецификация (затраты)::  $ndprt / $key_tsp)
+Destination(process=REPLACE owner= table=tspec)
+Detail(process=FULL owner= table=tsexp
+condition(type_tsp = $type_tsp and ndprt = $ndprt and key_tsp = $key_tsp))
+}
+TRANSFER{
+Name(Заявки - параметры)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 402 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from sddata where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by id_sdat)
+Message($date_sd  Заявка (параметры)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=sddata
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and ndprt = $ndprt and autokey_sd = $autokey_sd))
+}
+TRANSFER{
+Name(Заявки - состав)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 402 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from sdspc where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc)
+Message($date_sd  Заявка (состав)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=sdspc
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and ndprt = $ndprt and autokey_sd = $autokey_sd))
+}
+TRANSFER{
+Name(Заявки - параметры состава)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 402 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from ssparm where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,ndprt,id_ware,id_ssp)
+Message($date_sd  Заявка (параметры состава)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=ssparm
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+}
+TRANSFER{
+Name(Заявки - спецификация)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 402 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from pspec where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,npp_psp)
+Message($date_sd  Заявка (спецификация)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=pspec
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+}
+TRANSFER{
+Name(Заявки - параметры спецификации)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 402 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from psparm where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,npp_psp,ndprt,id_ware,id_psparm)
+Message($date_sd  Заявка (параметры спецификации)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=psparm
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+}
+TRANSFER{
+Name(Заявки - расписание)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 402 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from tasklist where numref = $numref(i) and nyear = $nyear(i) and ndprt = $ndprt(i) and tdoc_tsl = $type_sd(i) and ndoc_tsl = $autokey_sd(i) order by inum_tsl)
+Message($date_sd  Заявка (расписание)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=tasklist
+condition(numref = $numref and nyear = $nyear and ndprt = $ndprt and tdoc_tsl = $type_sd and ndoc_tsl = $autokey_sd))
+}
+TRANSFER{
+Name(Заявки - задачи)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 402 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from taskitem where numref = $numref(i) and nyear = $nyear(i) and ndep_tsl = $ndprt(i) and tdoc_tsl = $type_sd(i) and ndoc_tsl = $autokey_sd(i) order by inum_tsl,type_task,ndprt,inum_task)
+Message($date_sd  Заявка (задачи)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=taskitem
+condition(numref = $numref and nyear = $nyear and tdoc_tsl = $type_sd and ndep_tsl = $ndprt and ndoc_tsl = $autokey_sd))
+}
+TRANSFER{
+Name(Произв.заказы - состав)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 403 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from sdspc where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc)
+Message($date_sd  Произв.заказ (состав)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=sdspc
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and ndprt = $ndprt and autokey_sd = $autokey_sd))
+}
+TRANSFER{
+Name(Произв.заказы - параметры состава)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 403 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from ssparm where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,ndprt,id_ware,id_ssp)
+Message($date_sd  Произв.заказ (параметры состава)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=ssparm
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+}
+TRANSFER{
+Name(Произв.заказы - спецификация)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 403 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from pspec where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,npp_psp)
+Message($date_sd  Произв.заказ (спецификация)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=pspec
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+}
+TRANSFER{
+Name(Произв.заказы - параметры спецификации)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 403 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from psparm where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,npp_psp,ndprt,id_ware,id_psparm)
+Message($date_sd  Произв.заказ (параметры спецификации)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=psparm
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+}
+TRANSFER{
+Name(Произв.заказы - тех.операции)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 403 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from opsds where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,id_osd)
+Message($date_sd  Произв.заказ (тех.операции)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=opsds
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+}
+TRANSFER{
+Name(Произв.заказы - материалы)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 403 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from matsdo where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,id_osd,kind_msdo,id_msdo)
+Message($date_sd  Произв.заказ (материалы)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=matsdo
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+}
+TRANSFER{
+Name(Произв.заказы - трудозатраты)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 403 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from wrksdo where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,id_osd,id_wsdo)
+Message($date_sd  Произв.заказ (трудозатраты)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=wrksdo
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+}
+TRANSFER{
+Name(Произв.заказы - затраты)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 403 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from sdexp where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,id_sde)
+Message($date_sd  Произв.заказ (затраты)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=sdexp
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+}
+TRANSFER{
+Name(Выпуск - состав)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 406 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from sdspc where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc)
+Message($date_sd  Выпуск (состав)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc
+columns(F:flag))
+Detail(process=FULL owner= table=sdspc
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and ndprt = $ndprt and autokey_sd = $autokey_sd))
+TabCommands(
+OnDelete(call sdoc_status($numref,$nyear,$type_sd,$ndprt,$autokey_sd)))
+}
+TRANSFER{
+Name(Выпуск - параметры состава)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 406 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from ssparm where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,ndprt,id_ware,id_ssp)
+Message($date_sd  Выпуск (параметры состава)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc
+columns(F:flag))
+Detail(process=FULL owner= table=ssparm
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+TabCommands(
+OnDelete(call sdoc_status($numref,$nyear,$type_sd,$ndprt,$autokey_sd)))
+}
+TRANSFER{
+Name(Выпуск - спецификация)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 406 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from pspec where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,npp_psp)
+Message($date_sd  Выпуск (спецификация)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc
+columns(F:flag))
+Detail(process=FULL owner= table=pspec
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+TabCommands(
+OnDelete(call sdoc_status($numref,$nyear,$type_sd,$ndprt,$autokey_sd)))
+}
+TRANSFER{
+Name(Выпуск - параметры спецификации)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 406 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from psparm where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,npp_psp,ndprt,id_ware,id_psparm)
+Message($date_sd  Выпуск (параметры спецификации)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc
+columns(F:flag))
+Detail(process=FULL owner= table=psparm
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+TabCommands(
+OnDelete(call sdoc_status($numref,$nyear,$type_sd,$ndprt,$autokey_sd)))
+}
+TRANSFER{
+Name(Выпуск - тех.операции)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 406 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from opsds where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,id_osd)
+Message($date_sd  Выпуск (тех.операции)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc
+columns(F:flag))
+Detail(process=FULL owner= table=opsds
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+TabCommands(
+OnDelete(call sdoc_status($numref,$nyear,$type_sd,$ndprt,$autokey_sd)))
+}
+TRANSFER{
+Name(Выпуск - материалы)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 406 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from matsdo where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,id_osd,kind_msdo,id_msdo)
+Message($date_sd  Выпуск (материалы)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc
+columns(F:flag))
+Detail(process=FULL owner= table=matsdo
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+TabCommands(
+OnDelete(call sdoc_status($numref,$nyear,$type_sd,$ndprt,$autokey_sd)))
+}
+TRANSFER{
+Name(Выпуск - трудозатраты)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 406 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from wrksdo where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,id_osd,id_wsdo)
+Message($date_sd  Выпуск (трудозатраты)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc
+columns(F:flag))
+Detail(process=FULL owner= table=wrksdo
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+TabCommands(
+OnDelete(call sdoc_status($numref,$nyear,$type_sd,$ndprt,$autokey_sd)))
+}
+TRANSFER{
+Name(Выпуск - затраты)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 406 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from sdexp where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by npp_spc,id_sde)
+Message($date_sd  Выпуск (затраты)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc
+columns(F:flag))
+Detail(process=FULL owner= table=sdexp
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+TabCommands(
+OnDelete(call sdoc_status($numref,$nyear,$type_sd,$ndprt,$autokey_sd)))
+}
+TRANSFER{
+Name(Заказ-наряды - тех.операции)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 405 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from sdop where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by np_sdo,id_sdo)
+Message($date_sd  Заказ-наряд (тех.операции)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=sdop
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+}
+TRANSFER{
+Name(Заказ-наряды - трудозатраты)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select * from sdoc where type_sd = 405 and numref = :nref(i) and date() - save_sd <= :nday order by date_sd,ndprt,autokey_sd)
+SubSQL(select * from sdwrk where numref = $numref(i) and nyear = $nyear(i) and type_sd = $type_sd(i) and sdo_ndprt = $ndprt(i) and autokey_sd = $autokey_sd(i) order by np_sdo,id_sdo,id_sdw)
+Message($date_sd  Заказ-наряд (трудозатраты)::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc)
+Detail(process=FULL owner= table=sdwrk
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and sdo_ndprt = $ndprt and autokey_sd = $autokey_sd))
+}
+TRANSFER{
+Name(Накладные перемещения)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select   sdoc.* 
+from     sdoc, sklad 
+where    type_sd = 404 and numref = :nref(i) and 
+         skl_sklad = sklad.sklad and sklad.ndprt = :ndep(i) and 
+         date() - save_sd <= :nday)
+SubSQL(select   * 
+from     sdspc
+where    numref = $numref(i) and 
+         nyear = $nyear(i) and 
+         type_sd = $type_sd(i) and 
+         ndprt = $ndprt(i) and 
+         autokey_sd = $autokey_sd(i) 
+order by npp_spc)
+Message($date_sd  Накладная перемещения::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc
+columns(T:sklad;T:skl_sklad;N:flag))
+Detail(process=FULL owner= table=sdspc
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and 
+ndprt = $ndprt and autokey_sd = $autokey_sd)
+columns(T:id_ware))
+TabCommands(
+CallExec(update sdoc set flag=1 
+where  type_sd=$type_sd and numref=$numref and nyear=$nyear and 
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+CallBack(update sdoc set flag=0 
+where  type_sd=$type_sd and numref=$numref and nyear=$nyear and 
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+OnChange.date_sd(update card_spc set date_card=$date_sd 
+where  numref=$numref and nyear=$nyear and sklad=$sklad and 
+       sds_numref=$numref and sds_nyear=$nyear and 
+       type_sd=$type_sd and sds_ndprt=$ndprt and 
+       autokey_sd=$autokey_sd;
+update card_spc set date_card=$date_sd
+where  numref=$numref and nyear=$nyear and sklad=$skl_sklad and
+       sds_numref=$numref and sds_nyear=$nyear and 
+       type_sd=$type_sd and sds_ndprt=$ndprt and 
+       autokey_sd=$autokey_sd)
+ReChange.date_sd(update card_spc set date_card=#date_sd 
+where  numref=$numref and nyear=$nyear and sklad=$sklad and 
+       sds_numref=$numref and sds_nyear=$nyear and 
+       type_sd=$type_sd and sds_ndprt=$ndprt and 
+       autokey_sd=$autokey_sd;
+update card_spc set date_card=#date_sd
+where  numref=$numref and nyear=$nyear and sklad=$skl_sklad and
+       sds_numref=$numref and sds_nyear=$nyear and 
+       type_sd=$type_sd and sds_ndprt=$ndprt and 
+       autokey_sd=$autokey_sd))
+SubCommands(
+OnInsert(call ware_move($type_sd,$numref,$nyear,$ndprt,$autokey_sd,$date_sd,
+$sklad,$skl_sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,
+^0,~q_spc,~code_unit,~pricef_spc,$code_currency,:ndep,^0,^1,#flag))
+OnUpdate(call ware_move($type_sd,$numref,$nyear,$ndprt,$autokey_sd,$date_sd,
+$sklad,$skl_sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,
+!q_spc,~q_spc,~code_unit,~pricef_spc,$code_currency,:ndep,^0,^2,#flag))
+OnDelete(call ware_move(#type_sd,#numref,#nyear,#ndprt,#autokey_sd,#date_sd,
+#sklad,#skl_sklad,!stel,!sot,!war_ndprt,!id_ware,!npp_spc,!ncw_spc,
+!q_spc,^0,!code_unit,!pricef_spc,#code_currency,:ndep,^0,^3,#flag))
+ReInsert(call ware_move($type_sd,$numref,$nyear,$ndprt,$autokey_sd,$date_sd,
+$sklad,$skl_sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,
+~q_spc,^0,~code_unit,~pricef_spc,$code_currency,:ndep,^0,^3,#flag))
+ReUpdate(call ware_move($type_sd,$numref,$nyear,$ndprt,$autokey_sd,$date_sd,
+$sklad,$skl_sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,
+~q_spc,!q_spc,~code_unit,~pricef_spc,$code_currency,:ndep,^0,^2,#flag))
+ReDelete(call ware_move(#type_sd,#numref,#nyear,#ndprt,#autokey_sd,#date_sd,
+#sklad,#skl_sklad,!stel,!sot,!war_ndprt,!id_ware,!npp_spc,!ncw_spc,
+^0,!q_spc,!code_unit,!pricef_spc,#code_currency,:ndep,^0,^1,#flag)))
+}
+TRANSFER{
+Name(Отгрузка продукции)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 407 and numref = :nref(i) and
+         date() - save_sd <= :nday 
+order by date_sd,type_sd,ndprt,autokey_sd)
+SubSQL(select   *
+from     sdspc
+where    numref = $numref(i) and
+         nyear = $nyear(i) and
+         type_sd = $type_sd(i) and
+         ndprt = $ndprt(i) and
+         autokey_sd = $autokey_sd(i)
+order by npp_spc)
+Message($date_sd  Накладная на отгрузку::  $ndprt / $autokey_sd)
+Destination(process=REPLACE owner= table=sdoc
+columns(T:sklad;T:code_currency;T:cur_code_currency;N:flag))
+Detail(process=FULL owner= table=sdspc
+condition(numref = $numref and nyear = $nyear and type_sd = $type_sd and
+ndprt = $ndprt and autokey_sd = $autokey_sd)
+columns(T:id_ware))
+TabCommands(
+CallExec(update sdoc set flag=1
+where  type_sd=$type_sd and numref=$numref and nyear=$nyear and
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+CallBack(update sdoc set flag=0
+where  type_sd=$type_sd and numref=$numref and nyear=$nyear and
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+OnInsert(call BAL_MOD($numref,$nyear,$cli1_ndprt,$cli1_numb_client,
+$code_currency,$sumf_sd,^0,$date_sd,$flag))
+OnUpdate(call BAL_MOD($numref,$nyear,$cli1_ndprt,$cli1_numb_client,
+$code_currency,$sumf_sd,#sumf_sd,$date_sd,#flag))
+OnDelete(call BAL_MOD(#numref,#nyear,#cli1_ndprt,#cli1_numb_client,
+#code_currency,^0,#sumf_sd,#date_sd,#flag))
+ReInsert(call BAL_MOD($numref,$nyear,$cli1_ndprt,$cli1_numb_client,
+$code_currency,^0,$sumf_sd,$date_sd,$flag))
+ReUpdate(call BAL_MOD($numref,$nyear,$cli1_ndprt,$cli1_numb_client,
+$code_currency,#sumf_sd,$sumf_sd,$date_sd,#flag))
+ReDelete(call BAL_MOD(#numref,#nyear,#cli1_ndprt,#cli1_numb_client,
+#code_currency,#sumf_sd,^0,#date_sd,#flag))
+OnChange.date_sd(update card_spc set date_card=$date_sd
+where  numref=$numref and nyear=$nyear and sklad=$sklad and
+       sds_numref=$numref and sds_nyear=$nyear and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+OnChange.cli1_numb_client(call BAL_MOD(#numref,#nyear,
+#cli1_ndprt,#cli1_numb_client,#code_currency,^0,#sumf_sd,#date_sd,#flag);
+call BAL_MOD($numref,$nyear,
+$cli1_ndprt,$cli1_numb_client,$code_currency,#sumf_sd,^0,$date_sd,#flag);
+update card_spc set cli_ndprt=$cli1_ndprt,
+       numb_client=$cli1_numb_client
+where  numref=$numref and nyear=$nyear and sklad=$sklad and
+       sds_numref=$numref and sds_nyear=$nyear and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+ReChange.date_sd(update card_spc set date_card=#date_sd
+where  numref=$numref and nyear=$nyear and sklad=$sklad and
+       sds_numref=$numref and sds_nyear=$nyear and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+ReChange.cli1_numb_client(call BAL_MOD($numref,$nyear,
+$cli1_ndprt,$cli1_numb_client,$code_currency,^0,#sumf_sd,$date_sd,#flag);
+call BAL_MOD(#numref,#nyear,
+#cli1_ndprt,#cli1_numb_client,#code_currency,#sumf_sd,^0,#date_sd,#flag);
+update card_spc set cli_ndprt=#cli1_ndprt,
+       numb_client=#cli1_numb_client
+where  numref=$numref and nyear=$nyear and sklad=$sklad and
+       sds_numref=$numref and sds_nyear=$nyear and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd))
+SubCommands(
+OnInsert(call WARE_OUT($type_sd,$numref,$nyear,$ndprt,$autokey_sd,
+$date_sd,$sklad,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,^0,~q_spc,~code_unit,
+~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~proc_tax1,~type_tax1,~proc_tax2,~type_tax2,~proc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^1,^2,#flag))
+OnUpdate(call WARE_OUT($type_sd,$numref,$nyear,$ndprt,$autokey_sd,
+$date_sd,$sklad,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,!q_spc,~q_spc,
+~code_unit,~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~proc_tax1,~type_tax1,~proc_tax2,~type_tax2,~proc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^2,^2,#flag))
+OnDelete(call WARE_OUT(#type_sd,#numref,#nyear,#ndprt,#autokey_sd,
+#date_sd,#sklad,!war_ndprt,!id_ware,!npp_spc,!ncw_spc,!q_spc,^0,!code_unit,
+!pricef_spc,#code_currency,!pricecf_spc,#cur_code_currency,
+!proc_tax1,!type_tax1,!proc_tax2,!type_tax2,!proc_tax3,!type_tax3,
+#cli1_ndprt,#cli1_numb_client,^3,^2,#flag))
+ReInsert(call WARE_OUT($type_sd,$numref,$nyear,$ndprt,$autokey_sd,
+$date_sd,$sklad,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,~q_spc,^0,~code_unit,
+~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~proc_tax1,~type_tax1,~proc_tax2,~type_tax2,~proc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^3,^2,#flag))
+ReUpdate(call WARE_OUT($type_sd,$numref,$nyear,$ndprt,$autokey_sd,
+$date_sd,$sklad,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,~q_spc,!q_spc,
+~code_unit,~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~proc_tax1,~type_tax1,~proc_tax2,~type_tax2,~proc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^2,^2,$flag))
+ReDelete(call WARE_OUT(#type_sd,#numref,#nyear,#ndprt,#autokey_sd,
+#date_sd,#sklad,!war_ndprt,!id_ware,!npp_spc,!ncw_spc,^0,!q_spc,!code_unit,
+!pricef_spc,#code_currency,!pricecf_spc,#cur_code_currency,
+!proc_tax1,!type_tax1,!proc_tax2,!type_tax2,!proc_tax3,!type_tax3,
+#cli1_ndprt,#cli1_numb_client,^1,^2,#flag)))
+}

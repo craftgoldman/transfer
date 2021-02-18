@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Trans30", "Trans30.vcxproj", "{D44EC4EC-E76F-4405-A2A9-E413FDF84F3E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Trn30enu", "Trn30enu\Trn30enu.vcxproj", "{95C8346D-D448-4667-8C42-33F7820AEFDB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TrnKeyGen", "TrnKeyGen\TrnKeyGen.vcxproj", "{1B5CA49E-8C50-4EC4-9BA7-C4135843D317}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D44EC4EC-E76F-4405-A2A9-E413FDF84F3E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D44EC4EC-E76F-4405-A2A9-E413FDF84F3E}.Debug|Win32.Build.0 = Debug|Win32
+		{D44EC4EC-E76F-4405-A2A9-E413FDF84F3E}.Release|Win32.ActiveCfg = Release|Win32
+		{D44EC4EC-E76F-4405-A2A9-E413FDF84F3E}.Release|Win32.Build.0 = Release|Win32
+		{95C8346D-D448-4667-8C42-33F7820AEFDB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{95C8346D-D448-4667-8C42-33F7820AEFDB}.Debug|Win32.Build.0 = Debug|Win32
+		{95C8346D-D448-4667-8C42-33F7820AEFDB}.Release|Win32.ActiveCfg = Release|Win32
+		{95C8346D-D448-4667-8C42-33F7820AEFDB}.Release|Win32.Build.0 = Release|Win32
+		{1B5CA49E-8C50-4EC4-9BA7-C4135843D317}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1B5CA49E-8C50-4EC4-9BA7-C4135843D317}.Debug|Win32.Build.0 = Debug|Win32
+		{1B5CA49E-8C50-4EC4-9BA7-C4135843D317}.Release|Win32.ActiveCfg = Release|Win32
+		{1B5CA49E-8C50-4EC4-9BA7-C4135843D317}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

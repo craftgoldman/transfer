@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{962540be-e571-4aee-b0b4-f2e494a27a69}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{13c1e0e6-4c4b-4fa0-8b18-f44c4ff4f43d}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{c10c2370-1183-4d8e-8131-81ced0cbd5e6}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Trn30enu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Trn30enu.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="res\Add.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\binary1.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Cancel.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Cardfile.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Conv.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Convs.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Crdfiles.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Data.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Delete.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Edit.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Help.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Insert.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\No.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Ok.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Paddoc.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Save.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\SmallPPL.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Toolbar.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Trans.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Trans30.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Trn30enu.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Eartha.avi" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Trn30enu.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Trn30enu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,44 @@
+// Экспорт документов и проводок
+PARAMETERS{
+date dat1(Дата с),date dat2(Дата по),integer ndep(Отделение),integer nref(Журнал)
+}
+CONNECT{
+Source(DSN=OraSrv;UID=compas;PWD=base)
+Destination(DSN=Out;UID=;PWD=)
+}
+TRANSFER{
+Name(Кассовые ордера)
+Schema(COPY)
+Source(select   * 
+from     kasorder 
+where    ndprt = :ndep and 
+         date_order between :dat1 and :dat2 
+order by year,type_order,numb_order)
+Destination(process=CREATE table=kasorder)
+}
+TRANSFER{
+Name(Документы)
+Schema(COPY)
+Source(select   * 
+from     document 
+where    ndprt = :ndep and fcarry_doc > 0 and 
+         data_doc between :dat1 and :dat2 
+order by year,type_doc,key_doc)
+Destination(process=CREATE table=document columns(N:fcarry_doc=^0))
+}
+TRANSFER{
+Name(Проводки)
+Schema(COPY)
+Source(select   operat.* 
+from     document, operat 
+where    document.ndprt = :ndep and 
+         document.fcarry_doc > 0 and 
+         document.data_doc between :dat1 and :dat2 and 
+         operat.numref = document.numref and 
+         operat.year = document.year and 
+         operat.type_doc = document.type_doc and 
+         operat.ndprt = document.ndprt and 
+         operat.key_doc = document.key_doc  
+order by operat.year,operat.type_doc,operat.key_doc,operat.key_op)
+Destination(process=CREATE table=operat)
+}

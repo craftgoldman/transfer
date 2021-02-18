@@ -1,0 +1,418 @@
+// Импорт из 1С
+PARAMETERS{
+integer nyear(Год)=2010,date data(Дата)
+}
+CONNECT{
+Source(DSN=1C_BASTION;UID=;PWD=)
+Destination(DSN=BASPROD;UID=craft;PWD=master)
+}
+TRANSFER{
+Name(Группы клиентов)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, parent, name from ClientsGroups where MarkDel <> 'Помечен')
+Message()
+Destination(process=ADD owner= table=client
+columns(K:ndprt(I)=^0;K:numb_client(I)=$id;per_ndprt(I)=^0;code_pers(I)=^0;
+code_branch(I)=^0;code_town(I)=^0;code_sector(I)=^0;code_country(I)=^0;
+rgn(I)=^0;t_plant(I)=^0;t_client(I)=^0;prnt_client(I)=$parent;last_client(I)=^0;
+fhide(I)=^0;fbad(I)=^0;frel(I)=^0;fkind(I)=^0;fprop(I)=^0;fpdoc(I)=^0;
+status(I)=^0;wmod_client(I)=^0;count_client(N,10,2)=^0;disc_client(N,10,2)=^0;
+rval_client(N,17,2)=^0;wlimit_client(N,17,2)=^0;alimit_client(N,17,2)=^0;
+pdoc_client(VA,255);name_client(VA,80)=$name;addl_client(VA,255);
+addr_client(VA,255);email_client(VA,80);www_client(VA,80);ogrn_client(VA,20);
+inn_client(VA,20);okpo_client(VA,20);okonh_client(VA,30);kpp_client(VA,20);
+note1(VA,255);note2(VA,255);tel_client(VA,20);fax_client(VA,20);
+data_client(TS)=:data))
+}
+TRANSFER{
+Name(Простые клиенты)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, parent, name from Clients where MarkDel <> 'Помечен')
+Message()
+Destination(process=ADD owner= table=client
+columns(K:ndprt(I)=^0;K:numb_client(I)=$id;per_ndprt(I)=^0;code_pers(I)=^0;
+code_branch(I)=^0;code_town(I)=^0;code_sector(I)=^0;code_country(I)=^0;
+rgn(I)=^0;t_plant(I)=^0;t_client(I)=^0;prnt_client(I)=$parent;last_client(I)=^1;
+fhide(I)=^0;fbad(I)=^0;frel(I)=^0;fkind(I)=^1;fprop(I)=^0;fpdoc(I)=^0;
+status(I)=^1;wmod_client(I)=^0;count_client(N,10,2)=^0;disc_client(N,10,2)=^0;
+rval_client(N,17,2)=^0;wlimit_client(N,17,2)=^0;alimit_client(N,17,2)=^0;
+pdoc_client(VA,255);name_client(VA,80)=$name;addl_client(VA,255);
+addr_client(VA,255);email_client(VA,80);www_client(VA,80);ogrn_client(VA,20);
+inn_client(VA,20);okpo_client(VA,20);okonh_client(VA,30);kpp_client(VA,20);
+note1(VA,255);note2(VA,255);tel_client(VA,20);fax_client(VA,20);
+data_client(TS)=:data))
+}
+TRANSFER{
+Name(Свои юр.лица)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select c.id, c.parent, f.inn, f.longname, f.uraddress, f.factaddress from Clients c, ClientsFirm f where f.MarkDel <> 'Помечен' and c.SprID = f.ID)
+Message()
+Destination(process=ADD owner= table=client
+columns(K:ndprt(I)=^0;K:numb_client(I)=$id;per_ndprt(I)=^0;code_pers(I)=^0;
+code_branch(I)=^0;code_town(I)=^0;code_sector(I)=^0;code_country(I)=^0;
+rgn(I)=^0;t_plant(I)=^0;t_client(I)=^0;prnt_client(I)=$parent;last_client(I)=^1;
+fhide(I)=^0;fbad(I)=^0;frel(I)=^0;fkind(I)=^1;fprop(I)=^1;fpdoc(I)=^0;
+status(I)=^1;wmod_client(I)=^0;count_client(N,10,2)=^0;disc_client(N,10,2)=^0;
+rval_client(N,17,2)=^0;wlimit_client(N,17,2)=^0;alimit_client(N,17,2)=^0;
+pdoc_client(VA,255);name_client(VA,80)=$longname;addl_client(VA,255)=$uraddress;
+addr_client(VA,255)=$factaddress;email_client(VA,80);www_client(VA,80);
+ogrn_client(VA,20);inn_client(VA,20)=$inn;okpo_client(VA,20);
+okonh_client(VA,30);kpp_client(VA,20);note1(VA,255);note2(VA,255);
+tel_client(VA,20);fax_client(VA,20);data_client(TS)=:data))
+}
+TRANSFER{
+Name(Физические лица)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select c.id, c.parent, f.longname, f.inn, f.tel, f.document, f.uraddress, f.factaddress from Clients c, ClientsFis f where f.MarkDel <> 'Помечен' and c.SprID = f.ID)
+Message()
+Destination(process=ADD owner= table=client
+columns(K:ndprt(I)=^0;K:numb_client(I)=$id;per_ndprt(I)=^0;code_pers(I)=^0;
+code_branch(I)=^0;code_town(I)=^0;code_sector(I)=^0;code_country(I)=^0;
+rgn(I)=^0;t_plant(I)=^0;t_client(I)=^0;prnt_client(I)=$parent;last_client(I)=^1;
+fhide(I)=^0;fbad(I)=^0;frel(I)=^0;fkind(I)=^2;fprop(I)=^0;fpdoc(I)=^0;
+status(I)=^1;wmod_client(I)=^0;count_client(N,10,2)=^0;disc_client(N,10,2)=^0;
+rval_client(N,17,2)=^0;wlimit_client(N,17,2)=^0;alimit_client(N,17,2)=^0;
+pdoc_client(VA,255)=$document;name_client(VA,80)=$longname;
+addl_client(VA,255)=$uraddress;addr_client(VA,255)=$factaddress;
+email_client(VA,80);www_client(VA,80);ogrn_client(VA,20);inn_client(VA,20)=$inn;
+okpo_client(VA,20);okonh_client(VA,30);kpp_client(VA,20);note1(VA,255);
+note2(VA,255);tel_client(VA,20)=$tel;fax_client(VA,20);data_client(TS)=:data))
+}
+TRANSFER{
+Name(Юридич.лица)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select c.id, c.parent, f.name, f.longname, f.inn, f.okpo, f.tel, f.uraddress, f.factaddress from Clients c left join ClientsUr f on c.SprID = f.ID where f.MarkDel <> 'Помечен')
+Message()
+Destination(process=ADD owner= table=client
+columns(K:ndprt(I)=^0;K:numb_client(I)=$id;per_ndprt(I)=^0;code_pers(I)=^0;
+code_branch(I)=^0;code_town(I)=^0;code_sector(I)=^0;code_country(I)=^0;
+rgn(I)=^0;t_plant(I)=^0;t_client(I)=^0;prnt_client(I)=$parent;last_client(I)=^1;
+fhide(I)=^0;fbad(I)=^0;frel(I)=^0;fkind(I)=^1;fprop(I)=^0;fpdoc(I)=^0;
+status(I)=^1;wmod_client(I)=^0;count_client(N,10,2)=^0;disc_client(N,10,2)=^0;
+rval_client(N,17,2)=^0;wlimit_client(N,17,2)=^0;alimit_client(N,17,2)=^0;
+pdoc_client(VA,255);name_client(VA,80)=$name;addl_client(VA,255)=$uraddress;
+addr_client(VA,255)=$factaddress;email_client(VA,80);www_client(VA,80);
+ogrn_client(VA,20);inn_client(VA,20)=$inn;okpo_client(VA,20)=$okpo;
+okonh_client(VA,30);kpp_client(VA,20);note1(VA,255);note2(VA,255);
+tel_client(VA,20)=$tel;fax_client(VA,20);data_client(TS)=:data))
+}
+TRANSFER{
+Name(Банки клиентов)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select c.id, c.parent, a.account, b.bik, b.corracc, b.name, b.mesto, b.tel from Clients c, ClientsUr f, BankAccounts a, Banks b where f.MarkDel <> 'Помечен' and c.SprID = f.ID and a.SprUrID = f.ID and a.BankID = b.ID)
+Message()
+Destination(process=ADD owner= table=clbank
+columns(K:ndprt(I)=^0;K:numb_client(I)=$id;K:acnt(VA,20)=$account;bik_bank(VA,9)=$bik;
+corr_account(VA,20)=$corracc;ku_bank(VA,5);name_bank(VA,80)=$name;
+note(VA,80)=$tel;addr_bank(VA,80)=$mesto;data_bank(TS)=:data))
+}
+TRANSFER{
+Name(Фирмы - юр.лица)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select f.id, u.inn, u.name, u.longname, u.uraddress, u.factaddress, u.position from Firms f, FirmsUr u where f.MarkDel = 0 and f.SprID = u.ID)
+Message()
+Destination(process=ADD owner= table=firm
+columns(K:id_frm(I)=$id;cdep(I);cnum(I);name_frm(VA,80)=$longname;nm_frm(VA,30)=$name;
+addr_frm(VA,255)=$uraddress;email_frm(VA,80);www_frm(VA,80);tel_frm(VA,80);
+fax_frm(VA,20);inn_frm(VA,20)=$inn;kpp_frm(VA,20);okonh_frm(VA,30);
+ogrn_frm(VA,20);okpo_frm(VA,20);bank_frm(VA,80);abnk_frm(VA,80);bik_frm(VA,20);
+acnt_frm(VA,20);cacc_frm(VA,20);nbss_frm(VA,30)=$position;boss_frm(VA,30);
+book_frm(VA,30);primn_frm(VA,255);prims_frm(VA,255);svreg_frm(VA,255)))
+}
+TRANSFER{
+Name(Справочник групп номенклатуры)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, parent, name, comment from waregroups where MarkDel <> 'Помечен')
+Message()
+Destination(process=ADD owner= table=ware
+columns(K:ndprt(I)=^0;K:id_ware(I)=$id;id_parent(I)=$parent;last_ware(I)=^0;
+flag_ware(I)=^0;flag_made(I)=^0;comp_ware(I)=^0;code_unit(I)=^0;
+code_country(I)=^0;id_pro(I)=^0;id_ser(I)=^0;name_ware(VA,80)=$name;
+name_ware2(VA,80)=$comment;code_ware(VA,30);code_gr(VA,255);barcode(VA,30);
+marka_ware(VA,40);okdp_ware(VA,20);post_ware(VA,30);gost_ware(VA,30);
+acnt_ware(VA,10);t_tax1(I)=^0;t_tax2(I)=^0;t_tax3(I)=^0;v_tax1(DB)=^0;
+v_tax2(DB)=^0;v_tax3(DB)=^0;min_rest(DB)=^0;weight(DB)=^0;pack(DB)=^0;
+cost_ware(DB)=^0;count_ware(DB)=^0;validity(I)=^0;wdata(TS)=:data;t_info(LVA);
+pict_ware(LVB)))
+}
+TRANSFER{
+Name(Справочник номенклатуры)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, parent, code, name, longname, nds from ware where MarkDel <> 'Помечен')
+Message()
+Destination(process=ADD owner= table=ware
+columns(K:ndprt(I)=^0;K:id_ware(I)=$id;id_parent(I)=$parent;last_ware(I)=^1;
+flag_ware(I)=^0;flag_made(I)=^0;comp_ware(I)=^0;code_unit(I)=^1;
+code_country(I)=^0;id_pro(I)=^0;id_ser(I)=^0;name_ware(VA,80)=$longname;
+name_ware2(VA,80);code_ware(VA,30)=$code;code_gr(VA,255);barcode(VA,30);
+marka_ware(VA,40);okdp_ware(VA,20);post_ware(VA,30);gost_ware(VA,30);
+acnt_ware(VA,10);t_tax1(I)=^0;t_tax2(I)=^0;t_tax3(I)=^0;v_tax1(DB)=^0;
+v_tax2(DB)=$nds;v_tax3(DB)=^0;min_rest(DB)=^0;weight(DB)=^0;pack(DB)=^0;
+cost_ware(DB)=^0;count_ware(DB)=^0;validity(I)=^0;wdata(TS)=:data;t_info(LVA);
+pict_ware(LVB)))
+}
+TRANSFER{
+Name(Простая номенклатура)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, parent, code, longname from WareNom where MarkDel = 0)
+Message()
+Destination(process=ADD owner= table=ware
+columns(K:ndprt(I)=^0;K:id_ware(I)=$id;id_parent(I)=$parent;last_ware(I)=^1;
+flag_ware(I)=^0;flag_made(I)=^0;comp_ware(I)=^0;code_unit(I)=^1;
+code_country(I)=^0;id_pro(I)=^0;id_ser(I)=^0;name_ware(VA,80)=$longname;
+name_ware2(VA,80);code_ware(VA,30)=$code;code_gr(VA,255);barcode(VA,30);
+marka_ware(VA,40);okdp_ware(VA,20);post_ware(VA,30);gost_ware(VA,30);
+acnt_ware(VA,10);t_tax1(I)=^0;t_tax2(I)=^0;t_tax3(I)=^0;v_tax1(DB)=^0;
+v_tax2(DB)=^0;v_tax3(DB)=^0;min_rest(DB)=^0;weight(DB)=^0;pack(DB)=^0;
+cost_ware(DB)=^0;count_ware(DB)=^0;validity(I)=^0;wdata(TS)=:data;t_info(LVA);
+pict_ware(LVB)))
+}
+TRANSFER{
+Name(Новая номенклатура)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select name from wrestn)
+Message()
+Destination(process=ADD owner= table=ware
+columns(K:ndprt(I)=^0;K:id_ware(I)=+1;id_parent(I)=^14984;last_ware(I)=^1;
+flag_ware(I)=^0;flag_made(I)=^0;comp_ware(I)=^0;code_unit(I)=^1;
+code_country(I)=^0;id_pro(I)=^0;id_ser(I)=^0;name_ware(VA,80)=$name;
+name_ware2(VA,80);code_ware(VA,30);code_gr(VA,255);barcode(VA,30);
+marka_ware(VA,40);okdp_ware(VA,20);post_ware(VA,30);gost_ware(VA,30);
+acnt_ware(VA,10);t_tax1(I)=^0;t_tax2(I)=^0;t_tax3(I)=^0;v_tax1(DB)=^0;
+v_tax2(DB)=^0;v_tax3(DB)=^0;min_rest(DB)=^0;weight(DB)=^0;pack(DB)=^0;
+cost_ware(DB)=^0;count_ware(DB)=^0;validity(I)=^0;wdata(TS)=:data;t_info(LVA);
+pict_ware(LVB)))
+}
+TRANSFER{
+Name(Цена простая)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, price from WareNom where MarkDel = 0 and price > 0)
+Message()
+Destination(process=ADD owner= table=wprice
+columns(K:ndprt(I)=^0;K:id_ware(I)=$id;K:code_tprice(I)=^1;K:code_currency(I)=^0;
+price(DB)=$price;dt_price(TS)=:data))
+}
+TRANSFER{
+Name(Цена товаров)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, price from wprice where price > 0)
+Message()
+Destination(process=ADD owner= table=wprice
+columns(K:ndprt(I)=^0;K:id_ware(I)=$id;K:code_tprice(I)=^1;K:code_currency(I)=^0;
+price(DB)=$price;dt_price(TS)=:data))
+}
+TRANSFER{
+Name(Цена товаров новых)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, price from wrestn where price > 0)
+Message()
+Destination(process=ADD owner= table=wprice
+columns(K:ndprt(I)=^0;K:id_ware(I)=$id;K:code_tprice(I)=^1;K:code_currency(I)=^0;
+price(DB)=$price;dt_price(TS)=:data))
+}
+TRANSFER{
+Name(Цена мин товаров)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, minprice from wareprice)
+Message()
+Destination(process=ADD owner= table=wprice
+columns(K:ndprt(I)=^0;K:id_ware(I)=$id;K:code_tprice(I)=^1;K:code_currency(I)=^0;
+price(DB)=$minprice;dt_price(TS)=:data))
+}
+TRANSFER{
+Name(Цена закуп товаров)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, zakup from wareprice)
+Message()
+Destination(process=ADD owner= table=wprice
+columns(K:ndprt(I)=^0;K:id_ware(I)=$id;K:code_tprice(I)=^5;K:code_currency(I)=^0;
+price(DB)=$zakup;dt_price(TS)=:data))
+}
+TRANSFER{
+Name(Цена опт товаров)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, opt from wareprice)
+Message()
+Destination(process=ADD owner= table=wprice
+columns(K:ndprt(I)=^0;K:id_ware(I)=$id;K:code_tprice(I)=^2;K:code_currency(I)=^0;
+price(DB)=$opt;dt_price(TS)=:data))
+}
+TRANSFER{
+Name(Карточки товаров)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, sklad, rest from wrest where rest > 0)
+Message()
+Destination(process=ADD owner= table=cardware
+columns(K:numref(I)=^0;K:nyear(I)=:nyear;K:sklad(I)=$sklad;K:ndprt(I)=^0;
+K:id_ware(I)=$id;rest_card(DB)=$rest;reserv_card(DB)=^0))
+}
+TRANSFER{
+Name(Спецификация карточек товаров)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select r.id, r.sklad, r.rest, p.price from wrest r left join wprice p on r.id = p.id where r.rest > 0)
+Message()
+Destination(process=ADD owner= table=card_spc
+columns(K:numref(I)=^0;K:nyear(I)=:nyear;K:sklad(I)=$sklad;K:ndprt(I)=^0;
+K:id_ware(I)=$id;K:npp_card(I)=^1;cli_ndprt(I)=^0;numb_client(I)=^0;
+sds_numref(I)=^0;sds_nyear(I)=^0;sds_ndprt(I)=^0;type_sd(I)=^0;autokey_sd(I)=^0;
+npp_spc(I)=^0;sot(I)=^0;stel(I)=^0;code_currency(I)=^0;cur_code_currency(I)=^0;
+skl_m(I)=^0;npp_m(I)=^0;date_card(TS)=:data;datr_card(TS)=:data;typ_card(I)=^0;
+q_in_card(DB)=$rest;q_out_card(DB)=^0;in_rest_card(DB)=$rest;
+price_card(DB)=$price;cprice_card(DB)=$price;vtax1(DB)=^0;vtax2(DB)=^0;
+vtax3(DB)=^0;ttax1(I)=^0;ttax2(I)=^0;ttax3(I)=^0))
+}
+TRANSFER{
+Name(Карточки товаров новые)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, sklad, rest from wrestn where rest > 0)
+Message()
+Destination(process=ADD owner= table=cardware
+columns(K:numref(I)=^0;K:nyear(I)=:nyear;K:sklad(I)=$sklad;K:ndprt(I)=^0;
+K:id_ware(I)=$id;rest_card(DB)=$rest;reserv_card(DB)=^0))
+}
+TRANSFER{
+Name(Спецификация карточек товаров новые)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, price, sklad, rest from wrestn where rest > 0)
+Message()
+Destination(process=ADD owner= table=card_spc
+columns(K:numref(I)=^0;K:nyear(I)=:nyear;K:sklad(I)=$sklad;K:ndprt(I)=^0;
+K:id_ware(I)=$id;K:npp_card(I)=^1;cli_ndprt(I)=^0;numb_client(I)=^0;
+sds_numref(I)=^0;sds_nyear(I)=^0;sds_ndprt(I)=^0;type_sd(I)=^0;autokey_sd(I)=^0;
+npp_spc(I)=^0;sot(I)=^0;stel(I)=^0;code_currency(I)=^0;cur_code_currency(I)=^0;
+skl_m(I)=^0;npp_m(I)=^0;date_card(TS)=:data;datr_card(TS)=:data;typ_card(I)=^0;
+q_in_card(DB)=$rest;q_out_card(DB)=^0;in_rest_card(DB)=$rest;
+price_card(DB)=$price;cprice_card(DB)=$price;vtax1(DB)=^0;vtax2(DB)=^0;
+vtax3(DB)=^0;ttax1(I)=^0;ttax2(I)=^0;ttax3(I)=^0))
+}
+TRANSFER{
+Name(Спецификация карточек товаров1)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select s.id, s.price, r.sklad, r.rest from warecardspec1 s, warerest r where s.ID = r.ID and r.rest > 0 and r.sklad = 1)
+Message()
+Destination(process=ADD owner= table=card_spc
+columns(K:numref(I)=^0;K:nyear(I)=:nyear;K:sklad(I)=$sklad;K:ndprt(I)=^0;
+K:id_ware(I)=$id;K:npp_card(I)=^1;cli_ndprt(I)=^0;numb_client(I)=^0;
+sds_numref(I)=^0;sds_nyear(I)=^0;sds_ndprt(I)=^0;type_sd(I)=^0;autokey_sd(I)=^0;
+npp_spc(I)=^0;sot(I)=^0;stel(I)=^0;code_currency(I)=^0;cur_code_currency(I)=^0;
+skl_m(I)=^0;npp_m(I)=^0;date_card(TS)=:data;datr_card(TS)=:data;typ_card(I)=^0;
+q_in_card(DB)=$rest;q_out_card(DB)=^0;in_rest_card(DB)=$rest;
+price_card(DB)=$price;cprice_card(DB)=$price;vtax1(DB)=^0;vtax2(DB)=^0;
+vtax3(DB)=^0;ttax1(I)=^0;ttax2(I)=^0;ttax3(I)=^0))
+}
+TRANSFER{
+Name(Спецификация карточек товаров2)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select s.id, s.price, r.sklad, r.rest from warecardspec2 s, warerest r where s.ID = r.ID and r.rest > 0 and r.sklad = 3)
+Message()
+Destination(process=ADD owner= table=card_spc
+columns(K:numref(I)=^0;K:nyear(I)=:nyear;K:sklad(I)=$sklad;K:ndprt(I)=^0;
+K:id_ware(I)=$id;K:npp_card(I)=^1;cli_ndprt(I)=^0;numb_client(I)=^0;
+sds_numref(I)=^0;sds_nyear(I)=^0;sds_ndprt(I)=^0;type_sd(I)=^0;autokey_sd(I)=^0;
+npp_spc(I)=^0;sot(I)=^0;stel(I)=^0;code_currency(I)=^0;cur_code_currency(I)=^0;
+skl_m(I)=^0;npp_m(I)=^0;date_card(TS)=:data;datr_card(TS)=:data;typ_card(I)=^0;
+q_in_card(DB)=$rest;q_out_card(DB)=^0;in_rest_card(DB)=$rest;
+price_card(DB)=$price;cprice_card(DB)=$price;vtax1(DB)=^0;vtax2(DB)=^0;
+vtax3(DB)=^0;ttax1(I)=^0;ttax2(I)=^0;ttax3(I)=^0))
+}
+TRANSFER{
+Name(Платежный баланс общий)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, saldo from balance)
+Message()
+Destination(process=ADD owner= table=balance
+columns(K:numref(I)=^0;K:nyear(I)=:nyear;K:ndprt(I)=^0;K:numb_client(I)=$id;
+K:code_currency(I)=^0;saldo(DB)=$saldo;balance(DB)=$saldo;limit(DB)=^0;
+date_limit(TS)=:data;data_lmod(TS)=:data))
+}
+TRANSFER{
+Name(Платежный баланс поставщиков)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, saldo from balpost where saldo <> 0)
+Message()
+Destination(process=ADD owner= table=balance
+columns(K:numref(I)=^0;K:nyear(I)=:nyear;K:ndprt(I)=^0;K:numb_client(I)=$id;
+K:code_currency(I)=^0;saldo(DB)=$saldo;balance(DB)=$saldo;limit(DB)=^0;
+date_limit(TS)=:data;data_lmod(TS)=:data))
+}
+TRANSFER{
+Name(Платежный баланс покупателей)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, saldo from balpok where saldo <> 0)
+Message()
+Destination(process=ADD owner= table=balance
+columns(K:numref(I)=^0;K:nyear(I)=:nyear;K:ndprt(I)=^0;K:numb_client(I)=$id;
+K:code_currency(I)=^0;saldo(DB)=$saldo;balance(DB)=$saldo;limit(DB)=^0;
+date_limit(TS)=:data;data_lmod(TS)=:data))
+}
+TRANSFER{
+Name(Подразделения - группы)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, parent, code, name from SotrGroup where parent = 0 and MarkDel = 0)
+Message()
+Destination(process=ADD owner= table=SUBDIV
+columns(K:subdiv(I)=$id;psubdiv(I)=$parent;lsubdiv(I)=^0;code_subdiv(VA,30)=$code;name_subdiv(VA,40)=$name;grsubdiv(VA,100)))
+}
+TRANSFER{
+Name(Подразделения - список)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, parent, code, name from SotrGroup where parent <> 0 and MarkDel = 0)
+Message()
+Destination(process=ADD owner= table=SUBDIV
+columns(K:subdiv(I)=$id;psubdiv(I)=$parent;lsubdiv(I)=^1;code_subdiv(VA,30)=$code;name_subdiv(VA,40)=$name;grsubdiv(VA,100)))
+}
+TRANSFER{
+Name(Персонал)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id, parent, code, name from SotrList where name is not null and MarkDel = 0)
+Message()
+Destination(process=ADD owner= table=PERSONAL
+columns(K:ndprt(I)=^0;K:code_pers(I)=$id;subdiv(I)=$parent;code_position(I)=^0;
+code_prof(I)=^0;code_ctg(I)=^0;code_pkind(I)=^0;code_work(I)=^0;code_rate(I)=^0;
+code_town(I)=^0;code_sector(I)=^0;dis_pers(I)=^0;fem_pers(I)=^0;
+tn_pers(VA,20)=$code;fam_pers(VA,20)=$name;name_pers(VA,20);sname_pers(VA,20);
+nationality(VA,20);place_pers(VA,40);data_born(TS)=:data;data_post(TS)=:data;
+data_stage(TS)=:data;data_dis(TS)=:data;nstage(I)=^0;st_pers(N,12,2)=^0;
+bank_card(VA,20);education(VA,80);okpdtr(VA,10);spec_pers(VA,40);okso(VA,10);
+qualification(VA,40);diploma(VA,10);datadip(TS)=:data;degree(VA,40);
+isfamily(I)=^0;inn_pers(VA,20);nstrah(VA,20);nmedstr(VA,20);doc_pers(VA,2)=^00;
+ser_pasp(VA,10);nom_pasp(VA,10);vip_pasp(VA,80);data_pasp(TS)=:data;
+prop_addr(VA,80);home_addr(VA,80);home_tel(VA,20);group_war(VA,30);
+kateg_war(VA,30);sost_war(VA,30);range_war(VA,30);spec_war(VA,30);
+appl_war(I)=^0;psd(N,17,2)=^0;psnn(N,17,2)=^0;ppn(N,17,2)=^0;prim_pers(VA,255);
+photo_pers(LVA);citizenship(N,2,0)=^0;disability(N,2)=^0;dadocs(VA,10);
+dadocn(VA,10);dadocd(TS)=:data;cell_tel(VA,20);work_tel(VA,20);num_flat(I)=^0;
+s_total(N,10,2)=^0;s_heat(N,10,2)=^0;n_svid(VA,20);data_svid(TS)=:data;
+privilege(N,10,2)=^0;code_loc(I)=^0;code_boss(I)=^0;login_pers(VA,30);
+ndog_pers(VA,10);wbook_ser(VA,10);wbook_num(VA,10);email_pers(VA,80);
+skype_pers(VA,30);icq_pers(VA,30)))
+}

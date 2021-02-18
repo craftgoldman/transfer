@@ -1,0 +1,34 @@
+// Transactions
+PARAMETERS{
+}
+CONNECT{
+Source(DSN=In;UID=;PWD=)
+Destination(DSN=Out;UID=;PWD=)
+}
+TRANSFER{
+Name(Currency)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select distinct currency from transactions)
+Message()
+Destination(process=CREATE table=curr
+columns(K:id_cur(I)=+1;cur_name(VA,3)=$currency))
+}
+TRANSFER{
+Name(Transactions)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select * from transactions)
+Message($date_trans :: $place :: $amount)
+Destination(process=CREATE table=trans
+columns(K:id(I)=$id_trans;date_tr(D)=$date_trans;doc_num(VA,50)=$doc_number;
+details(VA,50)=$details;place(VA,20)=$place;
+id_cur(I)=%SQLGetVal(id_cur, curr, cur_name=$currency);
+orig(DC,10,2)=$orig_amount;amount(DC,10,2)=$amount;date_op(D)=$date_oper;
+balance(DC,10,2)=%SQLSumVal(amount, trans, )))
+TabCommands(
+OnEnd(insert into trans (id, date_tr, doc_num, details, 
+place, id_cur, orig, amount, date_op, balance)
+select max(id)+1, '01/01/03', '', '', '', 0, 0, 0, 
+'01/01/03', sum(amount) from trans))
+}

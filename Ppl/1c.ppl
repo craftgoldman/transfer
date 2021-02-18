@@ -1,0 +1,41 @@
+// Конвертация из 1С
+PARAMETERS{
+}
+CONNECT{
+Source(DSN=1c;UID=;PWD=)
+Destination(DSN=OraSrv;UID=compas;PWD=base)
+}
+TRANSFER{
+Name(Группы ОФ)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select trim(code) id, trim(descr) name from sc4124 where len(trim(code)) <= 2)
+Message()
+Destination(process=ADD table=groupof
+columns(K:code_group(I)=$id;name_group(VA,80)=$name))
+TabCommands(
+OnEnd(update groupof set name_group=rtrim(name_group)))
+}
+TRANSFER{
+Name(Виды ОФ)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select left(rtrim(code), len(trim(code))-2) cgrp, rtrim(code) shifr, rtrim(descr) name from sc4124 where sp4125=0 and len(trim(code))>2 and len(trim(code))<=4)
+Message()
+Destination(process=ADD table=bsmnorm
+columns(K:code_group(I)=$cgrp;K:shifr(VA,6)=$shifr;shprnt(VA,6)=^0;lnorm(I)=^0;
+name_shifr(VA,80)=$name;norma(N,10,2)=^0))
+TabCommands(
+OnEnd(update bsmnorm set shifr=rtrim(shifr), 
+shprnt=rtrim(shprnt), name_shifr=rtrim(name_shifr)))
+}
+TRANSFER{
+Name(Нормы амортизации ОФ)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select left(rtrim(code), len(trim(code))-4) cgrp, left(rtrim(code), len(trim(code))-2) prnt, rtrim(code) shifr, rtrim(descr) name, sp4125 from sc4124 where len(trim(code))>4)
+Message()
+Destination(process=ADD table=bsmnorm
+columns(K:code_group(I)=$cgrp;K:shifr(VA,6)=$shifr;shprnt(VA,6)=$prnt;lnorm(I)=^1;
+name_shifr(VA,80)=$name;norma(N,10,2)=$sp4125))
+}

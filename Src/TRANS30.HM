@@ -1,0 +1,17 @@
+HID_TRANS_OPTIONS                       0x18002
+HID_TRANSFER                            0x18003
+HID_EXPORT                              0x18004
+HID_IMPORT                              0x18005
+HID_PROFILE                             0x18006
+HID_DATA_ADD                            0x18016
+HID_DATA_RETRIEVE                       0x18017
+HID_DATA_SAVE                           0x18018
+HID_DATA_EDIT                           0x18019
+HID_DATA_DELETE                         0x1801A
+HID_DATA_FIRST                          0x1801B
+HID_DATA_PREV                           0x1801C
+HID_DATA_NEXT                           0x1801D
+HID_DATA_LAST                           0x1801E
+HID_DATA_CLOSE                          0x1801F
+HID_START_EXCHANGE                      0x18035
+HID_STOP_EXCHANGE                       0x18036

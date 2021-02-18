@@ -1,0 +1,183 @@
+// Конвертация из BEST4
+PARAMETERS{
+}
+CONNECT{
+Source(DSN=Best4;UID=;PWD=)
+Destination(DSN=OraSrv;UID=compas;PWD=base)
+}
+TRANSFER{
+Name(Склады)
+Schema(COLUMNS)
+Source(select id, shortname from msclad)
+Message()
+Destination(process=REPLACE table=SKLAD
+columns(K:sklad(I)=$id;ndprt(I)=^0;name_skl(VA,80)=$shortname))
+}
+TRANSFER{
+Name(Отделения)
+Schema(COLUMNS)
+Source(select id, shortname from struct)
+Message()
+Destination(process=REPLACE table=DEPART
+columns(K:ndprt(I)=$id;namedprt(VA,40)=$shortname))
+}
+TRANSFER{
+Name(Единицы измерения)
+Schema(COLUMNS)
+Source(select id, name from unit)
+Message()
+Destination(process=REPLACE table=UNIT
+columns(K:code_unit(I)=$id;unit(VA,10)=$name;name_unit(VA,80)=$name))
+}
+TRANSFER{
+Name(Страны)
+Schema(COLUMNS)
+Source(select id, name from country)
+Message()
+Destination(process=REPLACE table=COUNTRY
+columns(K:code_country(I)=$id;country(VA,50)=$name))
+}
+TRANSFER{
+Name(Сертификаты)
+Schema(COLUMNS)
+Source(select id, regn, org, ddata from sertif)
+Message()
+Destination(process=ADD table=SERTIFICATE
+columns(K:id_ser(I)=$id;num_ser(I)=^0;reg_ser(VA,30)=$regn;data_ser(TS)=$ddata;
+org_ser(VA,100)=$org;name_ser(VA,100);prod_ser(VA,100)))
+}
+TRANSFER{
+Name(Группы товаров)
+Schema(COLUMNS)
+Source(select id, code, name, nds from mgrup)
+Message()
+Destination(process=ADD table=WARE
+columns(K:ndprt(I)=^0;K:id_ware(I)=$id;code_unit(I)=^0;code_country(I)=^0;id_pro(I)=^0;
+id_ser(I)=^0;id_parent(I)=^0;last_ware(I)=^0;comp_ware(I)=^0;flag_ware(I)=^0;
+flag_made(I)=^0;code_ware(VA,30)=$code;code_gr(VA,25);name_ware(VA,80)=$name;
+post_ware(VA,30);okdp_ware(VA,20);marka_ware(VA,40);gost_ware(VA,40);
+barcode(VA,30);name_ware2(VA,80);acnt_ware(VA,10);weight(I);pack(I)=^0;
+t_tax1(I)=^0;t_tax2(I)=^0;t_tax3(I)=^0;v_tax1(N,10,2)=^0;v_tax2(N,10,2)=$nds;
+v_tax3(N,10,2)=^0;t_info(LVA)))
+}
+TRANSFER{
+Name(Товары)
+Schema(COLUMNS)
+Source(select idw,idp,id_unit,id_country,id_sertif,code,name,post,pack,tax2,data 
+from ware)
+Message()
+Destination(process=ADD table=WARE
+columns(K:ndprt(I)=^0;K:id_ware(I)=$idw;code_unit(I)=$id_unit;
+code_country(I)=$id_country;id_pro(I)=^0;id_ser(I)=$id_sertif;id_parent(I)=$idp;
+last_ware(I)=^1;comp_ware(I)=^0;flag_ware(I)=^0;flag_made(I)=^0;
+code_ware(VA,30)=$code;code_gr(VA,25);name_ware(VA,80)=$name;post_ware(VA,30)=$post;
+okdp_ware(VA,20);marka_ware(VA,40);gost_ware(VA,40);barcode(VA,30);name_ware2(VA,80);
+acnt_ware(VA,10);weight(I);pack(I)=$pack;cost_ware(I);count_ware(I);
+t_tax1(I)=^0;t_tax2(I)=^0;t_tax3(I)=^0;v_tax1(N,10,2)=^0;v_tax2(N,10,2)=$tax2;
+v_tax3(N,10,2)=^0;wdata(TS)=$data;t_info(LVA)))
+}
+TRANSFER{
+Name(Цена1)
+Schema(COLUMNS)
+Source(select idw, price1, pdata from ware)
+Message()
+Destination(process=ADD table=WPRICE
+columns(K:ndprt(I)=^0;K:id_ware(I)=$idw;code_tprice(I)=^1;code_currency(I)=^0;
+price(N,12,2)=$price1;dt_price(TS)=$pdata))
+}
+TRANSFER{
+Name(Цена2)
+Schema(COLUMNS)
+Source(select idw, price2, pdata from ware)
+Message()
+Destination(process=ADD table=WPRICE
+columns(K:ndprt(I)=^0;K:id_ware(I)=$idw;code_tprice(I)=^2;code_currency(I)=^0;
+price(N,12,2)=$price2;dt_price(TS)=$pdata))
+}
+TRANSFER{
+Name(Цена3)
+Schema(COLUMNS)
+Source(select idw, price3, pdata from ware)
+Message()
+Destination(process=ADD table=WPRICE
+columns(K:ndprt(I)=^0;K:id_ware(I)=$idw;code_tprice(I)=^3;code_currency(I)=^0;
+price(N,12,2)=$price3;dt_price(TS)=$pdata))
+}
+TRANSFER{
+Name(Подразделения)
+Schema(COLUMNS)
+Source(select id, code, shortname from struct)
+Message()
+Destination(process=REPLACE table=SUBDIV
+columns(K:subdiv(I)=$id;psubdiv(I)=^0;lsubdiv(I)=^1;name_subdiv(VA,40)=$shortname;
+grsubdiv(VA,100)=$code))
+}
+TRANSFER{
+Name(Персонал)
+Schema(COLUMNS)
+Source(select id, idp, code, shortname, name1, name2, data from people)
+Message()
+Destination(process=ADD table=PERSONAL
+columns(K:ndprt(I)=$idp;K:code_pers(I)=$id;subdiv(I)=$idp;code_position(I)=^0;
+code_prof(I)=^0;code_ctg(I)=^0;code_pkind(I)=^0;code_work(I)=^0;code_town(I)=^0;
+code_sector(I)=^0;dis_pers(I)=^0;fem_pers(I)=^0;tn_pers(VA,20)=$code;
+fam_pers(VA,20)=$shortname;name_pers(VA,20)=$name1;sname_pers(VA,20)=$name2;
+nationality(VA,20);place_pers(VA,40);data_born(TS)=$data;data_post(TS)=$data;
+data_stage(TS)=$data;data_dis(TS)=$data;nstage(I)=^0;st_pers(N,12,2)=^0;
+bank_card(VA,20);education(VA,80);okpdtr(VA,10);spec_pers(VA,40);okso(VA,10);
+qualification(VA,40);diploma(VA,10);datadip(TS)=$data;degree(VA,40);
+isfamily(I)=^0;inn_pers(VA,20);nstrah(VA,20);nmedstr(VA,20);doc_pers(VA,2)=^00;
+ser_pasp(VA,10);nom_pasp(VA,10);vip_pasp(VA,80);data_pasp(TS)=$data;
+prop_addr(VA,80);home_addr(VA,80);home_tel(VA,20);group_war(VA,30);
+kateg_war(VA,30);sost_war(VA,30);range_war(VA,30);spec_war(VA,30);
+appl_war(I)=^0;code_rate(I)=^0;psd(N,17,2)=^0;psnn(N,17,2)=^0;ppn(N,17,2)=^0;
+prim_pers(VA,255);photo_pers(LVA)))
+}
+TRANSFER{
+Name(Клиенты)
+Schema(COLUMNS)
+Source(select id, shortname, code_pr, adress, telefon1, telefon2 from partner)
+Message()
+Destination(process=ADD table=CLIENT
+columns(K:ndprt(I)=^0;K:numb_client(I)=$id;code_branch(I)=^0;t_plant(I)=^0;
+t_client(I)=^0;per_ndprt(I)=^0;code_pers(I)=^0;code_town(I)=^0;
+code_sector(I)=^0;code_country(I)=^0;rgn(I)=^0;prnt_client(I)=^0;
+last_client(I)=^1;name_client(VA,80)=$shortname;addr_client(VA,80)=$adress;
+note1(VA,80);note2(VA,80);inn_client(VA,15)=$code_pr;okpo_client(VA,10);
+okonh_client(VA,10);tel_client(VA,20);fax_client(VA,20);count_client(N,10,2)=^0;
+disc_client(N,10,2)=^0;fhide(I)=^0;fbad(I)=^0))
+}
+TRANSFER{
+Name(Банки)
+Schema(COLUMNS)
+Source(select id, rschet, bnkkod, bank, code_uh, recvizit from partner where rschet is not null)
+Message()
+Destination(process=ADD table=CLBANK
+columns(K:ndprt=^0;K:numb_client=$id;acnt(VA,20)=$rschet;bik_bank(VA,9)=$bnkkod;
+corr_account(VA,20);ku_bank(VA,5)=$code_uh;name_bank(VA,80)=$bank;
+addr_bank(VA,80);note(VA,80)=$recvizit))
+}
+TRANSFER{
+Name(Карточки товаров)
+Schema(COLUMNS)
+Source(select idw, skl, rest from cardware)
+Message()
+Destination(process=ADD table=CARDWARE
+columns(K:numref(I)=^0;K:year(I)=^2002;K:sklad(I)=$skl;K:ndprt(I)=^0;K:id_ware(I)=$idw;
+rest_card(N,12,3)=$rest;reserv_card(N,12,3)=^0))
+}
+TRANSFER{
+Name(Спецификации карточек товаров)
+Schema(COLUMNS)
+Source(select idw, skl, rest, cost, data from cardware)
+Message()
+Destination(process=ADD table=CARD_SPC
+columns(K:numref(I)=^0;K:year(I)=^2002;K:sklad(I)=$skl;K:ndprt(I)=^0;K:id_ware(I)=$idw;
+K:npp_card(I)=^1;cli_ndprt(I)=^0;numb_client(I)=^0;sds_numref(I)=^0;
+sds_year(I)=^0;sds_ndprt(I)=^0;type_sd(I)=^0;autokey_sd(I)=^0;npp_spc(I)=^0;
+stel(I)=^0;sot(I)=^0;code_currency(I)=^0;cur_code_currency(I)=^0;skl_m(I)=^0;
+npp_m(I)=^0;date_card(TS)=$data;datr_card(TS)=$data;typ_card(I)=^0;
+q_in_card(N,12,3)=$rest;q_out_card(N,12,3)=^0;in_rest_card(N,12,3)=$rest;
+price_card(N,12,2)=$cost;cprice_card(N,12,2)=$cost;vtax1(N,12,2)=^0;ttax1(I)=^0;
+vtax2(N,12,2)=^0;ttax2(I)=^0;vtax3(N,12,2)=^0;ttax3(I)=^0))
+}

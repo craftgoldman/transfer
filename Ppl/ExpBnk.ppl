@@ -1,0 +1,18 @@
+// Экспорт платежных поручений
+PARAMETERS{
+date dat1(Дата с),date dat2(Дата по),integer ndep(Отделение),integer nref(Журнал)
+}
+CONNECT{
+Source(DSN=OraSrv;UID=compas;PWD=base)
+Destination(DSN=Out;UID=;PWD=)
+}
+TRANSFER{
+Name(Платежные поручения)
+Schema(COPY)
+Source(select   * 
+from     platdoc 
+where    ndprt = :ndep and type_pl = 201 and 
+         date_pl between :dat1 and :dat2 
+order by year,numb_plat)
+Destination(process=CREATE table=platdoc)
+}

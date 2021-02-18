@@ -1,0 +1,1284 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian (Russia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\Trn30enu.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Russian (Russia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MESSAGEDLG DIALOG 0, 0, 250, 65
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Transfer"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CTEXT           "",IDC_TEXT,7,7,236,32
+    PUSHBUTTON      "Break",IDC_BREAK,100,44,50,14,WS_DISABLED
+END
+
+IDD_PPL_CHOOSE DIALOG 0, 0, 280, 180
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Choose profile"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LISTBOX         IDC_LISTPPL,7,7,200,166,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    CONTROL         "OK",IDOK,"Button",BS_OWNERDRAW | WS_TABSTOP,218,7,55,14
+    CONTROL         "Cancel",IDCANCEL,"Button",BS_OWNERDRAW | WS_TABSTOP,218,24,55,14
+END
+
+IDD_PROGRESSDLG DIALOGEX 0, 0, 280, 85
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Transfer"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "",IDC_TEXT,7,7,266,8,NOT WS_GROUP,WS_EX_TRANSPARENT
+    CTEXT           "",IDC_SUBTEXT,7,17,266,8
+    CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",PBS_SMOOTH,7,30,266,14
+    CTEXT           "",IDC_STATUS,7,50,266,8,SS_CENTERIMAGE | NOT WS_GROUP,WS_EX_TRANSPARENT
+    PUSHBUTTON      "Break",IDC_BREAK,115,64,50,14,WS_DISABLED
+END
+
+IDD_TRN_PARM DIALOG 0, 0, 325, 140
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Parameters"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "",IDC_PARM_LIST,"MFCGridCtrl",WS_BORDER | WS_TABSTOP,7,7,250,126
+    CONTROL         "OK",IDOK,"Button",BS_OWNERDRAW | WS_TABSTOP,263,7,55,14
+    CONTROL         "Cancel",IDCANCEL,"Button",BS_OWNERDRAW | WS_TABSTOP,263,24,55,14
+    CONTROL         "Insert",IDC_INSERT,"Button",BS_OWNERDRAW | WS_TABSTOP,263,77,55,14
+    CONTROL         "Delete",IDC_DELETE,"Button",BS_OWNERDRAW | WS_TABSTOP,263,94,55,14
+    CONTROL         "Add",IDC_ADD,"Button",BS_OWNERDRAW | WS_TABSTOP,263,60,55,14
+END
+
+IDD_TRN_START DIALOG 0, 0, 280, 225
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Transfer data"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Parameters:",IDC_STATIC,7,7,100,10,SS_CENTERIMAGE
+    CONTROL         "",IDC_PARM_LIST,"MFCGridCtrl",WS_BORDER | WS_TABSTOP,7,20,200,50
+    LTEXT           "Transfer list:",IDC_STATIC,7,75,100,8
+    LISTBOX         IDC_LIST_TRN,7,87,200,131,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    CONTROL         "OK",IDOK,"Button",BS_OWNERDRAW | WS_TABSTOP,218,20,55,14
+    CONTROL         "Cancel",IDCANCEL,"Button",BS_OWNERDRAW | WS_TABSTOP,218,38,55,14
+    PUSHBUTTON      "Check all",IDC_SELECTALL,218,87,55,14
+    PUSHBUTTON      "Uncheck all",IDC_DESELECT,218,105,55,14
+END
+
+IDD_TRN_TABLECMD DIALOGEX 0, 0, 330, 241
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_TABLE_CMD,"MFCGridCtrl",WS_BORDER | WS_TABSTOP,7,25,316,209
+    PUSHBUTTON      "Insert",IDC_INSERT,229,7,45,14,0,WS_EX_STATICEDGE
+    PUSHBUTTON      "Delete",IDC_DELETE,278,7,45,14,0,WS_EX_STATICEDGE
+    LTEXT           "Table of commands:",IDC_STATIC,7,7,100,16,SS_CENTERIMAGE
+    PUSHBUTTON      "Add",IDC_ADD,180,7,45,14,0,WS_EX_STATICEDGE
+END
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 240, 190
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About Transfer"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDP_TLOGO,7,7,20,20
+    LTEXT           "TRANSFER Version 3.3.1              Data exchange program.",IDC_STATIC,40,7,193,8,SS_NOPREFIX
+    DEFPUSHBUTTON   "OK",IDOK,183,169,50,14,WS_GROUP
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKRECT | SS_SUNKEN,7,160,226,1
+    LTEXT           "WARNING: This program is protected by copiright law \nand international treaties.",IDC_STATIC,40,105,193,17
+    LTEXT           "Unauthorized reproduction or distribution of this program, \nor any portion of it, may result in severe civil and criminal \npenalties.",IDC_STATIC,40,130,193,24
+    CONTROL         "Show the dialog on startup",IDC_SHOWDLG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,7,170,100,10
+    LTEXT           "http://craftsystem.ai",IDC_TRN_WEBLINK,135,20,90,8,0,WS_EX_RIGHT
+    LTEXT           "License information:",IDC_STATIC,40,48,193,8
+    CONTROL         "Animate1",IDC_GLOBE_ANI,"SysAnimate32",ACS_TRANSPARENT | ACS_AUTOPLAY,7,81,20,20
+    EDITTEXT        IDC_REGISTRATION,40,60,193,38,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_STATICEDGE
+    LTEXT           "© Dmitry Golubev 2000 - 2012",IDC_STATIC,40,20,90,8
+    LTEXT           "All rights reserved.",IDC_STATIC,40,32,90,8
+END
+
+IDD_TRN_OPTIONS DIALOGEX 0, 0, 210, 150
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_CAPTION
+CAPTION "  General  "
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Profiles directory",IDC_DIRPPL_T,7,9,66,8
+    EDITTEXT        IDC_DIRPPL,90,7,113,12,ES_AUTOHSCROLL
+    LTEXT           "Log file directory",IDC_DIRLOG_T,7,23,52,8
+    EDITTEXT        IDC_DIRLOG,90,21,113,12,ES_AUTOHSCROLL
+    LTEXT           "Log file name",IDC_FILELOG_T,7,37,66,8
+    EDITTEXT        IDC_FILELOG,90,35,113,12,ES_AUTOHSCROLL
+    LTEXT           "Message directory",IDC_DIRMSG_T,7,51,80,8
+    EDITTEXT        IDC_DIRMSG,90,49,113,12,ES_AUTOHSCROLL
+    LTEXT           "Message file name",IDC_FILEMSG_T,7,65,80,8
+    EDITTEXT        IDC_FILEMSG,90,63,113,12,ES_AUTOHSCROLL
+    CONTROL         "Import profile",IDC_USEIMP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,82,80,8
+    COMBOBOX        IDC_PPLIMP,90,80,113,40,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "",IDC_PPLIMP_N,7,97,196,12,0,WS_EX_STATICEDGE
+    CONTROL         "Export profile",IDC_USEEXP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,115,80,8
+    COMBOBOX        IDC_PPLEXP,90,113,113,40,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "",IDC_PPLEXP_N,7,130,196,12,0,WS_EX_STATICEDGE
+END
+
+IDD_TRN_EXCHANGE DIALOG 0, 0, 210, 150
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_CAPTION
+CAPTION "  Exchange  "
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Department flag",IDC_DEPART_T,7,7,65,8
+    COMBOBOX        IDC_DEPART,73,7,65,35,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CTEXT           "Exchange     \ninterval, min  ",IDC_EXCTIME_T,7,22,65,16
+    EDITTEXT        IDC_EXCTIME,73,24,30,12,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
+    CTEXT           "Interrogate    \ninterval, sec  ",IDC_INTTIME_T,115,22,55,16
+    EDITTEXT        IDC_INTTIME,173,24,30,12,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Import file path",IDC_FILEIMP_T,7,43,65,8
+    EDITTEXT        IDC_FILEIMP,73,41,130,12,ES_AUTOHSCROLL
+    LTEXT           "Export file path",IDC_FILEEXP_T,7,58,65,8
+    EDITTEXT        IDC_FILEEXP,73,56,130,12,ES_AUTOHSCROLL
+    LTEXT           "Empty data file",IDC_FILEEMP_T,7,73,65,8
+    EDITTEXT        IDC_FILEEMP,73,71,130,12,ES_AUTOHSCROLL
+    LTEXT           "Send directory",IDC_DIRPUT_T,7,88,65,8
+    EDITTEXT        IDC_DIRPUT,73,86,130,12,ES_AUTOHSCROLL
+    LTEXT           "Receive directory",IDC_DIRGET_T,7,103,65,8
+    EDITTEXT        IDC_DIRGET,73,101,130,12,ES_AUTOHSCROLL
+    LTEXT           "Archive name",IDC_NAMEARC_T,7,118,65,8
+    EDITTEXT        IDC_NAMEARC,73,116,130,12,ES_AUTOHSCROLL
+END
+
+IDD_TRN_PROCESS DIALOG 0, 0, 210, 150
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_CAPTION
+CAPTION "  Processing  "
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "Default data types",IDC_DEFTYPE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,196,10
+    CONTROL         "Autostart of data exchange",IDC_AUTOEXC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,22,196,10
+    CONTROL         "Delete log file on start",IDC_DELFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,37,196,10
+    CONTROL         "Write operations to a log file",IDC_WRITEOPR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,52,103,10
+    CONTROL         "Write import results to a message file",IDC_WRITEMSG,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,67,196,10
+    CONTROL         "Show messages on a screen",IDC_SHOWERR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,82,196,10
+    CONTROL         "Trace SQL operators",IDC_TRACEOPR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,97,196,10
+    CONTROL         "Trace SQL commands",IDC_TRACECMD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,112,196,10
+    CONTROL         "Trace SQL selects",1138,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,127,196,10
+END
+
+IDD_TRN_INTERFACE DIALOG 0, 0, 210, 150
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_CAPTION
+CAPTION "  Interface  "
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Language",IDC_STATIC,7,9,35,8
+    COMBOBOX        IDC_LANGID,45,7,100,55,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Show about dialog on startup",IDC_SPLASHW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,30,196,10
+    CONTROL         "Minimize on start application",IDC_MINIMIZE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,45,196,10
+    CONTROL         "Minimize to the system Tray",IDC_SYSTRAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,60,196,10
+    CONTROL         "Save main window position",IDC_SAVEPOS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,75,196,10
+    CONTROL         "Save MDI windows position",IDC_SAVEMDI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,90,196,10
+    CONTROL         "Maximize MDI windows",IDC_MAXIMDI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,105,196,10
+END
+
+IDD_CARDPPL_FORM DIALOGEX 0, 0, 359, 204
+STYLE DS_SETFONT | WS_CHILD | WS_BORDER
+EXSTYLE WS_EX_CLIENTEDGE
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "File:",IDC_STATIC,7,7,45,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_PPL_FILE,55,7,120,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_EDIT_FILE,180,7,25,12
+    CTEXT           "Type:",1195,210,7,20,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_PPL_KIND,232,7,55,40,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Name:",IDC_STATIC,7,23,45,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_PPL_NAME,55,23,232,12,ES_AUTOHSCROLL
+    LTEXT           "Parameters:",IDC_STATIC,7,40,45,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_PPL_PARM,55,40,200,12,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "...",IDC_EDIT_PARM,262,40,25,12
+    LTEXT           "Source:",IDC_STATIC,7,55,45,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_PPL_SRC,55,55,70,60,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CTEXT           "UID:",1196,127,55,20,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_PPL_SRC_UID,150,55,55,12,ES_AUTOHSCROLL
+    CTEXT           "PWD:",1198,210,55,20,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_PPL_SRC_PWD,232,55,55,12,ES_AUTOHSCROLL
+    LTEXT           "Destination:",IDC_STATIC,7,70,45,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_PPL_DST,55,70,70,60,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CTEXT           "UID:",1197,127,70,20,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_PPL_DST_UID,150,70,55,12,ES_AUTOHSCROLL
+    CTEXT           "PWD:",1199,210,70,20,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_PPL_DST_PWD,232,70,55,12,ES_AUTOHSCROLL
+    CONTROL         "List1",IDC_PPL_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_TABSTOP,7,87,280,110,WS_EX_CLIENTEDGE
+    CONTROL         "OK",IDC_OK,"Button",BS_OWNERDRAW | WS_TABSTOP,297,7,55,14
+    CONTROL         "Save",IDC_SAVE,"Button",BS_OWNERDRAW | WS_TABSTOP,297,24,55,14
+    CONTROL         "Cancel",IDC_CANCEL,"Button",BS_OWNERDRAW | WS_TABSTOP,297,41,55,14
+    CONTROL         "Add",IDC_ADD,"Button",BS_OWNERDRAW | WS_TABSTOP,297,88,55,14
+    CONTROL         "Insert",IDC_INSERT,"Button",BS_OWNERDRAW | WS_TABSTOP,297,105,55,14
+    CONTROL         "Edit",IDC_EDIT,"Button",BS_OWNERDRAW | WS_TABSTOP,297,123,55,14
+    CONTROL         "Delete",IDC_DELETE,"Button",BS_OWNERDRAW | WS_TABSTOP,297,140,55,14
+END
+
+IDD_TRN_GENERAL DIALOG 0, 0, 330, 242
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Source"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Name:",IDC_STATIC,7,7,200,8
+    EDITTEXT        IDC_TRNNAME,7,17,230,12,ES_AUTOHSCROLL
+    LTEXT           "Schema:",1192,243,7,80,8
+    COMBOBOX        IDC_SCHEMA,243,17,80,53,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Message string:",IDC_STATIC,7,50,90,8
+    EDITTEXT        IDC_STRMSG,7,60,316,12,ES_AUTOHSCROLL
+    LTEXT           "Source SQL Select:",IDC_STATIC,7,79,316,8
+    EDITTEXT        IDC_TAB_SQL,7,90,316,70,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+    LTEXT           "Subtable SQL Select:",1194,7,163,316,8
+    EDITTEXT        IDC_SUB_SQL,7,175,316,60,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+    RTEXT           "Transmission of text data:",1193,112,37,125,8
+    COMBOBOX        IDC_CONVERT,243,35,80,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_TRN_TABLEDEST DIALOGEX 0, 0, 330, 242
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "DB Schema:",IDC_STATIC,7,7,80,8
+    EDITTEXT        1200,7,17,80,13,ES_AUTOHSCROLL
+    LTEXT           "Table:",IDC_STATIC,100,7,100,8
+    COMBOBOX        IDC_DST_TABLE,100,17,100,81,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Process:",IDC_DST_CAPTION,213,7,110,8
+    COMBOBOX        IDC_DST_PROCESS,213,17,110,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "SQL where clause:",IDC_STATIC,7,35,170,8
+    EDITTEXT        IDC_DST_CONDITION,7,45,316,30,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+    LTEXT           "Table fields map:",IDC_STATIC,7,84,170,8
+    CONTROL         "",IDC_TABLE_MAP,"MFCGridCtrl",WS_BORDER | WS_TABSTOP,7,101,316,134
+    PUSHBUTTON      "Add",IDC_ADD,180,80,45,14,0,WS_EX_STATICEDGE
+    PUSHBUTTON      "Insert",IDC_INSERT,229,80,45,14,0,WS_EX_STATICEDGE
+    PUSHBUTTON      "Delete",IDC_DELETE,278,80,45,14,0,WS_EX_STATICEDGE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_TRN_EXCHANGE DLGINIT
+BEGIN
+    IDC_DEPART, 0x403, 7, 0
+0x6543, 0x746e, 0x7265, "\000" 
+    IDC_DEPART, 0x403, 7, 0
+0x7242, 0x6e61, 0x6863, "\000" 
+    0
+END
+
+IDD_TRN_INTERFACE DLGINIT
+BEGIN
+    IDC_LANGID, 0x403, 13, 0
+0x5552, 0x2053, 0x5220, 0x7375, 0x6973, 0x6e61, "\000" 
+    IDC_LANGID, 0x403, 20, 0
+0x4e45, 0x2055, 0x4520, 0x676e, 0x696c, 0x6873, 0x2820, 0x2e55, 0x2e53, 
+0x0029, 
+    0
+END
+
+IDD_CARDPPL_FORM DLGINIT
+BEGIN
+    IDC_PPL_KIND, 0x403, 9, 0
+0x7254, 0x6e61, 0x6673, 0x7265, "\000" 
+    IDC_PPL_KIND, 0x403, 7, 0
+0x6d49, 0x6f70, 0x7472, "\000" 
+    IDC_PPL_KIND, 0x403, 7, 0
+0x7845, 0x6f70, 0x7472, "\000" 
+    0
+END
+
+IDD_TRN_GENERAL DLGINIT
+BEGIN
+    IDC_SCHEMA, 0x403, 6, 0
+0x6154, 0x6c62, 0x0065, 
+    IDC_SCHEMA, 0x403, 5, 0
+0x6f43, 0x7970, "\000" 
+    IDC_SCHEMA, 0x403, 8, 0
+0x6f43, 0x706d, 0x656c, 0x0078, 
+    IDC_CONVERT, 0x403, 14, 0
+0x6f4e, 0x6320, 0x6e6f, 0x6576, 0x7372, 0x6f69, 0x006e, 
+    IDC_CONVERT, 0x403, 12, 0
+0x454f, 0x204d, 0x6f74, 0x4120, 0x534e, 0x0049, 
+    IDC_CONVERT, 0x403, 12, 0
+0x4e41, 0x4953, 0x7420, 0x206f, 0x454f, 0x004d, 
+    0
+END
+
+IDD_TRN_TABLEDEST DLGINIT
+BEGIN
+    IDC_DST_PROCESS, 0x403, 17, 0
+0xeed1, 0xe4e7, 0xede0, 0xe5e8, 0xf220, 0xe1e0, 0xe8eb, 0xfbf6, "\000" 
+    IDC_DST_PROCESS, 0x403, 18, 0
+0xeec4, 0xe0e1, 0xebe2, 0xede5, 0xe5e8, 0xe420, 0xede0, 0xfbed, 0x00f5, 
+
+    IDC_DST_PROCESS, 0x403, 17, 0
+0xe0c7, 0xe5ec, 0xe5f9, 0xe8ed, 0x20e5, 0xe0e4, 0xeded, 0xf5fb, "\000" 
+    IDC_DST_PROCESS, 0x403, 17, 0
+0xeecf, 0xedeb, 0xe5ee, 0xf120, 0xe0f0, 0xede2, 0xede5, 0xe5e8, "\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_MESSAGEDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 243
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 58
+    END
+
+    IDD_PPL_CHOOSE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 273
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 173
+    END
+
+    IDD_PROGRESSDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 273
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 78
+    END
+
+    IDD_TRN_PARM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 318
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 133
+    END
+
+    IDD_TRN_START, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 273
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 218
+    END
+
+    IDD_TRN_TABLECMD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 323
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 234
+    END
+
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 233
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 183
+    END
+
+    IDD_TRN_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 203
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 143
+    END
+
+    IDD_TRN_EXCHANGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 203
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 143
+    END
+
+    IDD_TRN_PROCESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 203
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 143
+    END
+
+    IDD_TRN_INTERFACE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 203
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 143
+    END
+
+    IDD_CARDPPL_FORM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 352
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 197
+    END
+
+    IDD_TRN_GENERAL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 323
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 235
+    END
+
+    IDD_TRN_TABLEDEST, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 323
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 235
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Create\tCtrl+N",             ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "Save &as...",                 ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "Print setup...",              ID_FILE_PRINT_SETUP
+        MENUITEM "Page set&up...",              ID_FILE_PAGE_SETUP
+        MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
+        MENUITEM SEPARATOR
+        MENUITEM "&Import...",                  ID_IMPORT
+        MENUITEM "&Export...",                  ID_EXPORT
+        MENUITEM "&Transfer...",                ID_TRANSFER
+        MENUITEM SEPARATOR
+        MENUITEM "Start &exchange\tCtrl+R",     ID_START_EXCHANGE
+        MENUITEM "Stop exchange\tCtrl+T",       ID_STOP_EXCHANGE
+        MENUITEM SEPARATOR
+        MENUITEM "Data P&rofiles",              ID_PROFILE
+        MENUITEM "Options...",                  ID_TRANS_OPTIONS
+        MENUITEM SEPARATOR
+        MENUITEM "&Exit\tAlt+F4",               ID_APP_EXIT
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Toolbar Main",               ID_VIEW_TOOLBAR
+        MENUITEM "Toolbar Profiles",            ID_VIEW_PROFILE_TBR
+        MENUITEM "&Status bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM SEPARATOR
+        MENUITEM "&Customize main toolbar...",  ID_CUSTOMIZE_TOOLBAR
+        MENUITEM "Customize profiles toolbar...", ID_CUSTOMIZE_PROFILE_TBR
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "Tile &Horizontally",          ID_WINDOW_TILE_HORZ
+        MENUITEM "Arrange &icons",              ID_WINDOW_ARRANGE
+    END
+    POPUP "&?"
+    BEGIN
+        MENUITEM "Help &topics\tF1",            ID_HELP_FINDER
+        MENUITEM "&What's This?\tShift-F1",     ID_CONTEXT_HELP
+        MENUITEM SEPARATOR
+        MENUITEM "&About Transfer...",          ID_APP_ABOUT
+    END
+END
+
+IDR_CHILDWND MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Create\tCtrl+N",             ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "Save &as...",                 ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "Print setup...",              ID_FILE_PRINT_SETUP
+        MENUITEM "Page set&up...",              ID_FILE_PAGE_SETUP
+        MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
+        MENUITEM SEPARATOR
+        MENUITEM "&Import...",                  ID_IMPORT
+        MENUITEM "&Export...",                  ID_EXPORT
+        MENUITEM "&Transfer...",                ID_TRANSFER
+        MENUITEM SEPARATOR
+        MENUITEM "Start &exchange\tCtrl+R",     ID_START_EXCHANGE
+        MENUITEM "Stop exchange\tCtrl+T",       ID_STOP_EXCHANGE
+        MENUITEM SEPARATOR
+        MENUITEM "Data P&rofiles",              ID_PROFILE
+        MENUITEM "Options...",                  ID_TRANS_OPTIONS
+        MENUITEM SEPARATOR
+        MENUITEM "&Exit\tAlt+F4",               ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "&Delete\tDel",                ID_EDIT_CLEAR
+        MENUITEM "Select A&ll\tCtrl+A",         ID_EDIT_SELECT_ALL
+        MENUITEM SEPARATOR
+        MENUITEM "&Find\tCtrl+F",               ID_EDIT_FIND
+        MENUITEM "R&eplace\tCtrl+H",            ID_EDIT_REPLACE
+    END
+    POPUP "&Data"
+    BEGIN
+        MENUITEM "&Add\tCtrl+Ins",              ID_DATA_ADD
+        MENUITEM "&Retrieve\tF2",               ID_DATA_RETRIEVE
+        MENUITEM "&Save\tF3",                   ID_DATA_SAVE
+        MENUITEM "&Edit\tF4",                   ID_DATA_EDIT
+        MENUITEM "&Delete\tCtrl+Del",           ID_DATA_DELETE
+        MENUITEM "&First\tCtrl+Home",           ID_DATA_FIRST
+        MENUITEM "&Previous\tCtrl+Up",          ID_DATA_PREV
+        MENUITEM "&Next\tCtrl+Down",            ID_DATA_NEXT
+        MENUITEM "&Last\tCtrl+End",             ID_DATA_LAST
+        MENUITEM SEPARATOR
+        MENUITEM "&Close\tCtrl+F4",             ID_DATA_CLOSE
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Toolbar Main",               ID_VIEW_TOOLBAR
+        MENUITEM "Toolbar Profiles",            ID_VIEW_PROFILE_TBR
+        MENUITEM "&Status bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM SEPARATOR
+        MENUITEM "&Customize main toolbar...",  ID_CUSTOMIZE_TOOLBAR
+        MENUITEM "Customize profiles toolbar...", ID_CUSTOMIZE_PROFILE_TBR
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "Tile &Horizontally",          ID_WINDOW_TILE_HORZ
+        MENUITEM "Arrange &icons",              ID_WINDOW_ARRANGE
+    END
+    POPUP "&?"
+    BEGIN
+        MENUITEM "Help &topics\tF1",            ID_HELP_FINDER
+        MENUITEM "&What's This?\tShift-F1",     ID_CONTEXT_HELP
+        MENUITEM SEPARATOR
+        MENUITEM "&About Transfer...",          ID_APP_ABOUT
+    END
+END
+
+IDR_TRAY MENU
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "Start exchange",              ID_START_EXCHANGE
+        MENUITEM "Stop exchange",               ID_STOP_EXCHANGE
+        MENUITEM SEPARATOR
+        MENUITEM "Options",                     ID_TRANS_OPTIONS
+        MENUITEM SEPARATOR
+        MENUITEM "Exit",                        ID_APP_EXIT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 3,3,1,0
+ PRODUCTVERSION 3,3,1,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x21L
+#else
+ FILEFLAGS 0x20L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "English resources"
+            VALUE "CompanyName", "Dmitry Golubev"
+            VALUE "FileDescription", "Transfer resources"
+            VALUE "FileVersion", "3.3.1.0"
+            VALUE "InternalName", "Trans33"
+            VALUE "LegalCopyright", "© Dmitry Golubev 2000-2012"
+            VALUE "LegalTrademarks", "Transfer"
+            VALUE "OriginalFilename", "Trn30enu.dll"
+            VALUE "ProductName", "Transfer"
+            VALUE "ProductVersion", "3.3.1.0"
+            VALUE "SpecialBuild", "English resources"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_SMALLPPL            BITMAP                  "res\\SmallPPL.bmp"
+IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+IDR_DATA                BITMAP                  "res\\Data.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR 16, 15
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_IMPORT
+    BUTTON      ID_EXPORT
+    BUTTON      ID_TRANSFER
+    SEPARATOR
+    BUTTON      ID_START_EXCHANGE
+    BUTTON      ID_STOP_EXCHANGE
+    SEPARATOR
+    BUTTON      ID_PROFILE
+    BUTTON      ID_TRANS_OPTIONS
+    SEPARATOR
+    BUTTON      ID_FILE_PRINT
+    BUTTON      ID_APP_ABOUT
+    BUTTON      ID_CONTEXT_HELP
+    SEPARATOR
+    BUTTON      ID_APP_EXIT
+END
+
+IDR_DATA TOOLBAR 16, 15
+BEGIN
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_DATA_ADD
+    BUTTON      ID_DATA_RETRIEVE
+    BUTTON      ID_DATA_SAVE
+    BUTTON      ID_DATA_EDIT
+    BUTTON      ID_DATA_DELETE
+    BUTTON      ID_DATA_FIRST
+    BUTTON      ID_DATA_PREV
+    BUTTON      ID_DATA_NEXT
+    BUTTON      ID_DATA_LAST
+    SEPARATOR
+    BUTTON      ID_DATA_CLOSE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\Trans30.ico"
+IDR_TEXTTYPE            ICON                    "res\\Paddoc.ico"
+IDI_CRDFILES            ICON                    "res\\Crdfiles.ico"
+IDI_CARDFILE            ICON                    "res\\Cardfile.ico"
+IDI_BSAVE               ICON                    "res\\Save.ico"
+IDI_BOK                 ICON                    "res\\Ok.ico"
+IDI_BNO                 ICON                    "res\\No.ico"
+IDI_BINSERT             ICON                    "res\\Insert.ico"
+IDI_BHELP               ICON                    "res\\Help.ico"
+IDI_BEDIT               ICON                    "res\\Edit.ico"
+IDI_BDELETE             ICON                    "res\\Delete.ico"
+IDI_BCANCEL             ICON                    "res\\Cancel.ico"
+IDI_BADD                ICON                    "res\\Add.ico"
+IDI_TRANS               ICON                    "res\\Trans.ico"
+IDI_CONVS               ICON                    "res\\Convs.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "F",            ID_EDIT_FIND,           VIRTKEY, CONTROL, NOINVERT
+    "H",            ID_EDIT_REPLACE,        VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL, NOINVERT
+    "R",            ID_START_EXCHANGE,      VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "T",            ID_STOP_EXCHANGE,       VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    VK_DELETE,      ID_DATA_DELETE,         VIRTKEY, CONTROL, NOINVERT
+    VK_DOWN,        ID_DATA_NEXT,           VIRTKEY, CONTROL, NOINVERT
+    VK_END,         ID_DATA_LAST,           VIRTKEY, CONTROL, NOINVERT
+    VK_F1,          ID_HELP_FINDER,         VIRTKEY, NOINVERT
+    VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT, NOINVERT
+    VK_F2,          ID_DATA_RETRIEVE,       VIRTKEY, NOINVERT
+    VK_F3,          ID_DATA_SAVE,           VIRTKEY, NOINVERT
+    VK_F4,          ID_DATA_EDIT,           VIRTKEY, NOINVERT
+    VK_HOME,        ID_DATA_FIRST,          VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_DATA_ADD,            VIRTKEY, CONTROL, NOINVERT
+    VK_UP,          ID_DATA_PREV,           VIRTKEY, CONTROL, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// BINARY
+//
+
+IDR_BINARY              BINARY                  "res\\binary1.bin"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDR_MAINFRAME           "Transfer"
+    IDR_TEXTTYPE            "\nNew\nText Document\nText Files (*.txt)\n.txt"
+    TAB_DSTTAB_CAPTION      " Destination "
+    TAB_SUBTAB_CAPTION      " SubTable "
+    TAB_DSTCMD_CAPTION      " Table Commands "
+    TAB_SUBCMD_CAPTION      " SubTable Commands "
+    TAB_TRNOPT_CAPTION      "Transfer options"
+    IDS_LICENSE_FILE        "Trans33.key"
+    IDS_VERSION_NUMBER      "3.3"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_APP_TITLE       "Transfer"
+    AFX_IDS_IDLEMESSAGE     "For help press F1"
+END
+
+STRINGTABLE
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_NEW             "Create new file\nCreate"
+    ID_FILE_OPEN            "Open file\nOpen"
+    ID_FILE_CLOSE           "Close file\nClose"
+    ID_FILE_SAVE            "Save file\nSave"
+    ID_FILE_SAVE_AS         "Save as\nSave as"
+    ID_FILE_PAGE_SETUP      "Page setup\nPage setup"
+    ID_FILE_PRINT_SETUP     "Print setup\nPrint setup"
+    ID_FILE_PRINT           "Print\nPrint"
+END
+
+STRINGTABLE
+BEGIN
+    ID_APP_ABOUT            "About Transfer\nAbout Transfer"
+    ID_APP_EXIT             "Exit\nExit"
+    ID_HELP_FINDER          "Help topics\nHelp topics"
+    ID_CONTEXT_HELP         "Click here for context sesitive help\nContext help"
+END
+
+STRINGTABLE
+BEGIN
+    ID_WINDOW_ARRANGE       "Arrange icons\nArrange icons"
+    ID_WINDOW_CASCADE       "Cascade\nCascade"
+    ID_WINDOW_TILE_HORZ     "Tile horizontally\nTile horizontally"
+    ID_WINDOW_TILE_VERT     "Tile vertically\nTile vertically"
+END
+
+STRINGTABLE
+BEGIN
+    ID_VIEW_TOOLBAR         "View/hide main ToolBar\nToggle main ToolBar"
+    ID_VIEW_STATUS_BAR      "View/Hide StatusBar\nToggle StatusBar"
+    IDS_MS_INIT_TRN         "Transfer initialization"
+    IDS_MS_INIT_PPL         "Profile initialization"
+    IDS_MS_INIT_PARM        "Parameters initialization"
+    IDS_MS_READ_PPL         "Reading profile"
+    IDS_MS_CONNECT          "Set up connection"
+    IDS_MS_CONN_SRC         "Connecting to source DBMS"
+    IDS_MS_CONN_DST         "Connecting to destination DBMS"
+    IDS_MS_READ_SRC_INFO    "Reading source information"
+    IDS_MS_READ_DST_INFO    "Reading destination information"
+    IDS_MS_FMT_RESULTS      "Warnings: %1!d!\nErrors: %2!d!"
+    IDS_MS_FMT_ROWS         "Row:  %1!d!  from  %2!d!"
+    IDS_MS_SUCCESS          "Successfully completed"
+END
+
+STRINGTABLE
+BEGIN
+    ID_TRANS_OPTIONS        "Transfer options\nOptions"
+    ID_TRANSFER             "Transfer\nTransfer"
+    ID_EXPORT               "Export data\nExport"
+    ID_IMPORT               "Import data\nImport"
+    ID_PROFILE              "Data profiles\nProfiles"
+    ID_TOOLBAR_FILE         "Toolbar Main"
+    ID_TOOLBAR_PROFILE      "Toolbar Profiles"
+END
+
+STRINGTABLE
+BEGIN
+    ID_DATA_ADD             "Add\nAdd"
+    ID_DATA_RETRIEVE        "Retrieve\nRetrieve"
+    ID_DATA_SAVE            "Save\nSave"
+    ID_DATA_EDIT            "Edit\nEdit"
+    ID_DATA_DELETE          "Delete\nDelete"
+    ID_DATA_FIRST           "First\nFirst"
+    ID_DATA_PREV            "Previous\nPrevious"
+    ID_DATA_NEXT            "Next\nNext"
+    ID_DATA_LAST            "Last\nLast"
+    ID_DATA_CLOSE           "Close\nClose"
+END
+
+STRINGTABLE
+BEGIN
+    ID_EDIT_CLEAR           "Delete\nDelete"
+    ID_EDIT_COPY            "Copy\nCopy"
+    ID_EDIT_CUT             "Cut\nCut"
+    ID_EDIT_FIND            "Find\nFind"
+    ID_EDIT_PASTE           "Paste\nPaste"
+    ID_EDIT_REPLACE         "Replace\nReplace"
+    ID_EDIT_SELECT_ALL      "Select all\nSelect all"
+    ID_EDIT_UNDO            "Undo\nUndo"
+END
+
+STRINGTABLE
+BEGIN
+    IDR_CARDPPLVIEW_TMPL    "\nCardPPLView\nCardPP\nCardPP Files (*.car)\n.car\nCardPPLView.Document\nCardPP Document"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MS_ERRORS           "Completed with errors!"
+    IDS_MS_VIEW_LOG         "View log file?"
+    IDS_MS_PROFILES         "Data profiles"
+    IDS_MS_BREAK            "Break process?"
+    IDS_MS_FILTER           "Transfer files (*.ppl)|*.ppl|All files (*.*)|*.*||"
+    IDS_MS_TRN_EDIT         "Transfer"
+    IDS_MS_TRN_NEW          "Transfer: New"
+    IDS_MS_NEW              ": New"
+    IDS_MS_DELETE           "Do you really want to delete?"
+    IDS_MS_SAVE             "Save changes?"
+    IDS_MS_PPL              "Profile"
+    IDS_MS_PREPARE          "Prepare to execute"
+    IDS_MS_READ_SRC         "Reading data from source"
+    IDS_MS_READ_DST         "Reading data from destination"
+    IDS_MS_PROCESS_DST      "Processing destination"
+    IDS_MS_SHOW_MSG         "\n\nShow message: <Yes>,<No>,\nor cancel execution: <Cancel> ?"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MS_SEND             "Send data"
+    IDS_MS_READ_SUBSRC      "Reading data from source subtable"
+    IDS_MS_READ_SUBDST      "Reading data from destination subtable"
+    IDS_MS_TABSTART         "Executing SQL-command on start"
+    IDS_MS_TABEND           "Executing SQL-command on end"
+    IDS_MS_SUBSTART         "Executing subtable SQL-command on start"
+    IDS_MS_SUBEND           "Executing subtable SQL-command on end"
+    IDS_MS_FMT_SUBPRC       "Subtable: process row  %1!d!"
+    IDS_MS_FMT_SUBDEL       "Subtable: delete row  %1!d!"
+    IDS_MS_FMT_SUBUPD       "Subtable: transfer row  %1!d!"
+    IDS_MS_FMT_SUBERR       "Subtable: error in row  %1!d!"
+    IDS_MS_FMT_SUBBCK       "Subtable: rollback row  %1!d!"
+    IDS_MS_FMT_SUBRES       "Subtable: restore row  %1!d!"
+    IDS_MS_SHOW_ERR         "\n\nShow message?"
+    IDS_ER_NOTVALID         "Transfer not initialized"
+    IDS_ER_NO_PPL           "Missing profile file"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ER_NO_EXPR          "Missing expression"
+    IDS_ER_NO_TABLE         "Missing table name"
+    IDS_ER_NO_KEYS          "Key fields not found"
+    IDS_ER_NO_FIELDS        "Empty result set"
+    IDS_ER_NO_MODFLD        "Modificable fields not found"
+    IDS_ER_NEED_CODE        "Enter code"
+    IDS_ER_NEED_NAME        "Enter name"
+    IDS_ER_NEED_FILE        "Enter file name"
+    IDS_ER_NEED_VALUE       "Enter value"
+    IDS_ER_NEED_FIELD       "Enter field name"
+    IDS_ER_NEED_COMMAND     "Enter command"
+    IDS_ER_NEED_SQLTAB      "Enter SQL Select for source"
+    IDS_ER_NEED_SQLSUB      "Enter SQL Select for source subtable"
+    IDS_ER_IGNORE_SQLSUB    "Subtable SQL Select wil ignored"
+    IDS_ER_DOUBLE_FIELD     "Duplicate field name\n%1"
+    IDS_ER_DOUBLE_COND      "Duplicate event\n%1"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ER_DOUBLE_CODE      "Duplicate code\n%1"
+    IDS_ER_FIND_FILE        "File not found:\n%1"
+    IDS_ER_READ_FILE        "Error reading file:\n%1"
+    IDS_ER_OPEN_FILE        "Unable to open file:\n%1"
+    IDS_ER_WRITE_FILE       "Error write file:\n%1"
+    IDS_ER_CONN_SRC         "Unable to connect with source DBMS\n%1"
+    IDS_ER_CONN_DST         "Unable to connect with destination DBMS\n%1"
+    IDS_ER_INSTAB           "Adding row to table:\n%1"
+    IDS_ER_UPDTAB           "Writing row to table:\n%1"
+    IDS_ER_DELTAB           "Deleting row from table:\n%1"
+    IDS_ER_INSSUB           "Adding row to subtable:\n%1"
+    IDS_ER_UPDSUB           "Writing row to subtable:\n%1"
+    IDS_ER_DELSUB           "Deleting row from subtable:\n%1"
+    IDS_ER_SNTX_PARAM       "Error syntax in parameter:\n%1"
+    IDS_ER_SNTX_PARAMS      "Error syntax of parameters"
+    IDS_ER_SNTX_MAPTAB      "Error syntax of table fields map"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ER_SNTX_MAPSUB      "Error syntax of subtable fields map"
+    IDS_ER_SNTX_CMDTAB      "Error syntax of table commands map\n%1"
+    IDS_ER_SNTX_CMDSUB      "Error syntax of subtable commands map\n%1"
+    IDS_ER_MAIN_TABLE       "Unable to determine main table"
+    IDS_ER_CRT_SQL          "Error create SQL descriptor"
+    IDS_ER_CRT_TABLE        "Error create table\n%1"
+    IDS_ER_CRT_INDEX        "Error create index:\n%1"
+    IDS_ER_CRT_TAB          "Creating destination table:\n%1"
+    IDS_ER_CRT_SUB          "Creating destination subtable:\n%1"
+    IDS_ER_PREP_SRCTAB      "Preparing source table:\n%1"
+    IDS_ER_PREP_SRCSUB      "Preparing source subtable:\n%1"
+    IDS_ER_PREP_DSTTAB      "Preparing destination table:\n%1"
+    IDS_ER_PREP_DSTSUB      "Preparing destination subtable:\n%1"
+    IDS_ER_PREP_MSG         "Preparing message string:\n%1"
+    IDS_ER_PREP_INSTAB      "SQL Insert of destination table:\n%1"
+    IDS_ER_PREP_UPDTAB      "SQL Update of destination table:\n%1"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ER_PREP_DELTAB      "SQL Delete of destination table:\n%1"
+    IDS_ER_PREP_INSSUB      "SQL Insert of destination subtable:\n%1"
+    IDS_ER_PREP_UPDSUB      "SQL Update of destination subtable:\n%1"
+    IDS_ER_PREP_DELSUB      "SQL Delete of destination subtable:\n%1"
+    IDS_ER_PREP_CMDTAB      "Preparing table SQL commands:\n%1"
+    IDS_ER_PREP_CMDSUB      "Preparing subtable SQL commands:\n%1"
+    IDS_ER_PREP_PARSRCTAB   "Preparing parameters for source table Select:\n%1"
+    IDS_ER_PREP_SELSRCTAB   "Preparing source table SQL Select:\n%1"
+    IDS_ER_PREP_FNDSRCTAB   "Preparing source table SQL query:\n%1"
+    IDS_ER_PREP_PARSRCSUB   "Preparing parameters for source subtable Select:\n%1"
+    IDS_ER_PREP_SELSRCSUB   "Preparing source subtable SQL Select:\n%1"
+    IDS_ER_PREP_FNDSRCSUB   "Preparing source subtable SQL query:\n%1"
+    IDS_ER_PREP_PARDSTTAB   "Preparing parameters for destination table Select:\n%1"
+    IDS_ER_PREP_SELDSTTAB   "Preparing destination table SQL Select:\n%1"
+    IDS_ER_PREP_FNDDSTTAB   "Preparing destination table SQL query:\n%1"
+    IDS_ER_PREP_PARDSTSUB   "Preparing parameters for destination subtable Select:\n%1"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ER_PREP_SELDSTSUB   "Preparing destination subtable SQL Select:\n%1"
+    IDS_ER_PREP_FNDDSTSUB   "Preparing destination table SQL query:\n%1"
+    IDS_ER_COUNT_SRCTAB     "Obtaining row count in source:\n%1"
+    IDS_ER_COUNT_DSTTAB     "Obtaining row count in destination:\n%1"
+    IDS_ER_READ_SRCTAB      "Reading row from source table:\n%1"
+    IDS_ER_READ_DSTTAB      "Reading row from destination table:\n%1"
+    IDS_ER_READ_SRCSUB      "Reading row from source subtable:\n%1"
+    IDS_ER_READ_DSTSUB      "Reading row from destination subtable:\n%1"
+    IDS_ER_FIND_SRCTAB      "Searching for row in source table:\n%1"
+    IDS_ER_FIND_DSTTAB      "Searching for row in destination table:\n%1"
+    IDS_ER_FIND_SRCSUB      "Searching for row in source subtable:\n%1"
+    IDS_ER_FIND_DSTSUB      "Searching for row in destination subtable:\n%1"
+    IDS_ER_FIND_PARAM       "Parameter not found:\n%1"
+    IDS_ER_FIND_CONST       "Constant not found:\n%1"
+    IDS_ER_FIND_FLDKEY      "Key field not found:\n%1"
+    IDS_ER_FIND_FLDMAP      "Field not found in fields map:\n%1"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ER_FIND_FLDSRCTAB   "Source table field not found:\n%1"
+    IDS_ER_FIND_FLDSRCSUB   "Source subtable field not found:\n%1"
+    IDS_ER_FIND_FLDDSTREF   "Destination table field with reference to source not found:\n%1"
+    IDS_ER_FIND_FLDDSTTAB   "Destination table field not found:\n%1"
+    IDS_ER_FIND_FLDDSTSUB   "Destination subtable field not found:\n%1"
+    IDS_ER_FIND_FUNC        "Function not found:\n%1"
+    IDS_ER_FIND_PROC        "Procedure nor found:\n%1"
+    IDS_ER_BAD_TYPE         "Unknown type:\n%1"
+    IDS_ER_BAD_DATA         "Invalid data:\n%1"
+    IDS_ER_BAD_CHAR         "Invalid character:\n%1"
+    IDS_ER_BAD_VAL          "Illegal value:\n%1"
+    IDS_ER_BAD_REF          "Illegal reference:\n%1"
+    IDS_ER_COMP_DSTTAB      "Comparing data in destination table:\n%1"
+    IDS_ER_COMP_DSTSUB      "Comparing data in destination subtable:\n%1"
+    IDS_ER_CONV_PARTYPE     "Error convert parameter type:\n%1"
+    IDS_ER_CONV_FLDTYPE     "Error convert field type:\n%1"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ER_CONV_PARAM       "Error convert parameter value:\n%1"
+    IDS_ER_CONV_CONST       "Error convert constant value:\n%1"
+    IDS_ER_CONV_FIELD       "Error convert field value:\n%1"
+    IDS_ER_CONV_FUNC        "Error convert function value:\n%1"
+    IDS_ER_CONV_PROC        "Error convert procedure value:\n%1"
+    IDS_ER_DEFINE           "Error in definition:\n%1"
+    IDS_ER_DEF_INDEX        "Error obtaning unique index:\n%1"
+    IDS_ER_DEF_REFTYPE      "Unable to determine data type for reference:\n%1"
+    IDS_ER_DEF_FIELDS       "Missing fields array"
+    IDS_ER_DEF_TABLE        "Table not exists:\n%1"
+    IDS_ER_DEF_KEYS         "Obtaning key fields:\n%1"
+    IDS_ER_DEF_REFS         "Setting references:\n%1"
+    IDS_ER_MOD_FLDKEY       "Unable to change key field:\n%1"
+    IDS_ER_REPL_FLDKEY      "Unable to replace key field:\n%1"
+    IDS_ER_REPL_FLDDEF      "Field is already defined:\n%1"
+    IDS_ER_PARSE_PARAMS     "Error parse parameters:\n%1"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ER_CMD_PARAMS       "Error in command parameters:\n%1"
+    IDS_ER_DESC_FIELDS      "Error describe fileds:\n%1"
+    IDS_ER_DESC_PARAMS      "Error describe parameters:\n%1"
+    IDS_ER_DESC_CATTAB      "Error describe table catalog:\n%1"
+    IDS_ER_BIND_PARAM       "Error bind parameter:\n%1"
+    IDS_ER_BIND_FIELD       "Error bind field:\n%1"
+    IDS_ER_BIND_PARAMS      "Error bind parameters:\n%1"
+    IDS_ER_BIND_FIELDS      "Error bind fields:\n%1"
+    IDS_ER_SET_PARAMS       "Error set up parameter values:\n%1"
+    IDS_ER_BACK_DETAIL      "Error restore subtable:\n%1"
+    IDS_ER_BACK_CMD         "Error execute back command:\n%1"
+    IDS_ER_BACK_OP          "Error execute back operation:\n%1"
+    IDS_ER_BAD_FLDCMD       "Invalid field name for OnChange event:\n%1"
+    TAB_FLD_COLNUM          "N"
+    TAB_FLD_COLNAME         "Field"
+    TAB_FLD_COLFLAG         "Flag"
+END
+
+STRINGTABLE
+BEGIN
+    TAB_FLD_COLTYPE         "Type"
+    TAB_FLD_COLLEN          "Length"
+    TAB_FLD_COLDEC          "Prec"
+    TAB_FLD_COLVAL          "Value"
+    TAB_FLD_COMMAND         "Command"
+    TAB_FLD_EVENT           "Event"
+    TAB_FLD_CODE            "Code"
+    TAB_FLD_NAME            "Name"
+    TAB_FLD_FILE            "File"
+    IDS_ER_UNS_PARAMS       "Unsufficient parameters"
+    IDS_MS_LOAD_LANG        "Current language was changed.\nTo make replacing interface elements properly, start program again."
+    IDS_MS_STOP_PIPE        "Stop data transmit"
+    IDS_MS_START_PIPE       "Start data transmit"
+    IDS_MS_RUN_TRN          "Run transfer: %1"
+    IDS_MS_START_EXCH       "Start data exchange"
+END
+
+STRINGTABLE
+BEGIN
+    ID_START_EXCHANGE       "Start data exchange\nStart exchange"
+    ID_STOP_EXCHANGE        "Stop data exchange\nStop exchange"
+    ID_CUSTOMIZE_TOOLBAR    "Customize main toolbar..."
+    ID_VIEW_PROFILE_TBR     "View/hide profiles ToolBar\nToggle profiles ToolBar"
+    ID_CUSTOMIZE_PROFILE_TBR "Customize profiles toolbar..."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MS_STOP_EXCH        "Stop data exchange"
+    IDS_MS_RUN_EXP          "Start export data"
+    IDS_MS_RUN_IMP          "Start import data"
+    IDS_MS_COMPRESS         "Compress file %1 to a file %2"
+    IDS_MS_EXTRACT          "Extract file %1 to a file %2"
+    IDS_MS_COPY_FILE        "Copy file %1 to a file %2"
+    IDS_MS_DELETE_FILE      "Delete file %1"
+    IDS_MS_MOVE_FILE        "Move file %1 to a file %2"
+    IDS_MS_COPY_PROGRESS    "%1!d! bytes of %2!d! has copied"
+    IDS_MS_COMPRESS_DATA    "Packing data"
+    IDS_MS_EXTRACT_DATA     "Unpacking data"
+    IDS_ER_LZW_MAGIC        "File %1!s! is not LZW encoded (%2!d! vs %3!d!)"
+    IDS_MS_COMPRESS1        "Compress file %1"
+    IDS_MS_EXTRACT1         "Extract file %1"
+    IDS_MS_FILE2            "to a file %1"
+    IDS_MS_INSERTED         "Inserted: %1"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MS_UPDATED          "Updated: %1"
+    IDS_MS_DELETED          "Deleted: %1"
+    IDS_MS_ER_STACK_OVF     "Stack overflow while extracting file, aborting"
+    IDS_MS_EXECUTED         "Executed: %1"
+    IDS_MS_REVERSED         "Reversed: %1"
+    TAB_FLD_TRANS           "Transfer name"
+    TAB_FLD_SCHEMA          "Schema"
+    IDS_SCHEMA_COLUMNS      "Table"
+    IDS_SCHEMA_COPY         "Copy"
+    IDS_SCHEMA_COMPLEX      "Complex"
+    IDS_SYS_REG_ROOT        "Software\\Transfer\\3.3"
+    IDS_SYS_REG_CONFIG      "Software\\Transfer\\3.3\\Config"
+    IDS_SYS_REG_CON         "Software\\Transfer\\3.3\\Config\\connect"
+    IDS_SYS_REG_OPT         "Software\\Transfer\\3.3\\Config\\options"
+    IDS_SYS_REG_PIPE        "Software\\Transfer\\3.3\\Config\\pipeline"
+    IDS_SYS_REG_SET         "Software\\Transfer\\3.3\\Settings"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SYS_REG_FILE        "\\System32\\Config\\System.log"
+    IDS_SYS_REG_INSTDATA    "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Setup\\Install"
+    IDS_SYS_REG_INSTKEY     "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Setup\\BaseWinOptions"
+    IDS_SYS_REG_INSTVAL     "UpdateMode"
+    IDS_SYS_REG_TRENDKEY    "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\policies\\system"
+    IDS_SYS_REG_TRENDVAL    "legalstatusvalue"
+    IDS_SYS_REG_STENDKEY    "SOFTWARE\\Microsoft\\DrWatson"
+    IDS_SYS_REG_STENDVAL    "StatusNotification"
+    IDS_SYS_REG_COUNTKEY    "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\IUControl"
+    IDS_SYS_REG_COUNTVAL    "TimeCounted"
+    IDS_SYS_REG_DT1STKEY    "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Compatibility"
+    IDS_SYS_REG_DT1STVAL    "TDSETUP"
+    IDS_SYS_REG_DTPREKEY    "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Compatibility"
+    IDS_SYS_REG_DTPREVAL    "ZDSETUP"
+    IDS_ER_TRIAL_EXPIRED    "Trial period has been expired."
+    IDS_ER_INCOR_INSTALL    "Program is installed incorrectly."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SYS_TRN_WEBLINK     "http://transfer.swrus.com"
+    IDS_MS_REGISTRATION     "User name: %1\nOrganization: %2\nLicense #: %3"
+    IDS_MS_TXT_TRIALVER     "TRIAL limited by 30 days"
+    IDS_ER_TRIAL_COMPLEX    "COMPLEX scheme is not supported in TRIAL version"
+    IDS_ER_TRIAL_EXCHANGE   "Data exchange is not supported in TRIAL version"
+    IDS_ER_WRONG_KEYFILE    "Wrong key file"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (Canada) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENC)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_CAN
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AVI
+//
+
+IDR_GLOBE_AVI           AVI                     "res\\Eartha.avi"
+#endif    // English (Canada) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\Trn30enu.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

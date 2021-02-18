@@ -1,0 +1,27 @@
+// Books
+PARAMETERS{
+}
+CONNECT{
+Source(DSN=In;UID=;PWD=)
+Destination(DSN=Out;UID=;PWD=)
+}
+TRANSFER{
+Name(Authors)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select distinct Author from Books)
+Message($author)
+Destination(process=CREATE table=authors
+columns(K:ID_Author(I)=+1;Author(VA,50)=$Author))
+}
+TRANSFER{
+Name(Books)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select id_book, author, bookname, filename, size from books)
+Message($author :: $bookname)
+Destination(process=CREATE table=books
+columns(K:id_book(I)=$id_book;
+id_author(I)=%SQLGetVal(id_author, authors, author=$author);
+bookname(VA,50)=$bookname;filename(VA,50)=$filename;size(VA,10)=$size))
+}

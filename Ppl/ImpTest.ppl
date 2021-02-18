@@ -1,0 +1,14 @@
+// Импорт тест
+PARAMETERS{
+}
+CONNECT{
+Source(DSN=In;UID=;PWD=)
+Destination(DSN=OraSrv;UID=compas;PWD=base)
+}
+TRANSFER{
+Name(Клиенты)
+Schema(COPY)
+Source(select * from client order by ndprt,numb_client)
+Message()
+Destination(process=REPLACE table=client)
+}

@@ -1,0 +1,16 @@
+// Экспорт конфигурации
+PARAMETERS{
+}
+CONNECT{
+Source(DSN=OraSrv;UID=compas;PWD=base)
+Destination(DSN=Out;UID=;PWD=)
+}
+TRANSFER{
+Name(Процедуры)
+Schema(COLUMNS)
+Source(select inumtype, id_proc, name_proc, text_proc from procedur)
+Message($id_proc - $name_proc)
+Destination(process=CREATE table=procedur
+columns(K:inumtype(I)=$inumtype;K:id_proc(VA,30)=$id_proc;name_proc(VA,80)=$name_proc;
+text_proc(LVA)=$text_proc))
+}

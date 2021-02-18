@@ -1,0 +1,402 @@
+// Экспорт со склада
+PARAMETERS{
+integer nref(Журнал)=0,integer ndep(Отделение)=0,integer nday(Дней)=5
+}
+CONNECT{
+Source(DSN=OraSrv;UID=compas;PWD=base)
+Destination(DSN=Out;UID=;PWD=)
+}
+TRANSFER{
+Name(Единицы измерения)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select * from unit order by code_unit)
+Message()
+Destination(process=CREATE table=unit
+columns(K:code_unit(I)=$code_unit;unit(VA,10)=$unit;
+name_unit(VA,80)=$name_unit))
+}
+TRANSFER{
+Name(Страны)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select * from country order by code_country)
+Message()
+Destination(process=CREATE table=country
+columns(K:code_country(I)=$code_country;country(VA,50)=$country))
+}
+TRANSFER{
+Name(Производители)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select * from producer order by id_pro)
+Message()
+Destination(process=CREATE table=producer
+columns(K:id_pro(I)=$id_pro;code_country(I)=$code_country;
+name_pro(VA,80)=$name_pro;cmnt_pro(VA,80)=$cmnt_pro))
+}
+TRANSFER{
+Name(Сертификаты)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select * from sertificate order by id_ser)
+Message()
+Destination(process=CREATE table=sertificate
+columns(K:id_ser(I)=$id_ser;num_ser(I)=$num_ser;reg_ser(VA,30)=$reg_ser;
+data_ser(TS)=$data_ser;org_ser(VA,100)=$org_ser;name_ser(VA,100)=$name_ser;
+prod_ser(VA,100)=$prod_ser))
+}
+TRANSFER{
+Name(Виды налогов)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select * from kindtax order by cod_tax)
+Message()
+Destination(process=CREATE table=kindtax
+columns(K:cod_tax(I)=$cod_tax;cname_tax(VA,10)=$cname_tax;
+name_tax(VA,10)=$name_tax;acnt_tax(VA,10)=$acnt_tax))
+}
+TRANSFER{
+Name(Товары)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select ndprt,id_ware,id_parent,last_ware,flag_ware,flag_made,
+comp_ware,code_unit,code_country,id_pro,id_ser,name_ware,name_ware2,
+code_ware,code_gr,barcode,marka_ware,okdp_ware,post_ware,gost_ware,
+acnt_ware,weight,pack,cost_ware,count_ware,t_tax1,t_tax2,t_tax3,
+v_tax1,v_tax2,v_tax3,wdata
+from ware where sysdate - wdata <= :nday
+order by ndprt,id_ware)
+Message()
+Destination(process=CREATE table=ware
+columns(K:ndprt(I)=$ndprt;K:id_ware(I)=$id_ware;id_parent(I)=$id_parent;
+last_ware(I)=$last_ware;flag_ware(I)=$flag_ware;flag_made(I)=$flag_made;
+comp_ware(I)=$comp_ware;code_unit(I)=$code_unit;code_country(I)=$code_country;
+id_pro(I)=$id_pro;id_ser(I)=$id_ser;name_ware(VA,80)=$name_ware;
+name_ware2(VA,80)=$name_ware2;code_ware(VA,30)=$code_ware;
+code_gr(VA,255)=$code_gr;barcode(VA,30)=$barcode;marka_ware(VA,40)=$marka_ware;
+okdp_ware(VA,20)=$okdp_ware;post_ware(VA,30)=$post_ware;gost_ware(VA,30)=$gost_ware;
+acnt_ware(VA,10)=$acnt_ware;weight(DB)=$weight;pack(DB)=$pack;cost_ware(DB)=$cost_ware;
+count_ware(DB)=$count_ware;t_tax1(I)=$t_tax1;t_tax2(I)=$t_tax2;t_tax3(I)=$t_tax3;
+v_tax1(DB)=$v_tax1;v_tax2(DB)=$v_tax2;v_tax3(DB)=$v_tax3;wdata(TS)=$wdata;t_info(LVA)))
+}
+TRANSFER{
+Name(Клиенты)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select * from client where ndprt = :ndep order by ndprt,numb_client)
+Message()
+Destination(process=CREATE table=client
+columns(K:ndprt(I)=$ndprt;K:numb_client(I)=$numb_client;
+prnt_client(I)=$prnt_client;last_client(I)=$last_client;
+t_plant(I)=$t_plant;t_client(I)=$t_client;code_branch(I)=$code_branch;
+code_town(I)=$code_town;code_sector(I)=$code_sector;rgn(I)=$rgn;
+code_country(I)=$code_country;per_ndprt(I)=$per_ndprt;
+code_pers(I)=$code_pers;fhide(I)=$fhide;fbad(I)=$fbad;
+count_client(DB)=$count_client;disc_client(DB)=$disc_client;
+name_client(VA,80)=$name_client;addr_client(VA,80)=$addr_client;
+note1(VA,80)=$note1;note2(VA,80)=$note2;inn_client(VA,15)=$inn_client;
+okpo_client(VA,10)=$okpo_client;okonh_client(VA,10)=$okonh_client;
+tel_client(VA,20)=$tel_client;fax_client(VA,20)=$fax_client))
+}
+TRANSFER{
+Name(Банки клиентов)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select * from clbank where ndprt = :ndep order by ndprt,numb_client,acnt)
+Message()
+Destination(process=CREATE table=clbank
+columns(K:ndprt(I)=$ndprt;K:numb_client(I)=$numb_client;
+K:acnt(VA,20)=$acnt;bik_bank(VA,9)=$bik_bank;corr_account(VA,20)=$corr_account;
+ku_bank(VA,5)=$ku_bank;name_bank(VA,80)=$name_bank;note0(VA,80)=<note;
+addr_bank(VA,80)=$addr_bank))
+}
+TRANSFER{
+Name(Персоналии клиентов)
+Schema(COLUMNS)
+ConvertText(UNCHANGED)
+Source(select * from pclient where ndprt = :ndep order by ndprt,numb_client,numb_person)
+Message()
+Destination(process=CREATE table=pclient
+columns(K:ndprt(I)=$ndprt;K:numb_client(I)=$numb_client;
+K:numb_person(I)=$numb_person;code_position(I)=$code_position;
+fiof(VA,80)=$fiof;phone1(VA,20)=$phone1;phone2(VA,20)=$phone2;
+fax1(VA,20)=$fax1;fax2(VA,20)=$fax2;homeaddress(VA,80)=$homeaddress;
+pnote1(VA,80)=$pnote1;pnote2(VA,80)=$pnote2))
+}
+TRANSFER{
+Name(Приходные накладные)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 504 and numref = :nref and ndprt = :ndep and
+         sysdate - save_sd <= :nday 
+order by year,ndprt,autokey_sd)
+Message()
+Destination(process=CREATE table=sdoc)
+}
+TRANSFER{
+Name(Спецификации приходных накладных)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select   sdspc.*
+from     sdoc, sdspc
+where    sdoc.numref = sdspc.numref and
+         sdoc.year = sdspc.year and
+         sdoc.type_sd = sdspc.type_sd and
+         sdoc.ndprt = sdspc.ndprt and
+         sdoc.autokey_sd = sdspc.autokey_sd and
+         sdoc.type_sd = 504 and 
+         sdoc.numref = :nref and sdoc.ndprt = :ndep and
+         sysdate - sdoc.save_sd <= :nday
+order by sdspc.year,sdspc.ndprt,sdspc.autokey_sd,sdspc.npp_spc)
+Message()
+Destination(process=CREATE table=sdspc
+columns(prc_tax1=<proc_tax1;prc_tax2=<proc_tax2;prc_tax3=<proc_tax3))
+}
+TRANSFER{
+Name(Приходные ордера)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 502 and numref = :nref and sdoc.ndprt = :ndep and
+         sysdate - save_sd <= :nday 
+order by year,ndprt,autokey_sd)
+Message()
+Destination(process=ADD table=sdoc)
+TabCommands(
+OnStart(delete from sdoc where type_sd = 502))
+}
+TRANSFER{
+Name(Спецификации приходных ордеров)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select   sdspc.*
+from     sdoc, sdspc
+where    sdoc.numref = sdspc.numref and
+         sdoc.year = sdspc.year and
+         sdoc.ndprt = sdspc.ndprt and
+         sdoc.type_sd = sdspc.type_sd and
+         sdoc.autokey_sd = sdspc.autokey_sd and
+         sdoc.type_sd = 502 and 
+         sdoc.numref = :nref and sdoc.ndprt = :ndep and
+         sysdate - sdoc.save_sd <= :nday
+order by sdspc.year,sdspc.ndprt,sdspc.autokey_sd,sdspc.npp_spc)
+Message()
+Destination(process=ADD table=sdspc
+columns(prc_tax1=<proc_tax1;prc_tax2=<proc_tax2;prc_tax3=<proc_tax3))
+TabCommands(
+OnStart(delete from sdspc where type_sd = 502))
+}
+TRANSFER{
+Name(Межскладские накладные)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 501 and numref = :nref and ndprt = :ndep and
+         sysdate - save_sd <= :nday 
+order by year,ndprt,autokey_sd)
+Message()
+Destination(process=ADD table=sdoc)
+TabCommands(
+OnStart(delete from sdoc where type_sd = 501))
+}
+TRANSFER{
+Name(Спецификации межскладских накладных)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select   sdspc.*
+from     sdoc, sdspc
+where    sdoc.numref = sdspc.numref and
+         sdoc.year = sdspc.year and
+         sdoc.type_sd = sdspc.type_sd and
+         sdoc.ndprt = sdspc.ndprt and
+         sdoc.autokey_sd = sdspc.autokey_sd and
+         sdoc.type_sd = 501 and 
+         sdoc.numref = :nref and sdoc.ndprt = :ndep and
+         sysdate - sdoc.save_sd <= :nday
+order by sdspc.year,sdspc.ndprt,sdspc.autokey_sd,sdspc.npp_spc)
+Message()
+Destination(process=ADD table=sdspc
+columns(prc_tax1=<proc_tax1;prc_tax2=<proc_tax2;prc_tax3=<proc_tax3))
+TabCommands(
+OnStart(delete from sdspc where type_sd = 501))
+}
+TRANSFER{
+Name(Расходные ордера)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 503 and numref = :nref and sdoc.ndprt = :ndep and
+         sysdate - save_sd <= :nday 
+order by year,ndprt,autokey_sd)
+Message()
+Destination(process=ADD table=sdoc)
+TabCommands(
+OnStart(delete from sdoc where type_sd = 503))
+}
+TRANSFER{
+Name(Спецификации расходных ордеров)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select   sdspc.*
+from     sdoc, sdspc
+where    sdoc.numref = sdspc.numref and
+         sdoc.year = sdspc.year and
+         sdoc.ndprt = sdspc.ndprt and
+         sdoc.type_sd = sdspc.type_sd and
+         sdoc.autokey_sd = sdspc.autokey_sd and
+         sdoc.type_sd = 503 and 
+         sdoc.numref = :nref and sdoc.ndprt = :ndep and
+         sysdate - sdoc.save_sd <= :nday
+order by sdspc.year,sdspc.ndprt,sdspc.autokey_sd,sdspc.npp_spc)
+Message()
+Destination(process=ADD table=sdspc
+columns(prc_tax1=<proc_tax1;prc_tax2=<proc_tax2;prc_tax3=<proc_tax3))
+TabCommands(
+OnStart(delete from sdspc where type_sd = 503))
+}
+TRANSFER{
+Name(Расходные накладные)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 505 and numref = :nref and sdoc.ndprt = :ndep and
+         sysdate - save_sd <= :nday 
+order by year,ndprt,autokey_sd)
+Message()
+Destination(process=ADD table=sdoc)
+TabCommands(
+OnStart(delete from sdoc where type_sd = 505))
+}
+TRANSFER{
+Name(Спецификации расходных накладных)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select   sdspc.*
+from     sdoc, sdspc
+where    sdoc.numref = sdspc.numref and
+         sdoc.year = sdspc.year and
+         sdoc.ndprt = sdspc.ndprt and
+         sdoc.type_sd = sdspc.type_sd and
+         sdoc.autokey_sd = sdspc.autokey_sd and
+         sdoc.type_sd = 505 and 
+         sdoc.numref = :nref and sdoc.ndprt = :ndep and
+         sysdate - sdoc.save_sd <= :nday
+order by sdspc.year,sdspc.ndprt,sdspc.autokey_sd,sdspc.npp_spc)
+Message()
+Destination(process=ADD table=sdspc
+columns(prc_tax1=<proc_tax1;prc_tax2=<proc_tax2;prc_tax3=<proc_tax3))
+TabCommands(
+OnStart(delete from sdspc where type_sd = 505))
+}
+TRANSFER{
+Name(Возвратные накладные)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 506 and numref = :nref and sdoc.ndprt = :ndep and
+         sysdate - save_sd <= :nday 
+order by year,ndprt,autokey_sd)
+Message()
+Destination(process=ADD table=sdoc)
+TabCommands(
+OnStart(delete from sdoc where type_sd = 506))
+}
+TRANSFER{
+Name(Спецификации возвратных накладных)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select   sdspc.*
+from     sdoc, sdspc
+where    sdoc.numref = sdspc.numref and
+         sdoc.year = sdspc.year and
+         sdoc.ndprt = sdspc.ndprt and
+         sdoc.type_sd = sdspc.type_sd and
+         sdoc.autokey_sd = sdspc.autokey_sd and
+         sdoc.type_sd = 506 and 
+         sdoc.numref = :nref and sdoc.ndprt = :ndep and
+         sysdate - sdoc.save_sd <= :nday
+order by sdspc.year,sdspc.ndprt,sdspc.autokey_sd,sdspc.npp_spc)
+Message()
+Destination(process=ADD table=sdspc
+columns(prc_tax1=<proc_tax1;prc_tax2=<proc_tax2;prc_tax3=<proc_tax3))
+TabCommands(
+OnStart(delete from sdspc where type_sd = 506))
+}
+TRANSFER{
+Name(Возврат поставщику)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 524 and numref = :nref and sdoc.ndprt = :ndep and
+         sysdate - save_sd <= :nday 
+order by year,ndprt,autokey_sd)
+Message()
+Destination(process=ADD table=sdoc)
+TabCommands(
+OnStart(delete from sdoc where type_sd = 524))
+}
+TRANSFER{
+Name(Спецификации возврата поставщику)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select   sdspc.*
+from     sdoc, sdspc
+where    sdoc.numref = sdspc.numref and
+         sdoc.year = sdspc.year and
+         sdoc.ndprt = sdspc.ndprt and
+         sdoc.type_sd = sdspc.type_sd and
+         sdoc.autokey_sd = sdspc.autokey_sd and
+         sdoc.type_sd = 524 and 
+         sdoc.numref = :nref and sdoc.ndprt = :ndep and
+         sysdate - sdoc.save_sd <= :nday
+order by sdspc.year,sdspc.ndprt,sdspc.autokey_sd,sdspc.npp_spc)
+Message()
+Destination(process=ADD table=sdspc
+columns(prc_tax1=<proc_tax1;prc_tax2=<proc_tax2;prc_tax3=<proc_tax3))
+TabCommands(
+OnStart(delete from sdspc where type_sd = 524))
+}
+TRANSFER{
+Name(Акты инвентаризации)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 530 and numref = :nref and sdoc.ndprt = :ndep and
+         sysdate - save_sd <= :nday 
+order by year,ndprt,autokey_sd)
+Message()
+Destination(process=ADD table=sdoc)
+TabCommands(
+OnStart(delete from sdoc where type_sd = 530))
+}
+TRANSFER{
+Name(Спецификации актов инвентаризации)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select   sdspc.*
+from     sdoc, sdspc
+where    sdoc.numref = sdspc.numref and
+         sdoc.year = sdspc.year and
+         sdoc.ndprt = sdspc.ndprt and
+         sdoc.type_sd = sdspc.type_sd and
+         sdoc.autokey_sd = sdspc.autokey_sd and
+         sdoc.type_sd = 530 and 
+         sdoc.numref = :nref and sdoc.ndprt = :ndep and
+         sysdate - sdoc.save_sd <= :nday
+order by sdspc.year,sdspc.ndprt,sdspc.autokey_sd,sdspc.npp_spc)
+Message()
+Destination(process=ADD table=sdspc
+columns(prc_tax1=<proc_tax1;prc_tax2=<proc_tax2;prc_tax3=<proc_tax3))
+TabCommands(
+OnStart(delete from sdspc where type_sd = 530))
+}

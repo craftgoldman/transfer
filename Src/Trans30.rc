@@ -1,0 +1,1286 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian (Russia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\Trans30.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#include ""afxdb.rc""          // Database resources\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\Trans30.ico"
+IDI_BCANCEL             ICON                    "res\\Cancel.ico"
+IDI_BHELP               ICON                    "res\\Help.ico"
+IDI_BNO                 ICON                    "res\\No.ico"
+IDI_BOK                 ICON                    "res\\Ok.ico"
+IDR_TEXTTYPE            ICON                    "res\\Paddoc.ico"
+IDI_CRDFILES            ICON                    "res\\Crdfiles.ico"
+IDI_CARDFILE            ICON                    "res\\Cardfile.ico"
+IDI_BINSERT             ICON                    "res\\Insert.ico"
+IDI_BDELETE             ICON                    "res\\Delete.ico"
+IDI_BEDIT               ICON                    "res\\Edit.ico"
+IDI_BSAVE               ICON                    "res\\Save.ico"
+IDI_BADD                ICON                    "res\\Add.ico"
+IDI_TRANS               ICON                    "res\\Trans.ico"
+IDI_CONVS               ICON                    "res\\Convs.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+IDR_DATA                BITMAP                  "res\\Data.bmp"
+IDB_SMALLPPL            BITMAP                  "res\\SmallPPL.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR 16, 15
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_IMPORT
+    BUTTON      ID_EXPORT
+    BUTTON      ID_TRANSFER
+    SEPARATOR
+    BUTTON      ID_START_EXCHANGE
+    BUTTON      ID_STOP_EXCHANGE
+    SEPARATOR
+    BUTTON      ID_PROFILE
+    BUTTON      ID_TRANS_OPTIONS
+    SEPARATOR
+    BUTTON      ID_FILE_PRINT
+    BUTTON      ID_APP_ABOUT
+    BUTTON      ID_CONTEXT_HELP
+    SEPARATOR
+    BUTTON      ID_APP_EXIT
+END
+
+IDR_DATA TOOLBAR 16, 15
+BEGIN
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_DATA_ADD
+    BUTTON      ID_DATA_RETRIEVE
+    BUTTON      ID_DATA_SAVE
+    BUTTON      ID_DATA_EDIT
+    BUTTON      ID_DATA_DELETE
+    BUTTON      ID_DATA_FIRST
+    BUTTON      ID_DATA_PREV
+    BUTTON      ID_DATA_NEXT
+    BUTTON      ID_DATA_LAST
+    SEPARATOR
+    BUTTON      ID_DATA_CLOSE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU
+BEGIN
+    POPUP "&Файл"
+    BEGIN
+        MENUITEM "&Создать\tCtrl+N",            ID_FILE_NEW
+        MENUITEM "&Открыть...\tCtrl+O",         ID_FILE_OPEN
+        MENUITEM "&Закрыть",                    ID_FILE_CLOSE
+        MENUITEM "Со&хранить\tCtrl+S",          ID_FILE_SAVE
+        MENUITEM "Сохранить &как...",           ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "&Настройка принтера...",      ID_FILE_PRINT_SETUP
+        MENUITEM "&Печать...\tCtrl+P",          ID_FILE_PRINT
+        MENUITEM SEPARATOR
+        MENUITEM "&Импорт...",                  ID_IMPORT
+        MENUITEM "&Экспорт...",                 ID_EXPORT
+        MENUITEM "&Трансферт...",               ID_TRANSFER
+        MENUITEM SEPARATOR
+        MENUITEM "За&пуск обмена\tCtrl+R",      ID_START_EXCHANGE
+        MENUITEM "Останов обмена\tCtrl+T",      ID_STOP_EXCHANGE
+        MENUITEM SEPARATOR
+        MENUITEM "Про&фили данных",             ID_PROFILE
+        MENUITEM "Параметры...",                ID_TRANS_OPTIONS
+        MENUITEM SEPARATOR
+        MENUITEM "&Выход\tAlt+F4",              ID_APP_EXIT
+    END
+    POPUP "&Вид"
+    BEGIN
+        MENUITEM "&Панель основная",            ID_VIEW_TOOLBAR
+        MENUITEM "Панель профилей",             ID_VIEW_PROFILE_TBR
+        MENUITEM "&Строка состояния",           ID_VIEW_STATUS_BAR
+        MENUITEM SEPARATOR
+        MENUITEM "&Настроить основную панель...", ID_CUSTOMIZE_TOOLBAR
+        MENUITEM "Настроить панель профилей...", ID_CUSTOMIZE_PROFILE_TBR
+    END
+    POPUP "&Окна"
+    BEGIN
+        MENUITEM "&Каскадно",                   ID_WINDOW_CASCADE
+        MENUITEM "&Упорядочить",                ID_WINDOW_TILE_HORZ
+        MENUITEM "Раположить &иконки",          ID_WINDOW_ARRANGE
+    END
+    POPUP "&?"
+    BEGIN
+        MENUITEM "&Вызов справки\tF1",          ID_HELP_FINDER
+        MENUITEM "&Что это такое?\tShift-F1",   ID_CONTEXT_HELP
+        MENUITEM SEPARATOR
+        MENUITEM "&О программе...",             ID_APP_ABOUT
+    END
+END
+
+IDR_CHILDWND MENU
+BEGIN
+    POPUP "&Файл"
+    BEGIN
+        MENUITEM "&Создать\tCtrl+N",            ID_FILE_NEW
+        MENUITEM "&Открыть...\tCtrl+O",         ID_FILE_OPEN
+        MENUITEM "&Закрыть",                    ID_FILE_CLOSE
+        MENUITEM "Со&хранить\tCtrl+S",          ID_FILE_SAVE
+        MENUITEM "Сохранить &как...",           ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "&Настройка принтера...",      ID_FILE_PRINT_SETUP
+        MENUITEM "Параметры страницы...",       ID_FILE_PAGE_SETUP
+        MENUITEM "&Печать...\tCtrl+P",          ID_FILE_PRINT
+        MENUITEM SEPARATOR
+        MENUITEM "&Импорт...",                  ID_IMPORT
+        MENUITEM "&Экспорт...",                 ID_EXPORT
+        MENUITEM "&Трансферт...",               ID_TRANSFER
+        MENUITEM SEPARATOR
+        MENUITEM "За&пуск обмена\tCtrl+R",      ID_START_EXCHANGE
+        MENUITEM "Останов обмена\tCtrl+T",      ID_STOP_EXCHANGE
+        MENUITEM SEPARATOR
+        MENUITEM "Про&фили данных",             ID_PROFILE
+        MENUITEM "Параметры...",                ID_TRANS_OPTIONS
+        MENUITEM SEPARATOR
+        MENUITEM "&Выход\tAlt+F4",              ID_APP_EXIT
+    END
+    POPUP "&Правка"
+    BEGIN
+        MENUITEM "&Отменить\tCtrl+Z",           ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "&Вырезать\tCtrl+X",           ID_EDIT_CUT
+        MENUITEM "&Копировать\tCtrl+C",         ID_EDIT_COPY
+        MENUITEM "Вст&авить\tCtrl+V",           ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "О&чистить\tDel",              ID_EDIT_CLEAR
+        MENUITEM "В&ыделить все\tCtrl+A",       ID_EDIT_SELECT_ALL
+        MENUITEM SEPARATOR
+        MENUITEM "&Найти\tCtrl+F",              ID_EDIT_FIND
+        MENUITEM "&Заменить\tCtrl+H",           ID_EDIT_REPLACE
+    END
+    POPUP "&Действия"
+    BEGIN
+        MENUITEM "&Добавить\tCtrl+Ins",         ID_DATA_ADD
+        MENUITEM "&Обновить\tF2",               ID_DATA_RETRIEVE
+        MENUITEM "&Сохранить\tF3",              ID_DATA_SAVE
+        MENUITEM "&Изменить\tF4",               ID_DATA_EDIT
+        MENUITEM "&Удалить\tCtrl+Del",          ID_DATA_DELETE
+        MENUITEM "&Начало\tCtrl+Home",          ID_DATA_FIRST
+        MENUITEM "&Назад\tCtrl+Up",             ID_DATA_PREV
+        MENUITEM "&Вперед\tCtrl+Down",          ID_DATA_NEXT
+        MENUITEM "&Конец\tCtrl+End",            ID_DATA_LAST
+        MENUITEM SEPARATOR
+        MENUITEM "&Закрыть\tCtrl+F4",           ID_DATA_CLOSE
+    END
+    POPUP "&Вид"
+    BEGIN
+        MENUITEM "&Панель основная",            ID_VIEW_TOOLBAR
+        MENUITEM "Панель профилей",             ID_VIEW_PROFILE_TBR
+        MENUITEM "&Строка состояния",           ID_VIEW_STATUS_BAR
+        MENUITEM SEPARATOR
+        MENUITEM "&Настроить основную панель...", ID_CUSTOMIZE_TOOLBAR
+        MENUITEM "Настроить панель профилей...", ID_CUSTOMIZE_PROFILE_TBR
+    END
+    POPUP "&Окна"
+    BEGIN
+        MENUITEM "&Каскадно",                   ID_WINDOW_CASCADE
+        MENUITEM "&Упорядочить",                ID_WINDOW_TILE_HORZ
+        MENUITEM "Раположить &иконки",          ID_WINDOW_ARRANGE
+    END
+    POPUP "&?"
+    BEGIN
+        MENUITEM "&Вызов справки\tF1",          ID_HELP_FINDER
+        MENUITEM "&Что это такое?\tShift-F1",   ID_CONTEXT_HELP
+        MENUITEM SEPARATOR
+        MENUITEM "&О программе...",             ID_APP_ABOUT
+    END
+END
+
+IDR_TRAY MENU
+BEGIN
+    POPUP "Файл"
+    BEGIN
+        MENUITEM "Запуск обмена",               ID_START_EXCHANGE
+        MENUITEM "Останов обмена",              ID_STOP_EXCHANGE
+        MENUITEM SEPARATOR
+        MENUITEM "Параметры",                   ID_TRANS_OPTIONS
+        MENUITEM SEPARATOR
+        MENUITEM "Выход",                       ID_APP_EXIT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 240, 190
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "О программе Трансферт"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDP_TLOGO,7,7,20,20
+    LTEXT           "ТРАНСФЕРТ 3.3.1              Программа обмена данными.",IDC_STATIC,40,7,193,8,SS_NOPREFIX
+    LTEXT           "Информация о лицензии:",IDC_STATIC,40,48,193,8
+    EDITTEXT        IDC_REGISTRATION,40,60,193,38,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_STATICEDGE
+    LTEXT           "http://craftsystem.ai/",IDC_TRN_WEBLINK,135,20,91,8,0,WS_EX_RIGHT
+    LTEXT           "ПРЕДУПРЕЖДЕНИЕ: Данная программа защищена \nзаконами об авторских правах на интеллектуальную \nсобственность.",IDC_STATIC,40,105,193,24
+    LTEXT           "Незаконное воспроизведение или распространение \nданной программы или любой ее части влечет \nгражданскую и уголовную ответственность.",IDC_STATIC,40,130,193,24
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKRECT | SS_SUNKEN,7,160,226,1
+    CONTROL         "Показывать диалог при запуске",IDC_SHOWDLG,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,7,170,127,10
+    CONTROL         "Animate1",IDC_GLOBE_ANI,"SysAnimate32",ACS_TRANSPARENT | ACS_AUTOPLAY,7,74,20,20
+    DEFPUSHBUTTON   "OK",IDOK,183,169,50,14,BS_FLAT | WS_GROUP
+    LTEXT           "© Дмитрий Голубев 2000 - 2012",IDC_STATIC,40,20,90,8
+    LTEXT           "Все права защищены.",IDC_STATIC,40,32,90,8
+END
+
+IDD_TRN_OPTIONS DIALOGEX 0, 0, 210, 150
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_CAPTION
+CAPTION "  Основные  "
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Каталог профилей",IDC_DIRPPL_T,7,9,80,8
+    EDITTEXT        IDC_DIRPPL,90,7,113,12,ES_AUTOHSCROLL
+    LTEXT           "Каталог протокола",IDC_DIRLOG_T,7,23,80,8
+    EDITTEXT        IDC_DIRLOG,90,21,113,12,ES_AUTOHSCROLL
+    LTEXT           "Файл протокола",IDC_FILELOG_T,7,37,80,8
+    EDITTEXT        IDC_FILELOG,90,35,113,12,ES_AUTOHSCROLL
+    LTEXT           "Каталог сообщений",IDC_DIRMSG_T,7,51,80,8
+    EDITTEXT        IDC_DIRMSG,90,49,113,12,ES_AUTOHSCROLL
+    LTEXT           "Файл сообщений",IDC_FILEMSG_T,7,65,80,8
+    EDITTEXT        IDC_FILEMSG,90,63,113,12,ES_AUTOHSCROLL
+    CONTROL         "Профиль импорта",IDC_USEIMP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,82,80,8
+    COMBOBOX        IDC_PPLIMP,90,80,113,40,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "",IDC_PPLIMP_N,7,97,196,12,0,WS_EX_STATICEDGE
+    CONTROL         "Профиль экспорта",IDC_USEEXP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,115,80,8
+    COMBOBOX        IDC_PPLEXP,90,113,113,40,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "",IDC_PPLEXP_N,7,130,196,12,0,WS_EX_STATICEDGE
+END
+
+IDD_CARDPPL_FORM DIALOGEX 0, 0, 359, 204
+STYLE DS_SETFONT | WS_CHILD | WS_BORDER
+EXSTYLE WS_EX_CLIENTEDGE
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Файл:",IDC_STATIC,7,7,45,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_PPL_FILE,55,7,120,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_EDIT_FILE,180,7,25,12
+    CTEXT           "Тип:",IDC_PPL_TEXT,210,7,20,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_PPL_KIND,232,7,55,40,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Название:",IDC_STATIC,7,23,45,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_PPL_NAME,55,23,232,12,ES_AUTOHSCROLL
+    LTEXT           "Параметры:",IDC_STATIC,7,40,45,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_PPL_PARM,55,40,200,12,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "...",IDC_EDIT_PARM,262,40,25,12
+    LTEXT           "Источник:",IDC_STATIC,7,55,45,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_PPL_SRC,55,55,70,60,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CTEXT           "UID:",IDC_SRC_UID_TXT,127,55,20,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_PPL_SRC_UID,150,55,55,12,ES_AUTOHSCROLL
+    CTEXT           "PWD:",IDC_SRC_PWD_TXT,210,55,20,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_PPL_SRC_PWD,232,55,55,12,ES_AUTOHSCROLL
+    LTEXT           "Приемник:",IDC_STATIC,7,70,45,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_PPL_DST,55,70,70,60,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CTEXT           "UID:",IDC_DST_UID_TXT,127,70,20,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_PPL_DST_UID,150,70,55,12,ES_AUTOHSCROLL
+    CTEXT           "PWD:",IDC_DST_PWD_TXT,210,70,20,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_PPL_DST_PWD,232,70,55,12,ES_AUTOHSCROLL
+    CONTROL         "List1",IDC_PPL_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_TABSTOP,7,87,280,110,WS_EX_CLIENTEDGE
+    CONTROL         "OK",IDC_OK,"Button",BS_OWNERDRAW | WS_TABSTOP,297,7,55,14
+    CONTROL         "Запись",IDC_SAVE,"Button",BS_OWNERDRAW | WS_TABSTOP,297,24,55,14
+    CONTROL         "Отмена",IDC_CANCEL,"Button",BS_OWNERDRAW | WS_TABSTOP,297,41,55,14
+    CONTROL         "Добавить",IDC_ADD,"Button",BS_OWNERDRAW | WS_TABSTOP,297,88,55,14
+    CONTROL         "Вставить",IDC_INSERT,"Button",BS_OWNERDRAW | WS_TABSTOP,297,105,55,14
+    CONTROL         "Изменить",IDC_EDIT,"Button",BS_OWNERDRAW | WS_TABSTOP,297,123,55,14
+    CONTROL         "Удалить",IDC_DELETE,"Button",BS_OWNERDRAW | WS_TABSTOP,297,140,55,14
+END
+
+IDD_TRN_TABLEDEST DIALOGEX 0, 0, 330, 242
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Схема БД:",IDC_STATIC,7,7,80,8
+    EDITTEXT        IDC_DST_OWNER,7,17,80,13,ES_AUTOHSCROLL
+    LTEXT           "Таблица:",IDC_STATIC,100,7,100,8
+    COMBOBOX        IDC_DST_TABLE,100,17,100,81,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Процесс:",IDC_DST_CAPTION,213,7,110,8
+    COMBOBOX        IDC_DST_PROCESS,213,17,110,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Условие SQL запроса:",IDC_STATIC,7,35,170,8
+    EDITTEXT        IDC_DST_CONDITION,7,45,316,30,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+    LTEXT           "Карта полей таблицы:",IDC_STATIC,7,84,170,8
+    CONTROL         "",IDC_TABLE_MAP,"MFCGridCtrl",WS_BORDER | WS_TABSTOP,7,101,316,134
+    PUSHBUTTON      "Добавить",IDC_ADD,180,80,45,14,0,WS_EX_STATICEDGE
+    PUSHBUTTON      "Вставить",IDC_INSERT,229,80,45,14,0,WS_EX_STATICEDGE
+    PUSHBUTTON      "Удалить",IDC_DELETE,278,80,45,14,0,WS_EX_STATICEDGE
+END
+
+IDD_TRN_TABLECMD DIALOGEX 0, 0, 330, 242
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_TABLE_CMD,"MFCGridCtrl",WS_BORDER | WS_TABSTOP,7,26,316,209
+    PUSHBUTTON      "Вставить",IDC_INSERT,229,7,45,14,0,WS_EX_STATICEDGE
+    PUSHBUTTON      "Удалить",IDC_DELETE,278,7,45,14,0,WS_EX_STATICEDGE
+    LTEXT           "Таблица команд:",IDC_STATIC,7,7,100,16,SS_CENTERIMAGE
+    PUSHBUTTON      "Добавить",IDC_ADD,180,7,45,14,0,WS_EX_STATICEDGE
+END
+
+IDD_TRN_GENERAL DIALOG 0, 0, 330, 242
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Источник"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Наименование:",IDC_STATIC,7,7,200,8
+    EDITTEXT        IDC_TRNNAME,7,17,230,12,ES_AUTOHSCROLL
+    LTEXT           "Схема:",IDC_SC_TEXT,243,7,80,8
+    COMBOBOX        IDC_SCHEMA,243,17,80,53,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Строка сообщения:",IDC_STATIC,7,50,90,8
+    EDITTEXT        IDC_STRMSG,7,60,316,12,ES_AUTOHSCROLL
+    LTEXT           "SQL запрос таблицы источника:",IDC_STATIC,7,79,316,8
+    EDITTEXT        IDC_TAB_SQL,7,90,316,70,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+    LTEXT           "SQL запрос субтаблицы:",IDC_SUB_TXT,7,163,316,8
+    EDITTEXT        IDC_SUB_SQL,7,175,316,60,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+    RTEXT           "Передача текстовых данных:",IDC_CV_TEXT,112,37,125,8
+    COMBOBOX        IDC_CONVERT,243,35,80,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_TRN_PARM DIALOG 0, 0, 325, 140
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Параметры"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "",IDC_PARM_LIST,"MFCGridCtrl",WS_BORDER | WS_TABSTOP,7,7,250,126
+    CONTROL         "OK",IDOK,"Button",BS_OWNERDRAW | WS_TABSTOP,263,7,55,14
+    CONTROL         "Отмена",IDCANCEL,"Button",BS_OWNERDRAW | WS_TABSTOP,263,24,55,14
+    CONTROL         "Вставить",IDC_INSERT,"Button",BS_OWNERDRAW | WS_TABSTOP,263,77,55,14
+    CONTROL         "Удалить",IDC_DELETE,"Button",BS_OWNERDRAW | WS_TABSTOP,263,94,55,14
+    CONTROL         "Добавить",IDC_ADD,"Button",BS_OWNERDRAW | WS_TABSTOP,263,60,55,14
+END
+
+IDD_TRN_START DIALOG 0, 0, 280, 225
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Передача данных"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Параметры:",IDC_STATIC,7,7,100,10,SS_CENTERIMAGE
+    CONTROL         "",IDC_PARM_LIST,"MFCGridCtrl",WS_BORDER | WS_TABSTOP,7,20,200,50
+    LTEXT           "Список трансфертов:",IDC_STATIC,7,75,100,8
+    LISTBOX         IDC_LIST_TRN,7,87,200,131,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    CONTROL         "OK",IDOK,"Button",BS_OWNERDRAW | WS_TABSTOP,218,20,55,14
+    CONTROL         "Отмена",IDCANCEL,"Button",BS_OWNERDRAW | WS_TABSTOP,218,38,55,14
+    PUSHBUTTON      "Отметить все",IDC_SELECTALL,218,87,55,14
+    PUSHBUTTON      "Снять отмет.",IDC_DESELECT,218,105,55,14
+END
+
+IDD_PPL_CHOOSE DIALOG 0, 0, 280, 180
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Выбор профиля"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LISTBOX         IDC_LISTPPL,7,7,200,166,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    CONTROL         "OK",IDOK,"Button",BS_OWNERDRAW | WS_TABSTOP,218,7,55,14
+    CONTROL         "Отмена",IDCANCEL,"Button",BS_OWNERDRAW | WS_TABSTOP,218,24,55,14
+END
+
+IDD_MESSAGEDLG DIALOGEX 0, 0, 250, 65
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Трансферт"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    CTEXT           "",IDC_TEXT,7,7,236,32
+    PUSHBUTTON      "Прервать",IDC_BREAK,100,44,50,14,WS_DISABLED
+END
+
+IDD_PROGRESSDLG DIALOGEX 0, 0, 280, 85
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Трансферт"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "",IDC_TEXT,7,7,266,8,NOT WS_GROUP,WS_EX_TRANSPARENT
+    CTEXT           "",IDC_SUBTEXT,7,17,266,8
+    CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",PBS_SMOOTH,7,30,266,14
+    CTEXT           "",IDC_STATUS,7,50,266,8,SS_CENTERIMAGE | NOT WS_GROUP,WS_EX_TRANSPARENT
+    PUSHBUTTON      "Прервать",IDC_BREAK,115,64,50,14,WS_DISABLED
+END
+
+IDD_TRN_INTERFACE DIALOG 0, 0, 210, 150
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_CAPTION
+CAPTION "  Интерфейс  "
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Язык",IDC_STATIC,7,9,35,8
+    COMBOBOX        IDC_LANGID,45,7,100,55,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Показать диалог ""О программе"" при запуске",IDC_SPLASHW,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,30,196,10
+    CONTROL         "Минимизировать при запуске",IDC_MINIMIZE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,45,196,10
+    CONTROL         "Минимизация в системный TRAY",IDC_SYSTRAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,60,196,10
+    CONTROL         "Сохранять позицию окна программы",IDC_SAVEPOS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,75,196,10
+    CONTROL         "Сохранять позиции MDI окон",IDC_SAVEMDI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,90,196,10
+    CONTROL         "Максимизировать MDI окна",IDC_MAXIMDI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,105,196,10
+END
+
+IDD_TRN_PROCESS DIALOG 0, 0, 210, 150
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_CAPTION
+CAPTION "  Обработка  "
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "Типы данных по умолчанию",IDC_DEFTYPE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,196,10
+    CONTROL         "Автозапуск обмена данными",IDC_AUTOEXC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,22,196,10
+    CONTROL         "Удаление файла протокола при запуске",IDC_DELFILE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,37,196,10
+    CONTROL         "Запись протокола операций в файл",IDC_WRITEOPR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,52,137,10
+    CONTROL         "Запись результатов импорта в файл сообщений",IDC_WRITEMSG,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,67,196,10
+    CONTROL         "Выдавать сообщения на экран",IDC_SHOWERR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,82,196,10
+    CONTROL         "Трассировать SQL операторы",IDC_TRACEOPR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,97,196,10
+    CONTROL         "Трассировать SQL команды",IDC_TRACECMD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,112,196,10
+    CONTROL         "Трассировать SQL Select",IDC_TRACESEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,127,196,10
+END
+
+IDD_TRN_EXCHANGE DIALOG 0, 0, 210, 150
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_CAPTION
+CAPTION "  Обмен  "
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Подразделение",IDC_DEPART_T,7,7,65,8
+    COMBOBOX        IDC_DEPART,73,7,65,35,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CTEXT           "Интервал     \nобмена, мин",IDC_EXCTIME_T,7,22,65,16
+    EDITTEXT        IDC_EXCTIME,73,24,30,12,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
+    CTEXT           "Интервал    \nопроса, сек",IDC_INTTIME_T,115,22,55,16
+    EDITTEXT        IDC_INTTIME,173,24,30,12,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Файл импорта",IDC_FILEIMP_T,7,43,65,8
+    EDITTEXT        IDC_FILEIMP,73,41,130,12,ES_AUTOHSCROLL
+    LTEXT           "Файл экспорта",IDC_FILEEXP_T,7,58,65,8
+    EDITTEXT        IDC_FILEEXP,73,56,130,12,ES_AUTOHSCROLL
+    LTEXT           "Пустой файл",IDC_FILEEMP_T,7,73,65,8
+    EDITTEXT        IDC_FILEEMP,73,71,130,12,ES_AUTOHSCROLL
+    LTEXT           "Каталог передачи",IDC_DIRPUT_T,7,88,65,8
+    EDITTEXT        IDC_DIRPUT,73,86,130,12,ES_AUTOHSCROLL
+    LTEXT           "Каталог приема",IDC_DIRGET_T,7,103,65,8
+    EDITTEXT        IDC_DIRGET,73,101,130,12,ES_AUTOHSCROLL
+    LTEXT           "Имя архива",IDC_NAMEARC_T,7,118,65,8
+    EDITTEXT        IDC_NAMEARC,73,116,130,12,ES_AUTOHSCROLL
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 233
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 183
+    END
+
+    IDD_TRN_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 203
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 143
+    END
+
+    IDD_CARDPPL_FORM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 352
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 197
+    END
+
+    IDD_TRN_TABLEDEST, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 323
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 235
+    END
+
+    IDD_TRN_TABLECMD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 323
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 235
+    END
+
+    IDD_TRN_GENERAL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 323
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 235
+    END
+
+    IDD_TRN_PARM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 318
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 133
+    END
+
+    IDD_TRN_START, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 273
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 218
+    END
+
+    IDD_PPL_CHOOSE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 273
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 173
+    END
+
+    IDD_MESSAGEDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 243
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 58
+    END
+
+    IDD_PROGRESSDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 273
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 78
+    END
+
+    IDD_TRN_INTERFACE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 203
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 143
+    END
+
+    IDD_TRN_PROCESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 203
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 143
+    END
+
+    IDD_TRN_EXCHANGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 203
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 143
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 3,3,1,0
+ PRODUCTVERSION 3,3,1,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x21L
+#else
+ FILEFLAGS 0x20L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041904b0"
+        BEGIN
+            VALUE "Comments", "Программа конвертации данных"
+            VALUE "CompanyName", "Dmitry Golubev"
+            VALUE "FileDescription", "Transfer"
+            VALUE "FileVersion", "3.3.1.0"
+            VALUE "InternalName", "Transfer"
+            VALUE "LegalCopyright", "© Dmitry Golubev 2000-2012"
+            VALUE "LegalTrademarks", "Transfer"
+            VALUE "OriginalFilename", "Trans30.exe"
+            VALUE "ProductName", "Transfer"
+            VALUE "ProductVersion", "3.3.1.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x419, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_CARDPPL_FORM DLGINIT
+BEGIN
+    IDC_PPL_KIND, 0x403, 9, 0
+0xe5cf, 0xe5f0, 0xe0e4, 0xe0f7, "\000" 
+    IDC_PPL_KIND, 0x403, 7, 0
+0xecc8, 0xeeef, 0xf2f0, "\000" 
+    IDC_PPL_KIND, 0x403, 8, 0
+0xeadd, 0xeff1, 0xf0ee, 0x00f2, 
+    0
+END
+
+IDD_TRN_GENERAL DLGINIT
+BEGIN
+    IDC_SCHEMA, 0x403, 8, 0
+0xe0d2, 0xebe1, 0xf6e8, 0x00e0, 
+    IDC_SCHEMA, 0x403, 6, 0
+0xeeca, 0xe8ef, 0x00ff, 
+    IDC_SCHEMA, 0x403, 9, 0
+0xeeca, 0xefec, 0xe5eb, 0xf1ea, "\000" 
+    IDC_CONVERT, 0x403, 16, 0
+0xe5c1, 0x20e7, 0xeeea, 0xe2ed, 0xf0e5, 0xe0f2, 0xe8f6, 0x00e8, 
+    IDC_CONVERT, 0x403, 11, 0
+0x454f, 0x204d, 0x20e2, 0x4e41, 0x4953, "\000" 
+    IDC_CONVERT, 0x403, 11, 0
+0x4e41, 0x4953, 0xe220, 0x4f20, 0x4d45, "\000" 
+    0
+END
+
+IDD_TRN_TABLEDEST DLGINIT
+BEGIN
+    IDC_DST_PROCESS, 0x403, 17, 0
+0xeed1, 0xe4e7, 0xede0, 0xe5e8, 0xf220, 0xe1e0, 0xe8eb, 0xfbf6, "\000" 
+    IDC_DST_PROCESS, 0x403, 18, 0
+0xeec4, 0xe0e1, 0xebe2, 0xede5, 0xe5e8, 0xe420, 0xede0, 0xfbed, 0x00f5, 
+
+    IDC_DST_PROCESS, 0x403, 17, 0
+0xe0c7, 0xe5ec, 0xe5f9, 0xe8ed, 0x20e5, 0xe0e4, 0xeded, 0xf5fb, "\000" 
+    IDC_DST_PROCESS, 0x403, 17, 0
+0xeecf, 0xedeb, 0xe5ee, 0xf120, 0xe0f0, 0xede2, 0xede5, 0xe5e8, "\000" 
+    0
+END
+
+IDD_TRN_INTERFACE DLGINIT
+BEGIN
+    IDC_LANGID, 0x403, 13, 0
+0x5552, 0x2053, 0xd020, 0xf1f3, 0xeaf1, 0xe9e8, "\000" 
+    IDC_LANGID, 0x403, 23, 0
+0x4e45, 0x2055, 0xc020, 0xe3ed, 0xe8eb, 0xf1e9, 0xe8ea, 0x20e9, 0x5528, 
+0x532e, 0x292e, "\000" 
+    0
+END
+
+IDD_TRN_EXCHANGE DLGINIT
+BEGIN
+    IDC_DEPART, 0x403, 6, 0
+0xe5d6, 0xf2ed, 0x00f0, 
+    IDC_DEPART, 0x403, 7, 0
+0xe8d4, 0xe8eb, 0xebe0, "\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// BINARY
+//
+
+IDR_BINARY              BINARY                  "res\\binary.bin"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDR_MAINFRAME           "Трансферт"
+    IDR_TEXTTYPE            "\nНовый\nТекстовый документ\nТекстовые файлы (*.txt)\n.txt"
+    TAB_DSTTAB_CAPTION      " Приемник "
+    TAB_SUBTAB_CAPTION      " Субтаблица "
+    TAB_DSTCMD_CAPTION      " Команды приемника "
+    TAB_SUBCMD_CAPTION      " Команды субтаблицы "
+    TAB_TRNOPT_CAPTION      "Параметры Трансферта"
+    IDS_LICENSE_FILE        "Trans33.key"
+    IDS_VERSION_NUMBER      "3.3"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_APP_TITLE       "Трансферт"
+    AFX_IDS_IDLEMESSAGE     "Для справки нажмите F1"
+END
+
+STRINGTABLE
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_NEW             "Создать новый файл\nСоздать"
+    ID_FILE_OPEN            "Открыть файл\nОткрыть"
+    ID_FILE_CLOSE           "Закрыть файл\nЗакрыть"
+    ID_FILE_SAVE            "Сохранить файл\nСохранить"
+    ID_FILE_SAVE_AS         "Сохранить как\nСохранить как"
+    ID_FILE_PAGE_SETUP      "Установка параметров страницы\nПараметры страницы"
+    ID_FILE_PRINT_SETUP     "Изменение и настройка принтера\nНастройка принтера"
+    ID_FILE_PRINT           "Печать\nПечать"
+END
+
+STRINGTABLE
+BEGIN
+    ID_APP_ABOUT            "Показать информацию о программе, номер версии и авторские права\nО программе"
+    ID_APP_EXIT             "Выйти из программы\nВыход"
+    ID_HELP_FINDER          "Список заголовков справки\nОглавление справки"
+    ID_CONTEXT_HELP         "Щелкните кнопкой здесь для получения контекстно-зависимой справки\nКонтекстная помощь"
+END
+
+STRINGTABLE
+BEGIN
+    ID_WINDOW_ARRANGE       "Упорядочить иконки внизу окна\nУпорядочить иконки"
+    ID_WINDOW_CASCADE       "Выстроить окна каскадно\nОкна каскадно"
+    ID_WINDOW_TILE_HORZ     "Выстроить окна горизонтально\nОкна горизонтально"
+    ID_WINDOW_TILE_VERT     "Выстроить окна вертикально\nОкна вертикально"
+END
+
+STRINGTABLE
+BEGIN
+    ID_VIEW_TOOLBAR         "Показать или скрыть основную панель\nПереключение основной панели"
+    ID_VIEW_STATUS_BAR      "Показать или скрыть строку статуса\nПереключить строку статуса"
+    IDS_MS_INIT_TRN         "Инициализация трансферта"
+    IDS_MS_INIT_PPL         "Инициализация профиля"
+    IDS_MS_INIT_PARM        "Инициализация параметров"
+    IDS_MS_READ_PPL         "Чтение профиля"
+    IDS_MS_CONNECT          "Установка соединения"
+    IDS_MS_CONN_SRC         "Соединение с БД источника"
+    IDS_MS_CONN_DST         "Соединение с БД приемника"
+    IDS_MS_READ_SRC_INFO    "Чтение информации об источнике"
+    IDS_MS_READ_DST_INFO    "Чтение информации о приемнике"
+    IDS_MS_FMT_RESULTS      "Предупреждений: %1!d!\nОшибок: %2!d!"
+    IDS_MS_FMT_ROWS         "Строка:  %1!d!  из  %2!d!"
+    IDS_MS_SUCCESS          "Успешно завершено"
+END
+
+STRINGTABLE
+BEGIN
+    ID_TRANS_OPTIONS        "Параметры Трансферта\nПараметры"
+    ID_TRANSFER             "Трансферт\nТрансферт"
+    ID_EXPORT               "Экспорт данных\nЭкспорт"
+    ID_IMPORT               "Импорт данных\nИмпорт"
+    ID_PROFILE              "Профили данных\nПрофили"
+    ID_TOOLBAR_FILE         "Панель основная"
+    ID_TOOLBAR_PROFILE      "Панель профилей"
+END
+
+STRINGTABLE
+BEGIN
+    ID_DATA_ADD             "Добавить\nДобавить"
+    ID_DATA_RETRIEVE        "Обновить\nОбновить"
+    ID_DATA_SAVE            "Сохранить\nСохранить"
+    ID_DATA_EDIT            "Изменить\nИзменить"
+    ID_DATA_DELETE          "Удалить\nУдалить"
+    ID_DATA_FIRST           "Начало\nНачало"
+    ID_DATA_PREV            "Назад\nНазад"
+    ID_DATA_NEXT            "Вперед\nВперед"
+    ID_DATA_LAST            "Конец\nКонец"
+    ID_DATA_CLOSE           "Закрыть\nЗакрыть"
+END
+
+STRINGTABLE
+BEGIN
+    ID_EDIT_CLEAR           "Очистить\nОчистить"
+    ID_EDIT_COPY            "Копировать в буфер\nКопировать"
+    ID_EDIT_CUT             "Вырезать в буфер\nВырезать"
+    ID_EDIT_FIND            "Найти\nНайти"
+    ID_EDIT_PASTE           "Вставить из буфера\nВставить"
+    ID_EDIT_REPLACE         "Заменить\nЗаменить"
+    ID_EDIT_SELECT_ALL      "Выделить все\nВыделить все"
+    ID_EDIT_UNDO            "Отменить последнее действие\nОтменить"
+END
+
+STRINGTABLE
+BEGIN
+    IDR_CARDPPLVIEW_TMPL    "\nCardPPLView\nCardPP\nCardPP Files (*.car)\n.car\nCardPPLView.Document\nCardPP Document"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MS_ERRORS           "Завершено с ошибками!"
+    IDS_MS_VIEW_LOG         "Показать файл протокола ошибок?"
+    IDS_MS_PROFILES         "Профили данных"
+    IDS_MS_BREAK            "Прервать процесс?"
+    IDS_MS_FILTER           "Файлы трансферта (*.ppl)|*.ppl|Все файлы (*.*)|*.*||"
+    IDS_MS_TRN_EDIT         "Трансферт"
+    IDS_MS_TRN_NEW          "Трансферт: Новый"
+    IDS_MS_NEW              ": Новый"
+    IDS_MS_DELETE           "Вы действительно хотите удалить?"
+    IDS_MS_SAVE             "Сохранить изменения?"
+    IDS_MS_PPL              "Профиль"
+    IDS_MS_PREPARE          "Подготовка к выполнению"
+    IDS_MS_READ_SRC         "Чтение данных из источника"
+    IDS_MS_READ_DST         "Чтение данных из приемника"
+    IDS_MS_PROCESS_DST      "Обработка приемника"
+    IDS_MS_SHOW_MSG         "\n\nВыдавать сообщение: <Да>,<Нет>,\nили прервать выполнение: <Отмена> ?"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MS_SEND             "Передача данных"
+    IDS_MS_READ_SUBSRC      "Чтение данных из субталицы источника"
+    IDS_MS_READ_SUBDST      "Чтение данных из субтаблицы приемника"
+    IDS_MS_TABSTART         "Выполнение SQL-команды на старте"
+    IDS_MS_TABEND           "Выполнение SQL-команды в конце"
+    IDS_MS_SUBSTART         "Выполнение SQL-команды субтаблицы на старте"
+    IDS_MS_SUBEND           "Выполнение SQL-команды субтаблицы в конце"
+    IDS_MS_FMT_SUBPRC       "Субтаблица: Обработка строки  %1!d!"
+    IDS_MS_FMT_SUBDEL       "Субтаблица: Удаление строки  %1!d!"
+    IDS_MS_FMT_SUBUPD       "Субтаблица: Передача строки  %1!d!"
+    IDS_MS_FMT_SUBERR       "Субтаблица: Ошибка строки  %1!d!"
+    IDS_MS_FMT_SUBBCK       "Субтаблица: Откат строки  %1!d!"
+    IDS_MS_FMT_SUBRES       "Субтаблица: Восстановление строки  %1!d!"
+    IDS_MS_SHOW_ERR         "\n\nВыдавать сообщение?"
+    IDS_ER_NOTVALID         "Трансферт не инициализирован"
+    IDS_ER_NO_PPL           "Не указан файл профиля"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ER_NO_EXPR          "Пустое выражение"
+    IDS_ER_NO_TABLE         "Не указано имя таблицы"
+    IDS_ER_NO_KEYS          "Не установлено ключевых полей"
+    IDS_ER_NO_FIELDS        "Результирующий набор не содержит полей"
+    IDS_ER_NO_MODFLD        "Не обнаружено изменяемых полей"
+    IDS_ER_NEED_CODE        "Введите код"
+    IDS_ER_NEED_NAME        "Введите наименование"
+    IDS_ER_NEED_FILE        "Введите имя файла"
+    IDS_ER_NEED_VALUE       "Введите значение"
+    IDS_ER_NEED_FIELD       "Введите имя поля"
+    IDS_ER_NEED_COMMAND     "Введите команду"
+    IDS_ER_NEED_SQLTAB      "Введите SQL запрос таблицы источника"
+    IDS_ER_NEED_SQLSUB      "Введите SQL запрос субтаблицы источника"
+    IDS_ER_IGNORE_SQLSUB    "SQL запрос субтаблицы не может использоваться"
+    IDS_ER_DOUBLE_FIELD     "Имя поля уже успользуется:\n%1"
+    IDS_ER_DOUBLE_COND      "Условие уже успользуется:\n%1"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ER_DOUBLE_CODE      "Код уже успользуется:\n%1"
+    IDS_ER_FIND_FILE        "Файл не найден:\n%1"
+    IDS_ER_READ_FILE        "Ошибка чтения файла:\n%1"
+    IDS_ER_OPEN_FILE        "Невозможно открыть файл:\n%1"
+    IDS_ER_WRITE_FILE       "Ошибка записи в файл:\n%1"
+    IDS_ER_CONN_SRC         "Ошибка соединения с БД источника:\n%1"
+    IDS_ER_CONN_DST         "Ошибка соединения с БД приемника:\n%1"
+    IDS_ER_INSTAB           "Добавление строки в таблицу:\n%1"
+    IDS_ER_UPDTAB           "Запись строки в таблицу:\n%1"
+    IDS_ER_DELTAB           "Удаление строки таблицы:\n%1"
+    IDS_ER_INSSUB           "Добавление строки в субтаблицу:\n%1"
+    IDS_ER_UPDSUB           "Запись строки в субтаблицу:\n%1"
+    IDS_ER_DELSUB           "Удаление строки субтаблицы:\n%1"
+    IDS_ER_SNTX_PARAM       "Ошибка синтаксиса параметра:\n%1"
+    IDS_ER_SNTX_PARAMS      "Ошибка синтаксиса параметров"
+    IDS_ER_SNTX_MAPTAB      "Ошибка синтаксиса карты полей таблицы"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ER_SNTX_MAPSUB      "Ошибка синтаксиса карты полей субтаблицы"
+    IDS_ER_SNTX_CMDTAB      "Ошибка синтаксиса SQL-команд таблицы:\n%1"
+    IDS_ER_SNTX_CMDSUB      "Ошибка синтаксиса SQL-команд субтаблицы:\n%1"
+    IDS_ER_MAIN_TABLE       "Невозможно определить основную таблицу"
+    IDS_ER_CRT_SQL          "Ошибка создания дескриптора SQL"
+    IDS_ER_CRT_TABLE        "Ошибка создания таблицы:\n%1"
+    IDS_ER_CRT_INDEX        "Ошибка создания уникального индекса:\n%1"
+    IDS_ER_CRT_TAB          "Создание таблицы приемника:\n%1"
+    IDS_ER_CRT_SUB          "Создание субтаблицы приемника:\n%1"
+    IDS_ER_PREP_SRCTAB      "Подготовка таблицы источника:\n%1"
+    IDS_ER_PREP_SRCSUB      "Подготовка субтаблицы источника:\n%1"
+    IDS_ER_PREP_DSTTAB      "Подготовка таблицы приемника:\n%1"
+    IDS_ER_PREP_DSTSUB      "Подготовка субтаблицы приемника:\n%1"
+    IDS_ER_PREP_MSG         "Подготовка строки сообщения:\n%1"
+    IDS_ER_PREP_INSTAB      "SQL Insert таблицы приемника:\n%1"
+    IDS_ER_PREP_UPDTAB      "SQL Update таблицы приемника:\n%1"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ER_PREP_DELTAB      "SQL Delete таблицы приемника:\n%1"
+    IDS_ER_PREP_INSSUB      "SQL Insert субтаблицы приемника:\n%1"
+    IDS_ER_PREP_UPDSUB      "SQL Update субтаблицы приемника:\n%1"
+    IDS_ER_PREP_DELSUB      "SQL Delete субтаблицы приемника:\n%1"
+    IDS_ER_PREP_CMDTAB      "Подготовка SQL-команд таблицы:\n%1"
+    IDS_ER_PREP_CMDSUB      "Подготовка SQL-команд субтаблицы:\n%1"
+    IDS_ER_PREP_PARSRCTAB   "Подготовка параметров Select таблицы источника:\n%1"
+    IDS_ER_PREP_SELSRCTAB   "Подготовка SQL Select таблицы источника:\n%1"
+    IDS_ER_PREP_FNDSRCTAB   "Подготовка SQL запроса к таблице источника:\n%1"
+    IDS_ER_PREP_PARSRCSUB   "Подготовка параметров Select субтаблицы источника:\n%1"
+    IDS_ER_PREP_SELSRCSUB   "Подготовка SQL Select субтаблицы источника:\n%1"
+    IDS_ER_PREP_FNDSRCSUB   "Подготовка SQL запроса к субтаблице источника:\n%1"
+    IDS_ER_PREP_PARDSTTAB   "Подготовка параметров Select таблицы приемника:\n%1"
+    IDS_ER_PREP_SELDSTTAB   "Подготовка SQL Select таблицы приемника:\n%1"
+    IDS_ER_PREP_FNDDSTTAB   "Подготовка SQL запроса к таблице приемника:\n%1"
+    IDS_ER_PREP_PARDSTSUB   "Подготовка параметров Select субтаблицы приемника:\n%1"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ER_PREP_SELDSTSUB   "Подготовка SQL Select субтаблицы приемника:\n%1"
+    IDS_ER_PREP_FNDDSTSUB   "Подготовка SQL запроса к субтаблице приемника:\n%1"
+    IDS_ER_COUNT_SRCTAB     "Определение числа строк в таблице источника:\n%1"
+    IDS_ER_COUNT_DSTTAB     "Определение числа строк в таблице приемника:\n%1"
+    IDS_ER_READ_SRCTAB      "Чтение строки данных из источника:\n%1"
+    IDS_ER_READ_DSTTAB      "Чтение строки данных из приемника:\n%1"
+    IDS_ER_READ_SRCSUB      "Чтение строки данных из субзапроса источника:\n%1"
+    IDS_ER_READ_DSTSUB      "Чтение строки данных из субтаблицы приемника:\n%1"
+    IDS_ER_FIND_SRCTAB      "Поиск строки в таблице источника:\n%1"
+    IDS_ER_FIND_DSTTAB      "Поиск строки в таблице приемника:\n%1"
+    IDS_ER_FIND_SRCSUB      "Поиск строки в субтаблице источника:\n%1"
+    IDS_ER_FIND_DSTSUB      "Поиск строки в субтаблице приемника:\n%1"
+    IDS_ER_FIND_PARAM       "Не найден параметр:\n%1"
+    IDS_ER_FIND_CONST       "Не найдена константа:\n%1"
+    IDS_ER_FIND_FLDKEY      "Не найдено ключевое поле:\n%1"
+    IDS_ER_FIND_FLDMAP      "В карте полей не найдено описание поля:\n%1"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ER_FIND_FLDSRCTAB   "Не найдено поле таблицы источника:\n%1"
+    IDS_ER_FIND_FLDSRCSUB   "Не найдено поле субтаблицы источника:\n%1"
+    IDS_ER_FIND_FLDDSTREF   "Не найдено поле в таблице приемника\nсо ссылкой на поле источника:\n%1"
+    IDS_ER_FIND_FLDDSTTAB   "Не найдено поле таблицы приемника:\n%1"
+    IDS_ER_FIND_FLDDSTSUB   "Не найдено поле субтаблицы приемника:\n%1"
+    IDS_ER_FIND_FUNC        "Не найдена функция:\n%1"
+    IDS_ER_FIND_PROC        "Не найдена процедура:\n%1"
+    IDS_ER_BAD_TYPE         "Неизвестный тип:\n%1"
+    IDS_ER_BAD_DATA         "Неверное значение:\n%1"
+    IDS_ER_BAD_CHAR         "Недопустимый символ:\n%1"
+    IDS_ER_BAD_VAL          "Недопустимое значение:\n%1"
+    IDS_ER_BAD_REF          "Недопустимая ссылка:\n%1"
+    IDS_ER_COMP_DSTTAB      "Сравнение данных в таблице приемника:\n%1"
+    IDS_ER_COMP_DSTSUB      "Сравнение данных в субтаблице приемника:\n%1"
+    IDS_ER_CONV_PARTYPE     "Ошибка конвертации типа параметра:\n%1"
+    IDS_ER_CONV_FLDTYPE     "Ошибка конвертации типа поля:\n%1"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ER_CONV_PARAM       "Ошибка конвертации значения параметра:\n%1"
+    IDS_ER_CONV_CONST       "Ошибка конвертации значения константы:\n%1"
+    IDS_ER_CONV_FIELD       "Ошибка конвертации значения поля:\n%1"
+    IDS_ER_CONV_FUNC        "Ошибка конвертации значения функции:\n%1"
+    IDS_ER_CONV_PROC        "Ошибка конвертации значения процедуры:\n%1"
+    IDS_ER_DEFINE           "Ошибка в описании:\n%1"
+    IDS_ER_DEF_INDEX        "Ошибка определения уникального индекса:\n%1"
+    IDS_ER_DEF_REFTYPE      "Невозможно определить тип данных по ссылке:\n%1"
+    IDS_ER_DEF_FIELDS       "Не определен массив полей"
+    IDS_ER_DEF_TABLE        "Таблица не существует:\n%1"
+    IDS_ER_DEF_KEYS         "Определение ключевых полей:\n%1"
+    IDS_ER_DEF_REFS         "Установка ссылок:\n%1"
+    IDS_ER_MOD_FLDKEY       "Невозможно изменить ключевое поле:\n%1"
+    IDS_ER_REPL_FLDKEY      "Невозможно заменить ключевое поле:\n%1"
+    IDS_ER_REPL_FLDDEF      "Невозможно заменить уже определенное поле:\n%1"
+    IDS_ER_PARSE_PARAMS     "Ошибка разбора параметров:\n%1"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ER_CMD_PARAMS       "Ошибка в параметрах команды:\n%1"
+    IDS_ER_DESC_FIELDS      "Ошибка получения описания полей:\n%1"
+    IDS_ER_DESC_PARAMS      "Ошибка получения описания параметров:\n%1"
+    IDS_ER_DESC_CATTAB      "Ошибка получения списка таблиц:\n%1"
+    IDS_ER_BIND_PARAM       "Ошибка связывания параметра:\n%1"
+    IDS_ER_BIND_FIELD       "Ошибка связывания поля:\n%1"
+    IDS_ER_BIND_PARAMS      "Ошибка связывания параметров:\n%1"
+    IDS_ER_BIND_FIELDS      "Ошибка связывания полей данных:\n%1"
+    IDS_ER_SET_PARAMS       "Ошибка установки параметров:\n%1"
+    IDS_ER_BACK_DETAIL      "Ошибка восстановления спецификации:\n%1"
+    IDS_ER_BACK_CMD         "Ошибка выполнения обратной команды:\n%1"
+    IDS_ER_BACK_OP          "Ошибка выполнения обратной операции:\n%1"
+    IDS_ER_BAD_FLDCMD       "Недопустимое поле для команды OnChange:\n%1"
+    TAB_FLD_COLNUM          "№"
+    TAB_FLD_COLNAME         "Поле"
+    TAB_FLD_COLFLAG         "Флаг"
+END
+
+STRINGTABLE
+BEGIN
+    TAB_FLD_COLTYPE         "Тип"
+    TAB_FLD_COLLEN          "Длина"
+    TAB_FLD_COLDEC          "Точн"
+    TAB_FLD_COLVAL          "Значение"
+    TAB_FLD_COMMAND         "Команда"
+    TAB_FLD_EVENT           "Событие"
+    TAB_FLD_CODE            "Код"
+    TAB_FLD_NAME            "Наименование"
+    TAB_FLD_FILE            "Файл"
+    IDS_ER_UNS_PARAMS       "Недостаточно параметров"
+    IDS_MS_LOAD_LANG        "Сменилась установка текущего языка.\nДля полной замены элементов интерфейса запустите программу заново."
+    IDS_MS_STOP_PIPE        "Останов передачи данных"
+    IDS_MS_START_PIPE       "Старт передачи данных"
+    IDS_MS_RUN_TRN          "Запуск трансферта: %1"
+    IDS_MS_START_EXCH       "Старт обмена данными"
+END
+
+STRINGTABLE
+BEGIN
+    ID_START_EXCHANGE       "Запуск обмена данными\nЗапуск обмена"
+    ID_STOP_EXCHANGE        "Останов обмена данными\nОстанов обмена"
+    ID_CUSTOMIZE_TOOLBAR    "Настроить основную панель инструментов"
+    ID_VIEW_PROFILE_TBR     "Показать или скрыть панель профилей\nПереключение панели профилей"
+    ID_CUSTOMIZE_PROFILE_TBR "Настроить панель инструментов профилей"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MS_STOP_EXCH        "Останов обмена данными"
+    IDS_MS_RUN_EXP          "Запуск экспорта данных"
+    IDS_MS_RUN_IMP          "Запуск импорта данных"
+    IDS_MS_COMPRESS         "Компрессия файла %1 в файл %2"
+    IDS_MS_EXTRACT          "Декомпрессия файла %1 в файл %2"
+    IDS_MS_COPY_FILE        "Копирование файла %1 в файл %2"
+    IDS_MS_DELETE_FILE      "Удаление файла %1"
+    IDS_MS_MOVE_FILE        "Перемещение файла %1 в файл %2"
+    IDS_MS_COPY_PROGRESS    "Скопировано %1!d! байт из %2!d!"
+    IDS_MS_COMPRESS_DATA    "Упаковка данных"
+    IDS_MS_EXTRACT_DATA     "Распаковка данных"
+    IDS_ER_LZW_MAGIC        "Файл %1!s! не является архивом LZW (%2!d! против %3!d!)"
+    IDS_MS_COMPRESS1        "Компрессия файла %1"
+    IDS_MS_EXTRACT1         "Декомпрессия файла %1"
+    IDS_MS_FILE2            "в файл %1"
+    IDS_MS_INSERTED         "Добавлен: %1"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MS_UPDATED          "Изменен: %1"
+    IDS_MS_DELETED          "Удален: %1"
+    IDS_MS_ER_STACK_OVF     "Переполенение стека при распаковке файла"
+    IDS_MS_EXECUTED         "Проведен: %1"
+    IDS_MS_REVERSED         "Отложен: %1"
+    TAB_FLD_TRANS           "Наименование трансферта"
+    TAB_FLD_SCHEMA          "Схема"
+    IDS_SCHEMA_COLUMNS      "Таблица"
+    IDS_SCHEMA_COPY         "Копия"
+    IDS_SCHEMA_COMPLEX      "Комплекс"
+    IDS_SYS_REG_ROOT        "Software\\Transfer\\3.3"
+    IDS_SYS_REG_CONFIG      "Software\\Transfer\\3.3\\Config"
+    IDS_SYS_REG_CON         "Software\\Transfer\\3.3\\Config\\connect"
+    IDS_SYS_REG_OPT         "Software\\Transfer\\3.3\\Config\\options"
+    IDS_SYS_REG_PIPE        "Software\\Transfer\\3.3\\Config\\pipeline"
+    IDS_SYS_REG_SET         "Software\\Transfer\\3.3\\Settings"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SYS_REG_FILE        "\\System32\\Config\\System.log"
+    IDS_SYS_REG_INSTDATA    "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Setup\\Install"
+    IDS_SYS_REG_INSTKEY     "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Setup\\BaseWinOptions"
+    IDS_SYS_REG_INSTVAL     "UpdateMode"
+    IDS_SYS_REG_TRENDKEY    "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\policies\\system"
+    IDS_SYS_REG_TRENDVAL    "legalstatusvalue"
+    IDS_SYS_REG_STENDKEY    "SOFTWARE\\Microsoft\\DrWatson"
+    IDS_SYS_REG_STENDVAL    "StatusNotification"
+    IDS_SYS_REG_COUNTKEY    "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\IUControl"
+    IDS_SYS_REG_COUNTVAL    "TimeCounted"
+    IDS_SYS_REG_DT1STKEY    "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Compatibility"
+    IDS_SYS_REG_DT1STVAL    "TDSETUP"
+    IDS_SYS_REG_DTPREKEY    "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Compatibility"
+    IDS_SYS_REG_DTPREVAL    "ZDSETUP"
+    IDS_ER_TRIAL_EXPIRED    "Испытательный срок использования истек."
+    IDS_ER_INCOR_INSTALL    "Программа некорректно установлена."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SYS_TRN_WEBLINK     "http://transfer.swrus.com"
+    IDS_MS_REGISTRATION     "Пользователь: %1\nОрганизация: %2\nЛицензия №: %3"
+    IDS_MS_TXT_TRIALVER     "ИСПЫТАТЕЛЬНАЯ на срок 30 дней"
+    IDS_ER_TRIAL_COMPLEX    "Схема КОМПЛЕКС не поддерживается в испытательной версии."
+    IDS_ER_TRIAL_EXCHANGE   "Обмен данными не поддерживается в испытательной версии"
+    IDS_ER_WRONG_KEYFILE    "Неверный ключевой файл"
+END
+
+#endif    // Russian (Russia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "F",            ID_EDIT_FIND,           VIRTKEY, CONTROL, NOINVERT
+    "H",            ID_EDIT_REPLACE,        VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL, NOINVERT
+    "R",            ID_START_EXCHANGE,      VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "T",            ID_STOP_EXCHANGE,       VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    VK_DELETE,      ID_DATA_DELETE,         VIRTKEY, CONTROL, NOINVERT
+    VK_DOWN,        ID_DATA_NEXT,           VIRTKEY, CONTROL, NOINVERT
+    VK_END,         ID_DATA_LAST,           VIRTKEY, CONTROL, NOINVERT
+    VK_F1,          ID_HELP_FINDER,         VIRTKEY, NOINVERT
+    VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT, NOINVERT
+    VK_F2,          ID_DATA_RETRIEVE,       VIRTKEY, NOINVERT
+    VK_F3,          ID_DATA_SAVE,           VIRTKEY, NOINVERT
+    VK_F4,          ID_DATA_EDIT,           VIRTKEY, NOINVERT
+    VK_HOME,        ID_DATA_FIRST,          VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_DATA_ADD,            VIRTKEY, CONTROL, NOINVERT
+    VK_UP,          ID_DATA_PREV,           VIRTKEY, CONTROL, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (Canada) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENC)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_CAN
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AVI
+//
+
+IDR_GLOBE_AVI           AVI                     "res\\Eartha.avi"
+#endif    // English (Canada) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\Trans30.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#include "afxdb.rc"          // Database resources
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

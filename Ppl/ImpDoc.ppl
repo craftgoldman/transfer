@@ -1,0 +1,52 @@
+// Импорт документов и проводок
+PARAMETERS{
+date dat1(Дата с),date dat2(Дата по),integer nref(Журнал)
+}
+CONNECT{
+Source(DSN=In;UID=;PWD=)
+Destination(DSN=OraSrv;UID=compas;PWD=base)
+}
+TRANSFER{
+Name(Кассовые ордера)
+Schema(COPY)
+Source(select   * 
+from     kasorder 
+where    date_order between :dat1 and :dat2 
+order by year,type_order,numb_order)
+Destination(process=REPLACE table=kasorder)
+TabCommands(
+OnInsert(call cash_mod($numref,$year,$type_order,$ndprt,$code_currency,
+$number_pbook,$date_order,^0,$sum_order,^1))
+OnUpdate(call cash_mod($numref,$year,$type_order,$ndprt,$code_currency,
+$number_pbook,$date_order,#sum_order,$sum_order,^2))
+OnDelete(call cash_mod(#numref,#year,#type_order,#ndprt,#code_currency,
+#number_pbook,#date_order,#sum_order,^0,^3))
+ReInsert(call cash_mod($numref,$year,$type_order,$ndprt,$code_currency,
+$number_pbook,$date_order,$sum_order,^0,^3))
+ReUpdate(call cash_mod($numref,$year,$type_order,$ndprt,$code_currency,
+$number_pbook,$date_order,$sum_order,#sum_order,^2))
+ReDelete(call cash_mod(#numref,#year,#type_order,#ndprt,#code_currency,
+#number_pbook,#date_order,^0,#sum_order,^1))
+)
+}
+TRANSFER{
+Name(Документы и проводки)
+Schema(COMPLEX)
+Source(select   * 
+from     document 
+where    data_doc between :dat1(ts) and :dat2(ts) 
+order by data_doc, type_doc, ndprt, key_doc)
+SubSQL(select   *
+from     operat 
+where    numref = $numref(i) and 
+         year = $year(i) and 
+         type_doc = $type_doc(i) and 
+         ndprt = $ndprt(i) and 
+         key_doc = $key_doc(i) 
+order by key_op)
+Message($data_doc  Документ:: $ndprt / $key_doc)
+Destination(process=REPLACE table=document)
+Detail(process=FULL table=operat 
+condition(numref = $numref and year = $year and type_doc = $type_doc and 
+ndprt = $ndprt and key_doc = $key_doc))
+}

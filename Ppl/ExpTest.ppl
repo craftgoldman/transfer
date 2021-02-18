@@ -1,0 +1,25 @@
+// Ёкспорт тест
+PARAMETERS{
+}
+CONNECT{
+Source(DSN=OraSrv;UID=compas;PWD=base)
+Destination(DSN=Out;UID=;PWD=)
+}
+TRANSFER{
+Name( лиенты)
+Schema(COLUMNS)
+Source(select * from client order by ndprt,numb_client)
+Message()
+Destination(process=CREATE table=client
+columns(K:ndprt(I)=$ndprt;K:numb_client(I)=$numb_client;
+prnt_client(I)=$prnt_client;last_client(I)=$last_client;
+t_plant(I)=$t_plant;t_client(I)=$t_client;code_branch(I)=$code_branch;
+code_town(I)=$code_town;code_sector(I)=$code_sector;rgn(I)=$rgn;
+code_country(I)=$code_country;per_ndprt(I)=$per_ndprt;
+code_pers(I)=$code_pers;fhide(I)=$fhide;fbad(I)=$fbad;
+count_client(DB)=$count_client;disc_client(DB)=$disc_client;
+name_client(VA,80)=$name_client;addr_client(VA,80)=$addr_client;
+note1(VA,80)=$note1;note2(VA,80)=$note2;inn_client(VA,15)=$inn_client;
+okpo_client(VA,10)=$okpo_client;okonh_client(VA,10)=$okonh_client;
+tel_client(VA,20)=$tel_client;fax_client(VA,20)=$fax_client))
+}

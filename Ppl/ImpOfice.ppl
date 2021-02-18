@@ -1,0 +1,783 @@
+// Импорт в офис
+PARAMETERS{
+integer nref(Журнал)=0,integer ndep(Отделение)=0,integer nday(Дней)=5
+}
+CONNECT{
+Source(DSN=In;UID=;PWD=)
+Destination(DSN=OraSrv;UID=compas;PWD=base)
+}
+TRANSFER{
+Name(Единицы измерения)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from unit order by code_unit)
+Message()
+Destination(process=REPLACE table=unit)
+}
+TRANSFER{
+Name(Страны)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from country order by code_country)
+Message()
+Destination(process=REPLACE table=country)
+}
+TRANSFER{
+Name(Производители)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from producer order by id_pro)
+Message()
+Destination(process=REPLACE table=producer)
+}
+TRANSFER{
+Name(Сертификаты)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from sertificate order by id_ser)
+Message()
+Destination(process=REPLACE table=sertificate)
+}
+TRANSFER{
+Name(Виды налогов)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from kindtax order by cod_tax)
+Message()
+Destination(process=REPLACE table=kindtax)
+}
+TRANSFER{
+Name(Товары)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from ware
+where date() - wdata <= :nday(i)
+order by ndprt,id_ware)
+Message()
+Destination(process=REPLACE table=ware)
+}
+TRANSFER{
+Name(Клиенты)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from client where ndprt <> :ndep order by ndprt,numb_client)
+Message()
+Destination(process=REPLACE table=client)
+}
+TRANSFER{
+Name(Банки клиентов)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from clbank where ndprt <> :ndep order by ndprt,numb_client,acnt)
+Message()
+Destination(process=REPLACE table=clbank
+columns(note=<note0))
+}
+TRANSFER{
+Name(Персоналии клиентов)
+Schema(COPY)
+ConvertText(UNCHANGED)
+Source(select * from pclient where ndprt <> :ndep order by ndprt,numb_client,numb_person)
+Message()
+Destination(process=REPLACE table=pclient)
+}
+TRANSFER{
+Name(Приходные накладные)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 504 and numref=:nref(i) and
+         date() - save_sd <= :nday(i)
+order by date_sd,type_sd,ndprt,autokey_sd)
+SubSQL(select   *
+from     sdspc
+where    numref = $numref(i) and
+         year = $year(i) and
+         type_sd = $type_sd(i) and
+         ndprt = $ndprt(i) and
+         autokey_sd = $autokey_sd(i)
+order by npp_spc)
+Message($date_sd  Приходная накладная::  $ndprt / $autokey_sd)
+Destination(process=REPLACE table=sdoc
+columns(T:sklad;T:code_currency;T:cur_code_currency;F:flag;N:typ_rate;N:sum_link_sd))
+Detail(process=FULL table=sdspc
+condition(numref = $numref and year = $year and type_sd = $type_sd and
+ndprt = $ndprt and autokey_sd = $autokey_sd)
+columns(T:id_ware;proc_tax1=<prc_tax1;proc_tax2=<prc_tax2;proc_tax3=<prc_tax3;
+N:price_spc))
+TabCommands(
+CallExec(update sdoc set flag=1
+where  type_sd=$type_sd and numref=$numref and year=$year and
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+CallBack(update sdoc set flag=0
+where  type_sd=$type_sd and numref=$numref and year=$year and
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+OnInsert(call BAL_MOD($numref,$year,$cli1_ndprt,$cli1_numb_client,
+$code_currency,^0,$sumf_sd,$date_sd,$flag))
+OnUpdate(call BAL_MOD($numref,$year,$cli1_ndprt,$cli1_numb_client,
+$code_currency,#sumf_sd,$sumf_sd,$date_sd,#flag))
+OnDelete(call BAL_MOD(#numref,#year,#cli1_ndprt,#cli1_numb_client,
+#code_currency,#sumf_sd,^0,#date_sd,#flag))
+ReInsert(call BAL_MOD($numref,$year,$cli1_ndprt,$cli1_numb_client,
+$code_currency,$sumf_sd,^0,$date_sd,$flag))
+ReUpdate(call BAL_MOD($numref,$year,$cli1_ndprt,$cli1_numb_client,
+$code_currency,$sumf_sd,#sumf_sd,$date_sd,#flag))
+ReDelete(call BAL_MOD(#numref,#year,#cli1_ndprt,#cli1_numb_client,
+#code_currency,^0,#sumf_sd,#date_sd,#flag))
+OnChange.date_sd(update card_spc set date_card=$date_sd
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+OnChange.cli1_numb_client(call BAL_MOD(#numref,#year,
+#cli1_ndprt,#cli1_numb_client,#code_currency,#sumf_sd,^0,#date_sd,#flag);
+call BAL_MOD($numref,$year,
+$cli1_ndprt,$cli1_numb_client,$code_currency,^0,#sumf_sd,$date_sd,#flag);
+update card_spc set cli_ndprt=$cli1_ndprt,
+       numb_client=$cli1_numb_client
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+ReChange.date_sd(update card_spc set date_card=#date_sd
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+ReChange.cli1_numb_client(call BAL_MOD($numref,$year,
+$cli1_ndprt,$cli1_numb_client,$code_currency,#sumf_sd,^0,$date_sd,#flag);
+call BAL_MOD(#numref,#year,
+#cli1_ndprt,#cli1_numb_client,#code_currency,^0,#sumf_sd,#date_sd,#flag);
+update card_spc set cli_ndprt=#cli1_ndprt,
+       numb_client=#cli1_numb_client
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd))
+SubCommands(
+OnInsert(call WARE_IN($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+~data_spc,$sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,^0,~q_spc,
+~code_unit,~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^1,^1,#flag))
+OnUpdate(call WARE_IN($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+~data_spc,$sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,!q_spc,~q_spc,
+~code_unit,~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^2,^1,#flag))
+OnDelete(call WARE_IN(#type_sd,#numref,#year,#ndprt,#autokey_sd,#date_sd,
+!data_spc,#sklad,!stel,!sot,!war_ndprt,!id_ware,!npp_spc,!q_spc,^0,
+!code_unit,!pricef_spc,#code_currency,!pricecf_spc,#cur_code_currency,
+!proc_tax1,!type_tax1,!proc_tax2,!type_tax2,!proc_tax3,!type_tax3,
+#cli1_ndprt,#cli1_numb_client,^3,^1,#flag))
+ReInsert(call WARE_IN($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+~data_spc,$sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~q_spc,^0,
+~code_unit,~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^3,^1,#flag))
+ReUpdate(call WARE_IN($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+~data_spc,$sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~q_spc,!q_spc,
+~code_unit,~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^2,^1,$flag))
+ReDelete(call WARE_IN(#type_sd,#numref,#year,#ndprt,#autokey_sd,#date_sd,
+!data_spc,#sklad,!stel,!sot,!war_ndprt,!id_ware,!npp_spc,^0,!q_spc,
+!code_unit,!pricef_spc,#code_currency,!pricecf_spc,#cur_code_currency,
+!proc_tax1,!type_tax1,!proc_tax2,!type_tax2,!proc_tax3,!type_tax3,
+#cli1_ndprt,#cli1_numb_client,^1,^1,#flag)))
+}
+TRANSFER{
+Name(Приходные ордера)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 502 and numref=:nref(i) and
+         date() - save_sd <= :nday(i)
+order by date_sd,type_sd,ndprt,autokey_sd)
+SubSQL(select   *
+from     sdspc
+where    numref = $numref(i) and
+         year = $year(i) and
+         type_sd = $type_sd(i) and
+         ndprt = $ndprt(i) and
+         autokey_sd = $autokey_sd(i)
+order by npp_spc)
+Message($date_sd  Приходный ордер::  $ndprt / $autokey_sd)
+Destination(process=REPLACE table=sdoc
+columns(T:sklad;F:flag))
+Detail(process=FULL table=sdspc
+condition(numref = $numref and year = $year and type_sd = $type_sd and
+ndprt = $ndprt and autokey_sd = $autokey_sd)
+columns(T:id_ware;proc_tax1=<prc_tax1;proc_tax2=<prc_tax2;proc_tax3=<prc_tax3))
+TabCommands(
+CallExec(update sdoc set flag=1
+where  type_sd=$type_sd and numref=$numref and year=$year and
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+CallBack(update sdoc set flag=0
+where  type_sd=$type_sd and numref=$numref and year=$year and
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+OnChange.date_sd(update card_spc set date_card=$date_sd
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+OnChange.cli1_numb_client(update card_spc set cli_ndprt=$cli1_ndprt,
+       numb_client=$cli1_numb_client
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+ReChange.date_sd(update card_spc set date_card=#date_sd
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+ReChange.cli1_numb_client(update card_spc set cli_ndprt=#cli1_ndprt,
+       numb_client=#cli1_numb_client
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd))
+SubCommands(
+OnInsert(call WARE_IN($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+~data_spc,$sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,^0,~q_spc,
+~code_unit,~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^1,^1,#flag))
+OnUpdate(call WARE_IN($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+~data_spc,$sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,!q_spc,~q_spc,
+~code_unit,~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^2,^1,#flag))
+OnDelete(call WARE_IN(#type_sd,#numref,#year,#ndprt,#autokey_sd,#date_sd,
+!data_spc,#sklad,!stel,!sot,!war_ndprt,!id_ware,!npp_spc,!q_spc,^0,
+!code_unit,!pricef_spc,#code_currency,!pricecf_spc,#cur_code_currency,
+!proc_tax1,!type_tax1,!proc_tax2,!type_tax2,!proc_tax3,!type_tax3,
+#cli1_ndprt,#cli1_numb_client,^3,^1,#flag))
+ReInsert(call WARE_IN($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+~data_spc,$sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~q_spc,^0,
+~code_unit,~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^3,^1,#flag))
+ReUpdate(call WARE_IN($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+~data_spc,$sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~q_spc,!q_spc,
+~code_unit,~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^2,^1,$flag))
+ReDelete(call WARE_IN(#type_sd,#numref,#year,#ndprt,#autokey_sd,#date_sd,
+!data_spc,#sklad,!stel,!sot,!war_ndprt,!id_ware,!npp_spc,^0,!q_spc,
+!code_unit,!pricef_spc,#code_currency,!pricecf_spc,#cur_code_currency,
+!proc_tax1,!type_tax1,!proc_tax2,!type_tax2,!proc_tax3,!type_tax3,
+#cli1_ndprt,#cli1_numb_client,^1,^1,#flag)))
+}
+TRANSFER{
+Name(Межскладские накладные)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 501 and numref=:nref(i) and
+         date() - save_sd <= :nday(i)
+order by date_sd,type_sd,ndprt,autokey_sd)
+SubSQL(select   *
+from     sdspc
+where    numref = $numref(i) and
+         year = $year(i) and
+         type_sd = $type_sd(i) and
+         ndprt = $ndprt(i) and
+         autokey_sd = $autokey_sd(i)
+order by npp_spc)
+Message($date_sd  Межскл. накладная::  $ndprt / $autokey_sd)
+Destination(process=REPLACE table=sdoc
+columns(T:sklad;T:skl_sklad;F:flag))
+Detail(process=FULL table=sdspc
+condition(numref = $numref and year = $year and type_sd = $type_sd and
+ndprt = $ndprt and autokey_sd = $autokey_sd)
+columns(T:id_ware;proc_tax1=<prc_tax1;proc_tax2=<prc_tax2;proc_tax3=<prc_tax3))
+TabCommands(
+CallExec(update sdoc set flag=1
+where  type_sd=$type_sd and numref=$numref and year=$year and
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+CallBack(update sdoc set flag=0
+where  type_sd=$type_sd and numref=$numref and year=$year and
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+OnChange.date_sd(update card_spc set date_card=$date_sd
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd;
+update card_spc set date_card=$date_sd
+where  numref=$numref and year=$year and sklad=$skl_sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+ReChange.date_sd(update card_spc set date_card=#date_sd
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd;
+update card_spc set date_card=#date_sd
+where  numref=$numref and year=$year and sklad=$skl_sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd))
+SubCommands(
+OnInsert(call WARE_MOVE($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+$sklad,$skl_sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,
+^0,~q_spc,~code_unit,~pricef_spc,$code_currency,:ndep,^1,^1,#flag))
+OnUpdate(call WARE_MOVE($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+$sklad,$skl_sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,
+!q_spc,~q_spc,~code_unit,~pricef_spc,$code_currency,:ndep,^1,^2,#flag))
+OnDelete(call WARE_MOVE(#type_sd,#numref,#year,#ndprt,#autokey_sd,#date_sd,
+#sklad,#skl_sklad,!stel,!sot,!war_ndprt,!id_ware,!npp_spc,!ncw_spc,
+!q_spc,^0,!code_unit,!pricef_spc,#code_currency,:ndep,^1,^3,#flag))
+ReInsert(call WARE_MOVE($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+$sklad,$skl_sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,
+~q_spc,^0,~code_unit,~pricef_spc,$code_currency,:ndep,^1,^3,#flag))
+ReUpdate(call WARE_MOVE($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+$sklad,$skl_sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,
+~q_spc,!q_spc,~code_unit,~pricef_spc,$code_currency,:ndep,^1,^2,#flag))
+ReDelete(call WARE_MOVE(#type_sd,#numref,#year,#ndprt,#autokey_sd,#date_sd,
+#sklad,#skl_sklad,!stel,!sot,!war_ndprt,!id_ware,!npp_spc,!ncw_spc,
+^0,!q_spc,!code_unit,!pricef_spc,#code_currency,:ndep,^1,^1,#flag)))
+}
+TRANSFER{
+Name(Расходные ордера)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 503 and numref=:nref(i) and
+         date() - save_sd <= :nday(i)
+order by date_sd,type_sd,ndprt,autokey_sd)
+SubSQL(select   *
+from     sdspc
+where    numref = $numref(i) and
+         year = $year(i) and
+         type_sd = $type_sd(i) and
+         ndprt = $ndprt(i) and
+         autokey_sd = $autokey_sd(i)
+order by npp_spc)
+Message($date_sd  Расходный ордер::  $ndprt / $autokey_sd)
+Destination(process=REPLACE table=sdoc
+columns(T:sklad;F:flag))
+Detail(process=FULL table=sdspc
+condition(numref = $numref and year = $year and type_sd = $type_sd and
+ndprt = $ndprt and autokey_sd = $autokey_sd)
+columns(T:id_ware;proc_tax1=<prc_tax1;proc_tax2=<prc_tax2;proc_tax3=<prc_tax3))
+TabCommands(
+CallExec(update sdoc set flag=1
+where  type_sd=$type_sd and numref=$numref and year=$year and
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+CallBack(update sdoc set flag=0
+where  type_sd=$type_sd and numref=$numref and year=$year and
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+OnChange.date_sd(update card_spc set date_card=$date_sd
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+OnChange.cli1_numb_client(update card_spc set cli_ndprt=$cli1_ndprt,
+       numb_client=$cli1_numb_client
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+ReChange.date_sd(update card_spc set date_card=#date_sd
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+ReChange.cli1_numb_client(update card_spc set cli_ndprt=#cli1_ndprt,
+       numb_client=#cli1_numb_client
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd))
+SubCommands(
+OnInsert(call WARE_OUT($type_sd,$numref,$year,$ndprt,$autokey_sd,
+$date_sd,$sklad,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,^0,~q_spc,~code_unit,
+~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^1,^8,#flag))
+OnUpdate(call WARE_OUT($type_sd,$numref,$year,$ndprt,$autokey_sd,
+$date_sd,$sklad,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,!q_spc,~q_spc,
+~code_unit,~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^2,^8,#flag))
+OnDelete(call WARE_OUT(#type_sd,#numref,#year,#ndprt,#autokey_sd,
+#date_sd,#sklad,!war_ndprt,!id_ware,!npp_spc,!ncw_spc,!q_spc,^0,!code_unit,
+!pricef_spc,#code_currency,!pricecf_spc,#cur_code_currency,
+!proc_tax1,!type_tax1,!proc_tax2,!type_tax2,!proc_tax3,!type_tax3,
+#cli1_ndprt,#cli1_numb_client,^3,^8,#flag))
+ReInsert(call WARE_OUT($type_sd,$numref,$year,$ndprt,$autokey_sd,
+$date_sd,$sklad,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,~q_spc,^0,~code_unit,
+~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^3,^8,#flag))
+ReUpdate(call WARE_OUT($type_sd,$numref,$year,$ndprt,$autokey_sd,
+$date_sd,$sklad,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,~q_spc,!q_spc,
+~code_unit,~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^2,^8,$flag))
+ReDelete(call WARE_OUT(#type_sd,#numref,#year,#ndprt,#autokey_sd,
+#date_sd,#sklad,!war_ndprt,!id_ware,!npp_spc,!ncw_spc,^0,!q_spc,!code_unit,
+!pricef_spc,#code_currency,!pricecf_spc,#cur_code_currency,
+!proc_tax1,!type_tax1,!proc_tax2,!type_tax2,!proc_tax3,!type_tax3,
+#cli1_ndprt,#cli1_numb_client,^1,^8,#flag)))
+}
+TRANSFER{
+Name(Расходные накладные)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 505 and numref=:nref(i) and
+         date() - save_sd <= :nday(i)
+order by date_sd,type_sd,ndprt,autokey_sd)
+SubSQL(select   *
+from     sdspc
+where    numref = $numref(i) and
+         year = $year(i) and
+         type_sd = $type_sd(i) and
+         ndprt = $ndprt(i) and
+         autokey_sd = $autokey_sd(i)
+order by npp_spc)
+Message($date_sd  Расходная накладная::  $ndprt / $autokey_sd)
+Destination(process=REPLACE table=sdoc
+columns(T:sklad;T:code_currency;T:cur_code_currency;F:flag;N:sum_link_sd))
+Detail(process=FULL table=sdspc
+condition(numref = $numref and year = $year and type_sd = $type_sd and
+ndprt = $ndprt and autokey_sd = $autokey_sd)
+columns(T:id_ware;proc_tax1=<prc_tax1;proc_tax2=<prc_tax2;proc_tax3=<prc_tax3))
+TabCommands(
+CallExec(update sdoc set flag=1
+where  type_sd=$type_sd and numref=$numref and year=$year and
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+CallBack(update sdoc set flag=0
+where  type_sd=$type_sd and numref=$numref and year=$year and
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+OnInsert(call BAL_MOD($numref,$year,$cli1_ndprt,$cli1_numb_client,
+$code_currency,$sumf_sd,^0,$date_sd,$flag);
+update sdoc set sumskl_sd = sumskl_sd + $sumf_sd where
+type_sd = $sdo_type_sd and numref = $sdo_numref and year = $sdo_year and
+ndprt = $sdo_ndprt and autokey_sd = $sdo_autokey_sd)
+OnUpdate(call BAL_MOD($numref,$year,$cli1_ndprt,$cli1_numb_client,
+$code_currency,$sumf_sd,#sumf_sd,$date_sd,#flag);
+update sdoc set sumskl_sd = sumskl_sd + $sumf_sd - #sumf_sd where
+type_sd = $sdo_type_sd and numref = $sdo_numref and year = $sdo_year and
+ndprt = $sdo_ndprt and autokey_sd = $sdo_autokey_sd)
+OnDelete(call BAL_MOD(#numref,#year,#cli1_ndprt,#cli1_numb_client,
+#code_currency,^0,#sumf_sd,#date_sd,#flag);
+update sdoc set sumskl_sd = sumskl_sd - #sumf_sd where
+type_sd = #sdo_type_sd and numref = #sdo_numref and year = #sdo_year and
+ndprt = #sdo_ndprt and autokey_sd = #sdo_autokey_sd)
+ReInsert(call BAL_MOD($numref,$year,$cli1_ndprt,$cli1_numb_client,
+$code_currency,^0,$sumf_sd,$date_sd,$flag))
+ReUpdate(call BAL_MOD($numref,$year,$cli1_ndprt,$cli1_numb_client,
+$code_currency,#sumf_sd,$sumf_sd,$date_sd,#flag))
+ReDelete(call BAL_MOD(#numref,#year,#cli1_ndprt,#cli1_numb_client,
+#code_currency,#sumf_sd,^0,#date_sd,#flag))
+OnChange.date_sd(update card_spc set date_card=$date_sd
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+OnChange.cli1_numb_client(call BAL_MOD(#numref,#year,
+#cli1_ndprt,#cli1_numb_client,#code_currency,^0,#sumf_sd,#date_sd,#flag);
+call BAL_MOD($numref,$year,
+$cli1_ndprt,$cli1_numb_client,$code_currency,#sumf_sd,^0,$date_sd,#flag);
+update card_spc set cli_ndprt=$cli1_ndprt,
+       numb_client=$cli1_numb_client
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+ReChange.date_sd(update card_spc set date_card=#date_sd
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+ReChange.cli1_numb_client(call BAL_MOD($numref,$year,
+$cli1_ndprt,$cli1_numb_client,$code_currency,^0,#sumf_sd,$date_sd,#flag);
+call BAL_MOD(#numref,#year,
+#cli1_ndprt,#cli1_numb_client,#code_currency,#sumf_sd,^0,#date_sd,#flag);
+update card_spc set cli_ndprt=#cli1_ndprt,
+       numb_client=#cli1_numb_client
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd))
+SubCommands(
+OnEnd(update sdoc set flag = 2
+where  numref=#sdo_numref and year=#sdo_year and 
+type_sd=#sdo_type_sd and ndprt=#sdo_ndprt and 
+autokey_sd=#sdo_autokey_sd)
+OnInsert(call WARE_OUT($type_sd,$numref,$year,$ndprt,$autokey_sd,
+$date_sd,$sklad,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,^0,~q_spc,~code_unit,
+~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^1,^2,#flag))
+OnUpdate(call WARE_OUT($type_sd,$numref,$year,$ndprt,$autokey_sd,
+$date_sd,$sklad,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,!q_spc,~q_spc,
+~code_unit,~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^2,^2,#flag))
+OnDelete(call WARE_OUT(#type_sd,#numref,#year,#ndprt,#autokey_sd,
+#date_sd,#sklad,!war_ndprt,!id_ware,!npp_spc,!ncw_spc,!q_spc,^0,!code_unit,
+!pricef_spc,#code_currency,!pricecf_spc,#cur_code_currency,
+!proc_tax1,!type_tax1,!proc_tax2,!type_tax2,!proc_tax3,!type_tax3,
+#cli1_ndprt,#cli1_numb_client,^3,^2,#flag))
+ReInsert(call WARE_OUT($type_sd,$numref,$year,$ndprt,$autokey_sd,
+$date_sd,$sklad,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,~q_spc,^0,~code_unit,
+~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^3,^2,#flag))
+ReUpdate(call WARE_OUT($type_sd,$numref,$year,$ndprt,$autokey_sd,
+$date_sd,$sklad,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,~q_spc,!q_spc,
+~code_unit,~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^2,^2,$flag))
+ReDelete(call WARE_OUT(#type_sd,#numref,#year,#ndprt,#autokey_sd,
+#date_sd,#sklad,!war_ndprt,!id_ware,!npp_spc,!ncw_spc,^0,!q_spc,!code_unit,
+!pricef_spc,#code_currency,!pricecf_spc,#cur_code_currency,
+!proc_tax1,!type_tax1,!proc_tax2,!type_tax2,!proc_tax3,!type_tax3,
+#cli1_ndprt,#cli1_numb_client,^1,^2,#flag)))
+}
+TRANSFER{
+Name(Возвратные накладные)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 506 and numref=:nref(i) and
+         date() - save_sd <= :nday(i)
+order by date_sd,type_sd,ndprt,autokey_sd)
+SubSQL(select   *
+from     sdspc
+where    numref = $numref(i) and
+         year = $year(i) and
+         type_sd = $type_sd(i) and
+         ndprt = $ndprt(i) and
+         autokey_sd = $autokey_sd(i)
+order by npp_spc)
+Message($date_sd  Возвратная накладная::  $ndprt / $autokey_sd)
+Destination(process=REPLACE table=sdoc
+columns(T:sklad;T:code_currency;T:cur_code_currency;F:flag))
+Detail(process=FULL table=sdspc
+condition(numref = $numref and year = $year and type_sd = $type_sd and
+ndprt = $ndprt and autokey_sd = $autokey_sd)
+columns(T:id_ware;proc_tax1=<prc_tax1;proc_tax2=<prc_tax2;proc_tax3=<prc_tax3))
+TabCommands(
+CallExec(update sdoc set flag=1
+where  type_sd=$type_sd and numref=$numref and year=$year and
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+CallBack(update sdoc set flag=0
+where  type_sd=$type_sd and numref=$numref and year=$year and
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+OnInsert(call BAL_MOD($numref,$year,$cli1_ndprt,$cli1_numb_client,
+$code_currency,^0,$sumf_sd,$date_sd,$flag))
+OnUpdate(call BAL_MOD($numref,$year,$cli1_ndprt,$cli1_numb_client,
+$code_currency,#sumf_sd,$sumf_sd,$date_sd,#flag))
+OnDelete(call BAL_MOD(#numref,#year,#cli1_ndprt,#cli1_numb_client,
+#code_currency,#sumf_sd,^0,#date_sd,#flag))
+ReInsert(call BAL_MOD($numref,$year,$cli1_ndprt,$cli1_numb_client,
+$code_currency,$sumf_sd,^0,$date_sd,$flag))
+ReUpdate(call BAL_MOD($numref,$year,$cli1_ndprt,$cli1_numb_client,
+$code_currency,$sumf_sd,#sumf_sd,$date_sd,#flag))
+ReDelete(call BAL_MOD(#numref,#year,#cli1_ndprt,#cli1_numb_client,
+#code_currency,^0,#sumf_sd,#date_sd,#flag))
+OnChange.date_sd(update card_spc set date_card=$date_sd
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+OnChange.cli1_numb_client(call BAL_MOD(#numref,#year,
+#cli1_ndprt,#cli1_numb_client,#code_currency,#sumf_sd,^0,#date_sd,#flag);
+call BAL_MOD($numref,$year,
+$cli1_ndprt,$cli1_numb_client,$code_currency,^0,#sumf_sd,$date_sd,#flag);
+update card_spc set cli_ndprt=$cli1_ndprt,
+       numb_client=$cli1_numb_client
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+ReChange.date_sd(update card_spc set date_card=#date_sd
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+ReChange.cli1_numb_client(call BAL_MOD($numref,$year,
+$cli1_ndprt,$cli1_numb_client,$code_currency,#sumf_sd,^0,$date_sd,#flag);
+call BAL_MOD(#numref,#year,
+#cli1_ndprt,#cli1_numb_client,#code_currency,^0,#sumf_sd,#date_sd,#flag);
+update card_spc set cli_ndprt=#cli1_ndprt,
+       numb_client=#cli1_numb_client
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd))
+SubCommands(
+OnInsert(call WARE_BACK($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+$sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,^0,~q_spc,~code_unit,
+~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli3_ndprt,$cli3_numb_client,^1,#flag))
+OnUpdate(call WARE_BACK($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+$sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,!q_spc,~q_spc,~code_unit,
+~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli3_ndprt,$cli3_numb_client,^2,#flag))
+OnDelete(call WARE_BACK(#type_sd,#numref,#year,#ndprt,#autokey_sd,#date_sd,
+#sklad,!stel,!sot,!war_ndprt,!id_ware,!npp_spc,!q_spc,^0,!code_unit,
+!pricef_spc,#code_currency,!pricecf_spc,#cur_code_currency,
+!proc_tax1,!type_tax1,!proc_tax2,!type_tax2,!proc_tax3,!type_tax3,
+#cli3_ndprt,#cli3_numb_client,^3,#flag))
+ReInsert(call WARE_BACK($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+$sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~q_spc,^0,~code_unit,
+~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli3_ndprt,$cli3_numb_client,^3,#flag))
+ReUpdate(call WARE_BACK($type_sd,$numref,$year,$ndprt,$autokey_sd,$date_sd,
+$sklad,~stel,~sot,~war_ndprt,~id_ware,~npp_spc,~q_spc,!q_spc,~code_unit,
+~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli3_ndprt,$cli3_numb_client,^2,#flag))
+ReDelete(call WARE_BACK(#type_sd,#numref,#year,#ndprt,#autokey_sd,#date_sd,
+#sklad,!stel,!sot,!war_ndprt,!id_ware,!npp_spc,^0,!q_spc,!code_unit,
+!pricef_spc,#code_currency,!pricecf_spc,#cur_code_currency,
+!proc_tax1,!type_tax1,!proc_tax2,!type_tax2,!proc_tax3,!type_tax3,
+#cli3_ndprt,#cli3_numb_client,^1,#flag)))
+}
+TRANSFER{
+Name(Возврат поставщику)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 524 and numref=:nref(i) and
+         date() - save_sd <= :nday(i)
+order by date_sd,type_sd,ndprt,autokey_sd)
+SubSQL(select   *
+from     sdspc
+where    numref = $numref(i) and
+         year = $year(i) and
+         type_sd = $type_sd(i) and
+         ndprt = $ndprt(i) and
+         autokey_sd = $autokey_sd(i)
+order by npp_spc)
+Message($date_sd  Возврат поставщику::  $ndprt / $autokey_sd)
+Destination(process=REPLACE table=sdoc
+columns(T:sklad;T:code_currency;T:cur_code_currency;F:flag))
+Detail(process=FULL table=sdspc
+condition(numref = $numref and year = $year and type_sd = $type_sd and
+ndprt = $ndprt and autokey_sd = $autokey_sd)
+columns(T:id_ware;proc_tax1=<prc_tax1;proc_tax2=<prc_tax2;proc_tax3=<prc_tax3))
+TabCommands(
+CallExec(update sdoc set flag=1
+where  type_sd=$type_sd and numref=$numref and year=$year and
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+CallBack(update sdoc set flag=0
+where  type_sd=$type_sd and numref=$numref and year=$year and
+       ndprt=$ndprt and autokey_sd=$autokey_sd)
+OnInsert(call BAL_MOD($numref,$year,$cli1_ndprt,$cli1_numb_client,
+$code_currency,$sumf_sd,^0,$date_sd,$flag))
+OnUpdate(call BAL_MOD($numref,$year,$cli1_ndprt,$cli1_numb_client,
+$code_currency,$sumf_sd,#sumf_sd,$date_sd,#flag))
+OnDelete(call BAL_MOD(#numref,#year,#cli1_ndprt,#cli1_numb_client,
+#code_currency,^0,#sumf_sd,#date_sd,#flag))
+ReInsert(call BAL_MOD($numref,$year,$cli1_ndprt,$cli1_numb_client,
+$code_currency,^0,$sumf_sd,$date_sd,$flag))
+ReUpdate(call BAL_MOD($numref,$year,$cli1_ndprt,$cli1_numb_client,
+$code_currency,#sumf_sd,$sumf_sd,$date_sd,#flag))
+ReDelete(call BAL_MOD(#numref,#year,#cli1_ndprt,#cli1_numb_client,
+#code_currency,#sumf_sd,^0,#date_sd,#flag))
+OnChange.date_sd(update card_spc set date_card=$date_sd
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+OnChange.cli1_numb_client(call BAL_MOD(#numref,#year,
+#cli1_ndprt,#cli1_numb_client,#code_currency,^0,#sumf_sd,#date_sd,#flag);
+call BAL_MOD($numref,$year,
+$cli1_ndprt,$cli1_numb_client,$code_currency,#sumf_sd,^0,$date_sd,#flag);
+update card_spc set cli_ndprt=$cli1_ndprt,
+       numb_client=$cli1_numb_client
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+ReChange.date_sd(update card_spc set date_card=#date_sd
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd)
+ReChange.cli1_numb_client(call BAL_MOD($numref,$year,
+$cli1_ndprt,$cli1_numb_client,$code_currency,^0,#sumf_sd,$date_sd,#flag);
+call BAL_MOD(#numref,#year,
+#cli1_ndprt,#cli1_numb_client,#code_currency,#sumf_sd,^0,#date_sd,#flag);
+update card_spc set cli_ndprt=#cli1_ndprt,
+       numb_client=#cli1_numb_client
+where  numref=$numref and year=$year and sklad=$sklad and
+       sds_numref=$numref and sds_year=$year and
+       type_sd=$type_sd and sds_ndprt=$ndprt and
+       autokey_sd=$autokey_sd))
+SubCommands(
+OnInsert(call WARE_OUT($type_sd,$numref,$year,$ndprt,$autokey_sd,
+$date_sd,$sklad,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,^0,~q_spc,~code_unit,
+~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^1,^6,#flag))
+OnUpdate(call WARE_OUT($type_sd,$numref,$year,$ndprt,$autokey_sd,
+$date_sd,$sklad,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,!q_spc,~q_spc,
+~code_unit,~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^2,^6,#flag))
+OnDelete(call WARE_OUT(#type_sd,#numref,#year,#ndprt,#autokey_sd,
+#date_sd,#sklad,!war_ndprt,!id_ware,!npp_spc,!ncw_spc,!q_spc,^0,!code_unit,
+!pricef_spc,#code_currency,!pricecf_spc,#cur_code_currency,
+!proc_tax1,!type_tax1,!proc_tax2,!type_tax2,!proc_tax3,!type_tax3,
+#cli1_ndprt,#cli1_numb_client,^3,^6,#flag))
+ReInsert(call WARE_OUT($type_sd,$numref,$year,$ndprt,$autokey_sd,
+$date_sd,$sklad,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,~q_spc,^0,~code_unit,
+~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^3,^6,#flag))
+ReUpdate(call WARE_OUT($type_sd,$numref,$year,$ndprt,$autokey_sd,
+$date_sd,$sklad,~war_ndprt,~id_ware,~npp_spc,~ncw_spc,~q_spc,!q_spc,
+~code_unit,~pricef_spc,$code_currency,~pricecf_spc,$cur_code_currency,
+~prc_tax1,~type_tax1,~prc_tax2,~type_tax2,~prc_tax3,~type_tax3,
+$cli1_ndprt,$cli1_numb_client,^2,^6,$flag))
+ReDelete(call WARE_OUT(#type_sd,#numref,#year,#ndprt,#autokey_sd,
+#date_sd,#sklad,!war_ndprt,!id_ware,!npp_spc,!ncw_spc,^0,!q_spc,!code_unit,
+!pricef_spc,#code_currency,!pricecf_spc,#cur_code_currency,
+!proc_tax1,!type_tax1,!proc_tax2,!type_tax2,!proc_tax3,!type_tax3,
+#cli1_ndprt,#cli1_numb_client,^1,^6,#flag)))
+}
+TRANSFER{
+Name(Акты инвентаризации)
+Schema(COMPLEX)
+ConvertText(UNCHANGED)
+Source(select   *
+from     sdoc
+where    type_sd = 530 and numref=:nref(i) and
+         date() - save_sd <= :nday(i)
+order by date_sd,type_sd,ndprt,autokey_sd)
+SubSQL(select   *
+from     sdspc
+where    numref = $numref(i) and
+         year = $year(i) and
+         type_sd = $type_sd(i) and
+         ndprt = $ndprt(i) and
+         autokey_sd = $autokey_sd(i)
+order by npp_spc)
+Message($date_sd  Акт инвентаризации::  $ndprt / $autokey_sd)
+Destination(process=REPLACE table=sdoc
+columns(T:sklad;T:code_currency;F:flag))
+Detail(process=FULL table=sdspc
+condition(numref = $numref and year = $year and type_sd = $type_sd and
+ndprt = $ndprt and autokey_sd = $autokey_sd)
+columns(T:id_ware;proc_tax1=<prc_tax1;proc_tax2=<prc_tax2;proc_tax3=<prc_tax3))
+}

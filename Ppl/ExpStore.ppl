@@ -1,0 +1,188 @@
+// Экспорт из удаленного склада
+PARAMETERS{
+integer ndep(Отделение)=2,integer nday(Дней)=3
+}
+CONNECT{
+Source(DSN=OraSrv;UID=compas;PWD=base)
+Destination(DSN=Out;UID=;PWD=)
+}
+TRANSFER{
+Name(Межскладские накладные)
+Schema(COPY)
+Source(select   *
+from     sdoc
+where    type_sd = 501 and ndprt = :ndep and
+         sysdate - save_sd <= :nday and flag > 0
+order by year,ndprt,autokey_sd)
+Message()
+Destination(process=CREATE table=sdoc)
+TabCommands(OnStart(delete from sdoc where type_sd = 501))
+}
+TRANSFER{
+Name(Спецификации межскладских накладных)
+Schema(COPY)
+Source(select   sdspc.*
+from     sdoc, sdspc
+where    sdoc.numref = sdspc.numref and
+         sdoc.year = sdspc.year and
+         sdoc.type_sd = sdspc.type_sd and
+         sdoc.ndprt = sdspc.ndprt and
+         sdoc.autokey_sd = sdspc.autokey_sd and
+         sdoc.type_sd = 501 and flag > 0 and
+         sdoc.ndprt = :ndep and
+         sysdate - sdoc.save_sd <= :nday
+order by sdspc.year,sdspc.ndprt,sdspc.autokey_sd,sdspc.npp_spc)
+Message()
+Destination(process=CREATE table=sdspc
+columns(prc_tax1=<proc_tax1;prc_tax2=<proc_tax2;prc_tax3=<proc_tax3))
+TabCommands(OnStart(delete from sdspc where type_sd = 501))
+}
+TRANSFER{
+Name(Счета на оплату)
+Schema(COPY)
+Source(select   * 
+from     sdoc 
+where    type_sd = 512 and ndprt = :ndep and
+         sysdate - save_sd <= :nday and flag > 0 
+order by year,ndprt,autokey_sd)
+Message()
+Destination(process=ADD table=sdoc)
+TabCommands(OnStart(delete from sdoc where type_sd = 512))
+}
+TRANSFER{
+Name(Спецификации счетов на оплату)
+Schema(COPY)
+Source(select   sdspc.* 
+from     sdoc, sdspc 
+where    sdoc.numref = sdspc.numref and  
+         sdoc.year = sdspc.year and  
+         sdoc.type_sd = sdspc.type_sd and  
+         sdoc.ndprt = sdspc.ndprt and  
+         sdoc.autokey_sd = sdspc.autokey_sd and 
+         sdoc.type_sd = 512 and flag > 0 and 
+         sdoc.ndprt = :ndep and
+         sysdate - sdoc.save_sd <= :nday 
+order by sdspc.year,sdspc.ndprt,sdspc.autokey_sd,sdspc.npp_spc)
+Message()
+Destination(process=ADD table=sdspc
+columns(prc_tax1=<proc_tax1;prc_tax2=<proc_tax2;prc_tax3=<proc_tax3))
+TabCommands(OnStart(delete from sdspc where type_sd = 512))
+}
+TRANSFER{
+Name(Требования)
+Schema(COPY)
+Source(select   * 
+from     sdoc 
+where    type_sd = 519 and sdoc.ndprt = :ndep and 
+         sysdate - save_sd <= :nday and flag > 0 
+order by year,ndprt,autokey_sd)
+Destination(process=ADD table=sdoc)
+TabCommands(OnStart(delete from sdoc where type_sd = 519))
+}
+TRANSFER{
+Name(Спецификации требований)
+Schema(COPY)
+Source(select   sdspc.* 
+from     sdoc, sdspc 
+where    sdoc.NUMREF = sdspc.NUMREF and 
+         sdoc.YEAR = sdspc.YEAR and 
+         sdoc.NDPRT = sdspc.NDPRT and 
+         sdoc.TYPE_SD = sdspc.TYPE_SD and 
+         sdoc.AUTOKEY_SD = sdspc.AUTOKEY_SD and 
+         sdoc.TYPE_SD = 519 and sdoc.flag > 0 and 
+         sdoc.ndprt = :ndep and
+         sysdate - sdoc.save_sd <= :nday 
+order by sdspc.year,sdspc.ndprt,sdspc.autokey_sd,sdspc.npp_spc)
+Destination(process=ADD table=sdspc 
+columns(prc_tax1=<proc_tax1;prc_tax2=<proc_tax2;prc_tax3=<proc_tax3))
+TabCommands(OnStart(delete from sdspc where type_sd = 519))
+}
+TRANSFER{
+Name(Счета-фактуры расход)
+Schema(COPY)
+Source(select   * 
+from     sdoc 
+where    type_sd = 514 and sdoc.ndprt = :ndep and 
+         sysdate - save_sd <= :nday and flag > 0 
+order by year,ndprt,autokey_sd)
+Destination(process=ADD table=sdoc)
+TabCommands(OnStart(delete from sdoc where type_sd = 514))
+}
+TRANSFER{
+Name(Спецификации счетов-фактур)
+Schema(COPY)
+Source(select   sdspc.* 
+from     sdoc, sdspc 
+where    sdoc.NUMREF = sdspc.NUMREF and 
+         sdoc.YEAR = sdspc.YEAR and 
+         sdoc.NDPRT = sdspc.NDPRT and 
+         sdoc.TYPE_SD = sdspc.TYPE_SD and 
+         sdoc.AUTOKEY_SD = sdspc.AUTOKEY_SD and 
+         sdoc.TYPE_SD = 514 and sdoc.flag > 0 and 
+         sdoc.ndprt = :ndep and
+         sysdate - sdoc.save_sd <= :nday 
+order by sdspc.year,sdspc.ndprt,sdspc.autokey_sd,sdspc.npp_spc)
+Destination(process=ADD table=sdspc 
+columns(prc_tax1=<proc_tax1;prc_tax2=<proc_tax2;prc_tax3=<proc_tax3))
+TabCommands(OnStart(delete from sdspc where type_sd = 514))
+}
+TRANSFER{
+Name(Акты списания)
+Schema(COPY)
+Source(select   * 
+from     sdoc 
+where    type_sd = 510 and sdoc.ndprt = :ndep and 
+         sysdate - save_sd <= :nday and flag > 0 
+order by year,ndprt,autokey_sd)
+Message()
+Destination(process=ADD table=sdoc)
+TabCommands(
+OnStart(delete from sdoc where type_sd = 510))
+}
+TRANSFER{
+Name(Спецификации актов списания)
+Schema(COPY)
+Source(select   sdspc.* 
+from     sdoc, sdspc 
+where    sdoc.numref = sdspc.numref and  
+         sdoc.year = sdspc.year and  
+         sdoc.type_sd = sdspc.type_sd and  
+         sdoc.ndprt = sdspc.ndprt and  
+         sdoc.autokey_sd = sdspc.autokey_sd and 
+         sdoc.type_sd = 510 and flag > 0 and 
+         sdoc.ndprt = :ndep and
+         sysdate - sdoc.save_sd <= :nday 
+order by sdspc.year,sdspc.ndprt,sdspc.autokey_sd,sdspc.npp_spc)
+Message()
+Destination(process=ADD table=sdspc
+columns(prc_tax1=<proc_tax1;prc_tax2=<proc_tax2;prc_tax3=<proc_tax3))
+TabCommands(
+OnStart(delete from sdspc where type_sd = 510))
+}
+TRANSFER{
+Name(Документы оплаты расхода)
+Schema(COPY)
+Source(select   * 
+from     sdoc 
+where    type_sd = 521 and sdoc.ndprt = :ndep and 
+         sysdate - save_sd <= :nday and flag > 0 
+order by year,ndprt,autokey_sd)
+Destination(process=ADD table=sdoc)
+TabCommands(OnStart(delete from sdoc where type_sd = 521))
+}
+TRANSFER{
+Name(Спецификации документов оплаты расхода)
+Schema(COPY)
+Source(select   sdlink.* 
+from     sdoc, sdlink 
+where    sdoc.numref = sdlink.sdo_numref and 
+         sdoc.year = sdlink.sdo_year and 
+         sdoc.ndprt = sdlink.sdo_ndprt and 
+         sdoc.type_sd = sdlink.sdo_type_sd and 
+         sdoc.autokey_sd = sdlink.sdo_autokey_sd and 
+         sdoc.type_sd = 521 and sdoc.flag > 0 and 
+         sdoc.ndprt = :ndep and
+         sysdate - sdoc.save_sd <= :nday 
+order by sdlink.sdo_year,sdlink.sdo_ndprt,sdlink.sdo_autokey_sd)
+Destination(process=CREATE table=sdlink)
+}

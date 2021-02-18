@@ -1,0 +1,67 @@
+Параметры запуска Трансферта:
+-m		- Минимизировать при запуске
+-е		- Минимизировать в SysTray
+-v		- Отсутствие сообщений
+-f file	- Файл трансферта для запуска
+-p parm	- параметры выполнения трансферта
+Формат параметров:
+[парам1=знач1,парам2=знач2,...парам3=знач3]
+
+                  СИНТАКСИС  ОПРЕДЕЛЕНИЯ  ТРАНСФЕРТА
+                  ----------------------------------
+
+PARAMETERS{
+[тип1 парам1(наимен1)[=знач1],
+ ...
+ типN парамN(наименN)[=значN]]
+ тип=<char,integer,numeric,date,time,timestamp>
+}
+CONNECT{
+Source( DSN=;UID=;PWD= )
+Destination( DSN=;UID=;PWD= )
+}
+TRANSFER{
+Name( Наименование )
+Schema( <COLUMNS, COPY, COMPLEX> )
+ConvertText( <UNCHANGED, OEMTOANSI, ANSITOOEM> )
+Source( SQL Select таблицы источника )
+SubSQL( SQL Select субтаблицы)                  <COMPLEX>
+Message( Строка сообщения )
+Destination( process=<CREATE,ADD,REPLACE,FULL>
+  owner=схема БД таблицы приемника
+  table=таблица приемника
+  condition( SQL Where таблицы приемника )      <REPLACE>
+  columns( Карта соответствия полей )
+  Формат:
+  [флаг:]поле1[(тип[,длина,точн])]=поле ист1;
+  ...
+  [флаг:]полеN[(тип[,длина,точн])]=поле истN
+  флаг=<K,N,T> (K-ключевое,N-неизм.,T-триггер)
+  тип=<BT,I,SI,N,DC,F,MN,BL,NO,BIN,LBIN,
+       A,VA,LA,LVA,D,T,DT,TS,TXT,PIC,BMP>
+)
+Detail( process=<CREATE,CLEAR,ADD,REPLACE,FULL> <COMPLEX>
+  table=субтаблица
+  condition( SQL Where субтаблицы )
+  columns( Карта соответствия полей )
+)
+TabCommands( Список команд приемника )
+  Формат: Вид([@]команда1[; ... [@]командаN])
+          вид=<OnStart,OnEnd,CallExec,CallBack,
+               OnInsert,OnUpdate,OnDelete,
+               ReInsert,ReUpdate,ReDelete,
+               OnChange.поле,ReChange.поле>
+SubCommands( <Список команд субтаблицы> )
+}
+
+Символы префиксов:	Типы данных полей (ODBC SQL Types):
+^ - значение		A   - Char        B   - Binary
+: - параметр		VA  - VarChar     VB  - VarBinary
+& - константа		LVA - LongVarChar LVB - LongVarBinary
+$ - поле осн.источ.	SI  - SmallInt    TI  - TinyInt
+~ - поле под.источ.	I   - Integer	  BI  - BigInt
+# - поле осн.прием.	R   - Real        T   - Time
+! - поле под.прием.	F   - Float	  D   - Date
+< - переопределение	DB  - Double      TS  - Timestamp
+% - встр. функция	DC  - Decimal     BT  - Bit
+@ - сист. процедура	N   - Numeric

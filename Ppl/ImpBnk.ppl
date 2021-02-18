@@ -1,0 +1,102 @@
+// Импорт платежных поручений
+PARAMETERS{
+date dat1(Дата с),date dat2(Дата по),integer nref(Журнал)
+}
+CONNECT{
+Source(DSN=In;UID=;PWD=)
+Destination(DSN=OraSrv;UID=compas;PWD=base)
+}
+TRANSFER{
+Name(Журналы)
+Schema(COPY)
+Source(select * from lstrefac order by numref)
+Destination(process=REPLACE table=lstrefac)
+}
+TRANSFER{
+Name(Отделения)
+Schema(COPY)
+Source(select * from depart order by ndprt)
+Destination(process=REPLACE table=depart)
+}
+TRANSFER{
+Name(Страны)
+Schema(COPY)
+Source(select * from country order by code_country)
+Destination(process=REPLACE table=country)
+}
+TRANSFER{
+Name(Города)
+Schema(COPY)
+Source(select * from town order by code_town)
+Destination(process=REPLACE table=town)
+}
+TRANSFER{
+Name(Оргформы клиентов)
+Schema(COPY)
+Source(select * from tplant order by t_plant)
+Destination(process=REPLACE table=tplant)
+}
+TRANSFER{
+Name(Отрасли)
+Schema(COPY)
+Source(select * from branch order by code_branch)
+Destination(process=REPLACE table=branch)
+}
+TRANSFER{
+Name(Типы клиентов)
+Schema(COPY)
+Source(select * from tclient order by t_client)
+Destination(process=REPLACE table=tclient)
+}
+TRANSFER{
+Name(Должности)
+Schema(COPY)
+Source(select * from pos order by code_position)
+Destination(process=REPLACE table=pos)
+}
+TRANSFER{
+Name(Клиенты)
+Schema(COPY)
+Source(select * from client order by ndprt,numb_client)
+Destination(process=REPLACE table=client)
+}
+TRANSFER{
+Name(Банки клиентов)
+Schema(COPY)
+Source(select * from clbank order by ndprt,numb_client,acnt)
+Destination(process=REPLACE table=clbank columns(note=<note0))
+}
+TRANSFER{
+Name(Персоналии клиентов)
+Schema(COPY)
+Source(select * from pclient order by ndprt,numb_client,numb_person)
+Destination(process=REPLACE table=pclient)
+}
+TRANSFER{
+Name(Аналитика)
+Schema(COPY)
+Source(select * from anrefer order by code_ref)
+Destination(process=REPLACE table=anrefer)
+}
+TRANSFER{
+Name(Объекты аналитики)
+Schema(COPY)
+Source(select * from anobject order by code_ref,ndprt,code_obj)
+Destination(process=REPLACE table=anobject)
+}
+TRANSFER{
+Name(План счетов)
+Schema(COPY)
+Source(select * from account order by id_acc)
+Destination(process=REPLACE table=account)
+}
+TRANSFER{
+Name(Платежные поручения)
+Schema(COPY)
+Source(select   * 
+from     platdoc 
+where    type_pl = 201 and date_pl between :dat1(ts) and :dat2(ts) 
+order by year,numb_plat)
+Message($date_pl  Платежное поручение:: $ndprt / $numb_plat)
+Destination(process=REPLACE table=platdoc)
+}
